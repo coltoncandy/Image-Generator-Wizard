@@ -81,3 +81,5 @@ Thumbs.db
 
 #VISUAL STUDIO
 .vs/
+Debug/ImageGenerator.exe.recipe
+Debug/ImageGenerator.tlog/ImageGenerator.lastbuildstate

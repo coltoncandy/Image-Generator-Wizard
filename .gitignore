@@ -79,3 +79,5 @@ Thumbs.db
 *.out
 *.app
 
+#VISUAL STUDIO
+.vs/

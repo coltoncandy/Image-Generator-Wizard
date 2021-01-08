@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageGenerator", "ImageGenerator\ImageGenerator.vcxproj", "{B9053338-AB79-4453-ACD8-9D77412DFBE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageWizard", "ImageWizard\ImageWizard.vcxproj", "{E35FB94C-884A-4FD9-AA88-B8732C59F8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B9053338-AB79-4453-ACD8-9D77412DFBE5}.Debug|x64.ActiveCfg = Debug|x64
-		{B9053338-AB79-4453-ACD8-9D77412DFBE5}.Debug|x64.Build.0 = Debug|x64
-		{B9053338-AB79-4453-ACD8-9D77412DFBE5}.Release|x64.ActiveCfg = Release|x64
-		{B9053338-AB79-4453-ACD8-9D77412DFBE5}.Release|x64.Build.0 = Release|x64
+		{E35FB94C-884A-4FD9-AA88-B8732C59F8AB}.Debug|x64.ActiveCfg = Debug|x64
+		{E35FB94C-884A-4FD9-AA88-B8732C59F8AB}.Debug|x64.Build.0 = Debug|x64
+		{E35FB94C-884A-4FD9-AA88-B8732C59F8AB}.Release|x64.ActiveCfg = Release|x64
+		{E35FB94C-884A-4FD9-AA88-B8732C59F8AB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

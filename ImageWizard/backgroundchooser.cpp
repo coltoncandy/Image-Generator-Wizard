@@ -3,12 +3,19 @@
 BackgroundChooser::BackgroundChooser(QWidget* parent)
     : QWidget(parent)
 {
+    QObject::connect(&chooser, &QFileDialog::fileSelected, this, &BackgroundChooser::setFileUrl);
+
     ui.setupUi(this);
+    chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
+
+    chosenFileName = findChild<QLineEdit*>("chosenFileName");
 }
 
-QString BackgroundChooser::chooseFile() {
-
+void BackgroundChooser::chooseFile() {
     chooser.show();
+}
 
-    return nullptr;
+
+void BackgroundChooser::setFileUrl(QString url) {
+    chosenFileName->setText(url);
 }

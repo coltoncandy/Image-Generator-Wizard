@@ -12,9 +12,11 @@ public:
     BackgroundChooser(QWidget* parent = Q_NULLPTR);
 
 public slots:
-    QString chooseFile();
+    void chooseFile();
+    void setFileUrl(QString url);
 
 private:
     Ui::BackgroundChooserClass ui;
     QFileDialog chooser;
+    QLineEdit* chosenFileName;
 };

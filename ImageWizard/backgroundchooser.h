@@ -13,7 +13,7 @@ public:
 
 public slots:
     void chooseFile();
-    void setFileUrl(QString url);
+    void setFilePath(QString url);
 
 private:
     Ui::BackgroundChooserClass ui;

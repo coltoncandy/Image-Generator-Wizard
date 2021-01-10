@@ -92,10 +92,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="imagewizard.qrc" />
+    <QtUic Include="backgroundchooser.ui" />
     <QtUic Include="imagewizard.ui" />
     <QtMoc Include="imagewizard.h" />
+    <ClCompile Include="backgroundchooser.cpp" />
     <ClCompile Include="imagewizard.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="backgroundchooser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

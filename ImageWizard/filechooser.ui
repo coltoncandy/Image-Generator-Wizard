@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BackgroundChooserClass</class>
- <widget class="QWidget" name="BackgroundChooserClass">
+ <class>FileChooserClass</class>
+ <widget class="QWidget" name="FileChooserClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,23 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="title">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="imgLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -64,7 +80,7 @@
   <connection>
    <sender>browseButton</sender>
    <signal>pressed()</signal>
-   <receiver>BackgroundChooserClass</receiver>
+   <receiver>FileChooserClass</receiver>
    <slot>chooseFile()</slot>
    <hints>
     <hint type="sourcelabel">

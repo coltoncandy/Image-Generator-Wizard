@@ -1,18 +1,18 @@
 #include <QtWidgets/QApplication>
 #include <QStackedWidget>
 
-#include "backgroundchooser.h"
+#include "filechooser.h"
 #include "imagewizard.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ImageWizard w;
-    BackgroundChooser bc;
+    ImageWizard wizard;
+    FileChooser backgroundChooser("Select an image for the background");
 
-    QStackedWidget* frames = w.findChild<QStackedWidget*>("frames");
-    frames->addWidget(&bc);
+    QStackedWidget* frames = wizard.findChild<QStackedWidget*>("frames");
+    frames->addWidget(&backgroundChooser);
 
-    w.show();
+    wizard.show();
     return a.exec();
 }

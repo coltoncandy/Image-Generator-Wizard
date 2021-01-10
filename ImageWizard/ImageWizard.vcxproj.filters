@@ -38,7 +38,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="backgroundchooser.cpp">
+    <ClCompile Include="filechooser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,12 +46,12 @@
     <QtUic Include="imagewizard.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="backgroundchooser.ui">
+    <QtUic Include="filechooser.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="backgroundchooser.h">
+    <QtMoc Include="filechooser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

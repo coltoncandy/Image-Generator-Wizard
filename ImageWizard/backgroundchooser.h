@@ -19,4 +19,9 @@ private:
     Ui::BackgroundChooserClass ui;
     QFileDialog chooser;
     QLineEdit* chosenFileName;
+
+    //(Topher and TJ): We're not sure if we need a "backgroundchooser" class or just a "chooser" class, since it seems like it would be the same code for background vs initial image.
+    QImage* backgroundImage;
+    QImage* initialImage;
+    QImage* objectCropped;
 };

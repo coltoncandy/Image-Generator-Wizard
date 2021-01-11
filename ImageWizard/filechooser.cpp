@@ -28,6 +28,10 @@ FileChooser::~FileChooser() {
     delete selectedImage;
 }
 
+QImage* FileChooser::getImage() {
+    return selectedImage; 
+}
+
 void FileChooser::chooseFile() {
     chooser.show();
 }
@@ -42,6 +46,4 @@ void FileChooser::setFilePath(QString path) {
     // Easiest way to display an image is to set the pixmap of a label
     QLabel* imgLabel = findChild<QLabel*>("imgLabel");
     imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
-    //(Topher and TJ): Saving the image to a private variable will let us access it later (but we don't want to do it yet in case it causes memory leaks, so leaving it commented for now)
-    //backgroundImage = img
 }

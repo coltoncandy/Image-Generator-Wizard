@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 
     QStackedWidget* frames = wizard.findChild<QStackedWidget*>("frames");
     frames->addWidget(&backgroundChooser);
-    frames->addWidget(new QWidget);
 
     wizard.show();
     return a.exec();

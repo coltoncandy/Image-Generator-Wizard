@@ -104,5 +104,42 @@
  <resources>
   <include location="imagewizard.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnNext</sender>
+   <signal>pressed()</signal>
+   <receiver>ImageWizardClass</receiver>
+   <slot>goNext()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnPrev</sender>
+   <signal>pressed()</signal>
+   <receiver>ImageWizardClass</receiver>
+   <slot>goPrev()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>goNext()</slot>
+  <slot>goPrev()</slot>
+ </slots>
 </ui>

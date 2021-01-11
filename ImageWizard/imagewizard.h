@@ -10,6 +10,11 @@ class ImageWizard : public QWidget
 public:
     ImageWizard(QWidget *parent = Q_NULLPTR);
 
+public slots:
+    void goNext();
+    void goPrev();
+
 private:
     Ui::ImageWizardClass ui;
+    QStackedWidget* frames;
 };

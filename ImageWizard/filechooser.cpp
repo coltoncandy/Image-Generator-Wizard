@@ -59,20 +59,21 @@ void FileChooser::dragEnterEvent(QDragEnterEvent* event)
     event->acceptProposedAction();
 }
 
-/*
+
 void FileChooser::dropEvent(QDropEvent* event)
 {
     QString url = event->mimeData()->urls().first().toLocalFile();   // 结果   "C:/User/test/Desktop/a.png"
     if (url.isEmpty()) {
         return;
     }
-    //
+
     //具体将拿到的数据进行处理
-    QImage img;
-    img.load(url);
-    ui1->labelImg->setPixmap(QPixmap::fromImage(img));
+    //img.load(url);
+    this->selectedImage = new QImage(url);
+    QLabel* imgLabel = findChild<QLabel*>("imgLabel");  //设置图片的变量，链接到UI中相应的位置
+    imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage))); //放置图片
 }
-*/
+
 void FileChooser::setupView()
 {
     this->setAcceptDrops(true);   

@@ -18,7 +18,7 @@ public slots:
     void setFilePath(QString url); //槽
 
     void dragEnterEvent(QDragEnterEvent* event);
-   // void dropEvent(QDropEvent* event);
+    void dropEvent(QDropEvent* event);
 
 private:
     Ui::FileChooserClass ui;

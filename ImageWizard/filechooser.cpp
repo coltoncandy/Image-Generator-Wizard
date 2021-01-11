@@ -14,6 +14,9 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
     // this makes it so we can only choose a single file that exists; no directories or multiple files
     chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
 
+    // only allow us to choose files with the following extensions
+    chooser.setNameFilter("Images (*.jpg *.jpeg *.png)");
+
     chosenFileName = findChild<QLineEdit*>("chosenFileName");
     QLabel* titleLabel = findChild<QLabel*>("title");
     titleLabel->setText(title);
@@ -31,6 +34,9 @@ void FileChooser::chooseFile() {
 
 void FileChooser::setFilePath(QString path) {
     chosenFileName->setText(path);
+
+    if (this->selectedImage)
+        delete this->selectedImage;
 
     this->selectedImage = new QImage(path);
     // Easiest way to display an image is to set the pixmap of a label

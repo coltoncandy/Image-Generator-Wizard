@@ -1,4 +1,5 @@
 #include "imagewizard.h"
+#include "filechooser.h"
 
 ImageWizard::ImageWizard(QWidget *parent)
     : QWidget(parent)
@@ -6,6 +7,12 @@ ImageWizard::ImageWizard(QWidget *parent)
     ui.setupUi(this);
 
     frames = findChild<QStackedWidget*>("frames");
+
+    targetChooser = new FileChooser("select an image containing the target");
+    backgroundChooser = new FileChooser("select a background image");
+   
+    frames->addWidget(targetChooser); 
+    frames->addWidget(backgroundChooser); 
 }
 //Adds pages to the private 'frames' variable, representative of windows in the UI 
 void ImageWizard::addFrame(FileChooser& frame) {

@@ -19,4 +19,6 @@ public slots:
 private:
     Ui::ImageWizardClass ui;
     QStackedWidget* frames;                 //Holds pages for the UI 
+    FileChooser* targetChooser;
+    FileChooser* backgroundChooser;
 };

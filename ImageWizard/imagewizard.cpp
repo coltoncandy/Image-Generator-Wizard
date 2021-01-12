@@ -6,7 +6,7 @@ ImageWizard::ImageWizard(QWidget *parent)
 {
     ui.setupUi(this);
 
-    frames = findChild<QStackedWidget*>("frames");
+    frames = findChild<QStackedWidget*>("frames"); 
 
     targetChooser = new FileChooser("Select or drag an image containing the target");
     backgroundChooser = new FileChooser("Select or drag a background image");
@@ -17,6 +17,7 @@ ImageWizard::ImageWizard(QWidget *parent)
     frames->addWidget(targetSelector);
     frames->addWidget(backgroundChooser); 
 }
+//Do we need this Andrew?
 //Adds pages to the private 'frames' variable, representative of windows in the UI 
 void ImageWizard::addFrame(FileChooser& frame) {
     frames->addWidget(&frame); 
@@ -26,7 +27,7 @@ void ImageWizard::goNext() {
     int cur = frames->currentIndex();
     if (cur < frames->count()) {
         frames->setCurrentIndex(++cur);
-        if (cur == 1) {
+        if (frames->currentWidget() == targetSelector) {
             setTargetSelectorImage();
         }
     }
@@ -36,7 +37,7 @@ void ImageWizard::goPrev() {
     int cur = frames->currentIndex();
     if (cur > 0) {
         frames->setCurrentIndex(--cur);
-        if (cur == 1) {
+        if (frames->currentWidget() == targetSelector) {
             setTargetSelectorImage();
         }
     }

@@ -11,6 +11,7 @@ TargetSelector::TargetSelector(QWidget *parent)
 
 TargetSelector::~TargetSelector()
 {
+	delete initialImage;
 }
 
 void TargetSelector::setImage(QImage* image) {

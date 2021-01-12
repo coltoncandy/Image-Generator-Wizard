@@ -8,8 +8,8 @@ ImageWizard::ImageWizard(QWidget *parent)
 
     frames = findChild<QStackedWidget*>("frames");
 
-    targetChooser = new FileChooser("select an image containing the target");
-    backgroundChooser = new FileChooser("select a background image");
+    targetChooser = new FileChooser("Select or drag an image containing the target");
+    backgroundChooser = new FileChooser("Select or drag a background image");
     targetSelector = new TargetSelector;
 
    

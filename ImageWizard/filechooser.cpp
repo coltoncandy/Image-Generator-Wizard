@@ -29,40 +29,32 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
     setupView();
 }
 
-FileChooser::~FileChooser() {
+FileChooser::~FileChooser()
+{
     delete selectedImage;
 }
 
-QImage* FileChooser::getImage() {
+QImage* FileChooser::getImage()
+{
     return selectedImage; 
 }
 
-void FileChooser::chooseFile() {
+void FileChooser::chooseFile()
+{
     chooser.show();
 }
 
-void FileChooser::setFilePath(QString path) {
+void FileChooser::setFilePath(QString path)
+{
     chosenFileName->setText(path);  //填充文件路径
 
-    if (this->selectedImage) //如果有图片，删除图片
-        delete this->selectedImage; 
-
-    this->selectedImage = new QImage(path); 
-    // Easiest way to display an image is to set the pixmap of a label
-    QLabel* imgLabel = findChild<QLabel*>("imgLabel");  //设置图片的变量，链接到UI中相应的位置
-    imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage))); //放置图片
-    //(Topher and TJ): Saving the image to a private variable will let us access it later (but we don't want to do it yet in case it causes memory leaks, so leaving it commented for now)
-    //backgroundImage = img
+    loadImage(path);
 }
-
-
-
 
 void FileChooser::dragEnterEvent(QDragEnterEvent* event)
 {
     event->acceptProposedAction();
 }
-
 
 void FileChooser::dropEvent(QDropEvent* event)
 {
@@ -70,15 +62,23 @@ void FileChooser::dropEvent(QDropEvent* event)
     if (url.isEmpty()) {
         return;
     }
-
-    //具体将拿到的数据进行处理
-    //img.load(url);
-    this->selectedImage = new QImage(url);
-    QLabel* imgLabel = findChild<QLabel*>("imgLabel");  //设置图片的变量，链接到UI中相应的位置
-    imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage))); //放置图片
+;
+    loadImage(url);
 }
 
 void FileChooser::setupView()
 {
     this->setAcceptDrops(true);   
+}
+
+
+void FileChooser::loadImage(QString& path)
+{
+    if (this->selectedImage) //如果有图片，删除图片
+        delete this->selectedImage;
+
+    this->selectedImage = new QImage(path);
+    // Easiest way to display an image is to set the pixmap of a label
+    QLabel* imgLabel = findChild<QLabel*>("imgLabel");
+    imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
 }

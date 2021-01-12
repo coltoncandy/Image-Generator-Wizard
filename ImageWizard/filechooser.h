@@ -1,9 +1,10 @@
 ﻿#pragma once
 
 #include <QtWidgets/QWidget>
-#include <qfiledialog>
-#include "ui_filechooser.h"
 #include <QMainWindow>
+#include <QFileDialog>
+
+#include "ui_filechooser.h"
 
 class FileChooser : public QWidget
 {
@@ -27,9 +28,8 @@ private:
     QLineEdit* chosenFileName; //记录选择文件的名字
     
     void setupView();
+    void loadImage(QString& path);
 
     //(Topher and TJ): We're not sure if we need a "backgroundchooser" class or just a "chooser" class, since it seems like it would be the same code for background vs initial image.
     QImage* selectedImage;
-
-    Ui::FileChooserClass* ui1;
 };

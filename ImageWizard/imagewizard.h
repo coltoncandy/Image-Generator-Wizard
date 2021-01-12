@@ -3,6 +3,7 @@
 #include <QtWidgets/QWidget>
 #include "ui_imagewizard.h"
 #include "filechooser.h"
+#include "targetselector.h"
 
 class ImageWizard : public QWidget
 {
@@ -21,4 +22,7 @@ private:
     QStackedWidget* frames;                 //Holds pages for the UI 
     FileChooser* targetChooser;
     FileChooser* backgroundChooser;
+    TargetSelector* targetSelector;
+
+    void setTargetSelectorImage();
 };

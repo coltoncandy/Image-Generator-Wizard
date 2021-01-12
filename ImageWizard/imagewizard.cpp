@@ -10,8 +10,11 @@ ImageWizard::ImageWizard(QWidget *parent)
 
     targetChooser = new FileChooser("select an image containing the target");
     backgroundChooser = new FileChooser("select a background image");
+    targetSelector = new TargetSelector;
+
    
     frames->addWidget(targetChooser); 
+    frames->addWidget(targetSelector);
     frames->addWidget(backgroundChooser); 
 }
 //Adds pages to the private 'frames' variable, representative of windows in the UI 
@@ -23,6 +26,9 @@ void ImageWizard::goNext() {
     int cur = frames->currentIndex();
     if (cur < frames->count()) {
         frames->setCurrentIndex(++cur);
+        if (cur == 1) {
+            setTargetSelectorImage();
+        }
     }
 }
 //Previous page in UI 
@@ -30,5 +36,12 @@ void ImageWizard::goPrev() {
     int cur = frames->currentIndex();
     if (cur > 0) {
         frames->setCurrentIndex(--cur);
+        if (cur == 1) {
+            setTargetSelectorImage();
+        }
     }
+}
+
+void ImageWizard::setTargetSelectorImage() {
+    targetSelector->setImage(targetChooser->getImage());
 }

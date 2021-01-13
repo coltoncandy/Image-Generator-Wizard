@@ -10,7 +10,7 @@
 
 
 TargetSelector::TargetSelector(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent), rubberBand(0)
 {
 	ui.setupUi(this);
 
@@ -40,6 +40,16 @@ void TargetSelector::paintEvent(QPaintEvent* e) {
 
 void TargetSelector::mousePressEvent(QMouseEvent* e)
 {
+	
+	origin = e->pos();
+	if (!rubberBand)
+		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+	rubberBand->setGeometry(QRect(origin, QSize()));
+	rubberBand->show();
+	
+
+	/*
+
 	if (e->button() == Qt::RightButton) {
 		if (selectionRect.contains(e->pos()))
 			contextMenu.exec(this->mapToGlobal(e->pos()));
@@ -49,19 +59,32 @@ void TargetSelector::mousePressEvent(QMouseEvent* e)
 		selectionRect.setTopLeft(e->pos());
 		selectionRect.setBottomRight(e->pos());
 	}
+	*/
 }
 
 void TargetSelector::mouseMoveEvent(QMouseEvent* e)
 {
+	rubberBand->setGeometry(QRect(origin, e->pos()).normalized());
+	/*
 	if (selectionStarted) {
 		selectionRect.setBottomRight(e->pos());
 		repaint();
 	}
+	*/
 }
 
 void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 {
-	selectionStarted = false;
+	QPixmap OriginalPix(this->imageLabel->pixmap());
+	QImage newImage;
+	newImage = OriginalPix.toImage();
+	QImage copyImage;
+	copyImage = newImage.copy(rubberBand->geometry());
+	this->imgLabel->setPixmap(QPixmap::fromImage(copyImage));
+	ui->imgLabel->repaint();
+
+	rubberBand->hide();
+	//selectionStarted = false;
 }
 
 /*

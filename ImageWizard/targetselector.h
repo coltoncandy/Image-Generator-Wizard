@@ -6,6 +6,7 @@
 //added
 #include <QLabel>
 #include <QMenu>
+#include <QRubberBand>
 
 class TargetSelector : public QWidget
 {
@@ -33,6 +34,7 @@ private:
 
 	//added 
 	QPoint origin;
+	QRubberBand* rubberBand;
 
 	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);

@@ -37,7 +37,7 @@ FileChooser::~FileChooser()
 
 QImage* FileChooser::getImage()
 {
-    return selectedImage; 
+    return this->selectedImage; 
 }
 
 void FileChooser::chooseFile()

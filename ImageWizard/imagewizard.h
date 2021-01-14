@@ -2,14 +2,26 @@
 
 #include <QtWidgets/QWidget>
 #include "ui_imagewizard.h"
+#include "filechooser.h"
+#include "targetselector.h"
 
 class ImageWizard : public QWidget
 {
-    Q_OBJECT
+    Q_OBJECT 
 
 public:
     ImageWizard(QWidget *parent = Q_NULLPTR);
 
+public slots:
+    void goNext();          
+    void goPrev();
+
 private:
     Ui::ImageWizardClass ui;
+    QStackedWidget* frames;                 //Holds pages for the UI 
+    FileChooser* targetChooser;
+    FileChooser* backgroundChooser;
+    TargetSelector* targetSelector;
+
+    void setTargetSelectorImage();
 };

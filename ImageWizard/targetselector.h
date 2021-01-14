@@ -2,8 +2,6 @@
 
 #include <QWidget>
 #include "ui_targetselector.h"
-
-//added
 #include <QLabel>
 #include <QMenu>
 #include <QRubberBand>
@@ -17,15 +15,6 @@ public:
 	~TargetSelector();
 	void setImage(QImage*);
 
-//added
-protected:
-	
-	void paintEvent(QPaintEvent* e);
-	/*
-	virtual void mousePressEvent(QMouseEvent *e) override;
-	virtual void mouseMoveEvent(QMouseEvent *e) override;
-	virtual void mouseReleaseEvent(QMouseEvent* e) override;
-	*/
 
 private:
 	Ui::targetselector ui;
@@ -35,7 +24,7 @@ private:
 	//added 
 	QPoint origin;
 	QRubberBand* rubberBand;
-	//Qimage 
+	QImage* croppedImage;
 
 	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);

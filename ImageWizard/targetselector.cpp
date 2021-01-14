@@ -3,10 +3,10 @@
 #include <QImage>
 // Added
 #include <QMouseEvent>
-#include <QAction>
-#include <QFileDialog>
-#include <QPainter>
-#include <QDebug>
+//#include <QAction>
+//#include <QFileDialog>
+//#include <QPainter>
+//#include <QDebug>
 
 
 TargetSelector::TargetSelector(QWidget *parent)
@@ -29,7 +29,7 @@ void TargetSelector::setImage(QImage* image) {
 //open up png file as png in C++
 //create mouse events to get coordinates... and give in ratio of total size to png editor in C++
 
-
+/*
 void TargetSelector::paintEvent(QPaintEvent* e) {
 	QWidget::paintEvent(e);
 	QPainter painter(this);
@@ -37,16 +37,15 @@ void TargetSelector::paintEvent(QPaintEvent* e) {
 	painter.setBrush(QBrush(QColor(255, 255, 255, 120)));
 	painter.drawRect(selectionRect);
 }
+*/
 
 void TargetSelector::mousePressEvent(QMouseEvent* e)
 {
-	
 	origin = e->pos();
 	if (!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	rubberBand->setGeometry(QRect(origin, QSize()));
 	rubberBand->show();
-	
 
 	/*
 
@@ -75,7 +74,15 @@ void TargetSelector::mouseMoveEvent(QMouseEvent* e)
 
 void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 {
+	rubberBand->hide();
+	QRect rect; //selection rectangle
+	rect.setTopLeft(origin);
+	rect.setBottomRight(event->pos());
 
+	QPixmap image(rect.size());
+	image = grab(rubberBand->geometry()); //copy the selected part
+	ui.imgLabel->setPixmap(image); //show "image" in the second QLabel
+	/*
 	QPixmap OriginalPix(ui.imgLabel->pixmap());
 	QImage newImage;
 	newImage = OriginalPix.toImage();
@@ -85,6 +92,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	ui.imgLabel->repaint();
 
 	rubberBand->hide();
+	*/
 	
 	//selectionStarted = false;
 }

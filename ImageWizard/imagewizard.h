@@ -5,23 +5,22 @@
 #include "filechooser.h"
 #include "targetselector.h"
 
-class ImageWizard : public QWidget
-{
-    Q_OBJECT 
+class ImageWizard : public QWidget {
+	Q_OBJECT
 
 public:
-    ImageWizard(QWidget *parent = Q_NULLPTR);
+	ImageWizard (QWidget* parent = Q_NULLPTR);
 
 public slots:
-    void goNext();          
-    void goPrev();
+	void goNext ();
+	void goPrev ();
 
 private:
-    Ui::ImageWizardClass ui;
-    QStackedWidget* frames;                 //Holds pages for the UI 
-    FileChooser* targetChooser;
-    FileChooser* backgroundChooser;
-    TargetSelector* targetSelector;
+	Ui::ImageWizardClass ui;
+	QStackedWidget* frames;                 //Holds pages for the UI 
+	FileChooser* targetChooser;
+	FileChooser* backgroundChooser;
+	TargetSelector* targetSelector;
 
-    void setTargetSelectorImage();
+	void setTargetSelectorImage ();
 };

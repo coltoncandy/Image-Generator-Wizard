@@ -17,7 +17,7 @@ public:
 
 public slots:
     void chooseFile();
-    void setFilePath(QString url); //槽
+    void setFilePath(QString url);
 
     void dragEnterEvent(QDragEnterEvent* event);
     void dropEvent(QDropEvent* event);

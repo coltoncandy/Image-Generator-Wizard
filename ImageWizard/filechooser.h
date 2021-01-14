@@ -30,6 +30,5 @@ private:
     void setupView();
     void loadImage(QString& path);
 
-    //(Topher and TJ): We're not sure if we need a "backgroundchooser" class or just a "chooser" class, since it seems like it would be the same code for background vs initial image.
     QImage* selectedImage;
 };

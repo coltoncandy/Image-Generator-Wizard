@@ -11,7 +11,6 @@ class ImageWizard : public QWidget
 
 public:
     ImageWizard(QWidget *parent = Q_NULLPTR);
-    void addFrame(FileChooser& frame);
 
 public slots:
     void goNext();          

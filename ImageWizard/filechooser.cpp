@@ -31,7 +31,8 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 
 FileChooser::~FileChooser()
 {
-    delete selectedImage;
+    if(this->selectedImage) 
+        delete selectedImage;
 }
 
 QImage* FileChooser::getImage()

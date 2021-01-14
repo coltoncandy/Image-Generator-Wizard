@@ -7,9 +7,9 @@ class TargetSelector : public QWidget {
 	Q_OBJECT
 
 public:
-	TargetSelector (QWidget* parent = Q_NULLPTR);
-	~TargetSelector ();
-	void setImage (QImage*);
+	TargetSelector(QWidget* parent = Q_NULLPTR);
+	~TargetSelector();
+	void setImage(QImage*);
 
 private:
 	Ui::targetselector ui;

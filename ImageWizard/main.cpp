@@ -4,11 +4,11 @@
 #include "filechooser.h"
 #include "imagewizard.h"
 
-int main (int argc, char* argv[]) {
-	QApplication a (argc, argv);
+int main(int argc, char* argv[]) {
+	QApplication a(argc, argv);
 	ImageWizard wizard;
 
-	wizard.show ();
+	wizard.show();
 
-	return a.exec ();
+	return a.exec();
 }

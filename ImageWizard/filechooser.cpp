@@ -10,7 +10,7 @@
 FileChooser::FileChooser(const QString& title, QWidget* parent)
     : QWidget(parent)
 {
-    QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath); // 发送者, 发送的信号， 接收者， 接受的槽
+    QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath); 
 
     ui.setupUi(this);
 

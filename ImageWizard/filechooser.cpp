@@ -18,11 +18,11 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
     chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
 
     // only allow us to choose files with the following extensions
-    chooser.setNameFilter("Images (*.jpg *.jpeg *.png)"); // 文件过滤器
+    chooser.setNameFilter("Images (*.jpg *.jpeg *.png)"); 
 
-    chosenFileName = findChild<QLineEdit*>("chosenFileName");  //设置路径的变量，链接到UI中相应的位置
-    QLabel* titleLabel = findChild<QLabel*>("title");  //设置标题的变量，链接到UI中相应的位置
-    titleLabel->setText(title); //放置标题
+    chosenFileName = findChild<QLineEdit*>("chosenFileName");  
+    QLabel* titleLabel = findChild<QLabel*>("title");  
+    titleLabel->setText(title); 
 
     selectedImage = nullptr;
 
@@ -47,7 +47,7 @@ void FileChooser::chooseFile()
 
 void FileChooser::setFilePath(QString path)
 {
-    chosenFileName->setText(path);  //填充文件路径
+    chosenFileName->setText(path); 
 
     loadImage(path);
 }
@@ -59,7 +59,9 @@ void FileChooser::dragEnterEvent(QDragEnterEvent* event)
 
 void FileChooser::dropEvent(QDropEvent* event)
 {
-    QString url = event->mimeData()->urls().first().toLocalFile();   // 结果   "C:/User/test/Desktop/a.png"
+    QString url = event->mimeData()->urls().first().toLocalFile();   
+    chosenFileName = findChild<QLineEdit*>("chosenFileName");
+    chosenFileName->setText(url);
     if (url.isEmpty()) {
         return;
     }
@@ -75,7 +77,7 @@ void FileChooser::setupView()
 
 void FileChooser::loadImage(QString& path)
 {
-    if (this->selectedImage) //如果有图片，删除图片
+    if (this->selectedImage)
         delete this->selectedImage;
 
     this->selectedImage = new QImage(path);

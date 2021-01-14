@@ -24,8 +24,8 @@ public slots:
 
 private:
     Ui::FileChooserClass ui;
-    QFileDialog chooser; //选择文件的对话框
-    QLineEdit* chosenFileName; //记录选择文件的名字
+    QFileDialog chooser; 
+    QLineEdit* chosenFileName;
     
     void setupView();
     void loadImage(QString& path);

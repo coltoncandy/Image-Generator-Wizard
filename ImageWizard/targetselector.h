@@ -35,6 +35,7 @@ private:
 	//added 
 	QPoint origin;
 	QRubberBand* rubberBand;
+	//Qimage 
 
 	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);

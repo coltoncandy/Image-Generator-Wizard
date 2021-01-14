@@ -75,15 +75,17 @@ void TargetSelector::mouseMoveEvent(QMouseEvent* e)
 
 void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 {
-	QPixmap OriginalPix(this->imageLabel->pixmap());
+
+	QPixmap OriginalPix(ui.imgLabel->pixmap());
 	QImage newImage;
 	newImage = OriginalPix.toImage();
 	QImage copyImage;
 	copyImage = newImage.copy(rubberBand->geometry());
-	this->imgLabel->setPixmap(QPixmap::fromImage(copyImage));
-	ui->imgLabel->repaint();
+	ui.imgLabel->setPixmap(QPixmap::fromImage(copyImage));
+	ui.imgLabel->repaint();
 
 	rubberBand->hide();
+	
 	//selectionStarted = false;
 }
 

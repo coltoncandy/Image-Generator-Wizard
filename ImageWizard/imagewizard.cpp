@@ -1,5 +1,7 @@
 #include "imagewizard.h"
 #include "filechooser.h"
+#include "../AlgoManager/AlgoManager.cpp"
+
 
 ImageWizard::ImageWizard(QWidget *parent)
     : QWidget(parent)
@@ -28,6 +30,9 @@ void ImageWizard::goNext() {
 }
 //Previous page in UI 
 void ImageWizard::goPrev() {
+    //test function for static library... to be deleted after validation
+    fnAlgoManager();
+
     int cur = frames->currentIndex();
     if (cur > 0) {
         frames->setCurrentIndex(--cur);

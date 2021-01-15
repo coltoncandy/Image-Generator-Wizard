@@ -7,9 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-    //test function for static library... to be deleted
-    fnAlgoManager();
-
     QApplication a(argc, argv);
     ImageWizard wizard;
    

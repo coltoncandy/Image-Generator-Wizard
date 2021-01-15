@@ -20,8 +20,6 @@ private:
 	Ui::targetselector ui;
 	
 	QImage* initialImage;
-
-	//added 
 	QPoint origin;
 	QRubberBand* rubberBand;
 	QImage* croppedImage;
@@ -34,11 +32,4 @@ private:
 	bool selectionStarted;
 	QRect selectionRect;
 	QMenu contextMenu;
-	
-
-
-	/*
-private slots:
-	void saveSlot();
-	*/
 };

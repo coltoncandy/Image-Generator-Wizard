@@ -11,6 +11,7 @@ public:
 	TargetSelector(QWidget *parent = Q_NULLPTR);
 	~TargetSelector();
 	void setImage(QImage*);
+	QImage* getImage();
 
 private:
 	Ui::targetselector ui;

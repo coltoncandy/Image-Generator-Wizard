@@ -19,6 +19,24 @@ ImageWizard::ImageWizard(QWidget *parent)
 //Next page in UI
 void ImageWizard::goNext() {
     int cur = frames->currentIndex();
+    //Restrict the ability to go to the next page if certain conditions haven't been met
+    if (cur == 0) { //target image upload page
+        if (targetChooser->getImage() == nullptr) {
+            return;
+        }
+    }
+    else if (cur == 1) { //target selection/crop page
+        if (targetSelector->getImage() == nullptr) {
+            return;
+        }
+    }
+    else if (cur == 2) { //background image upload page
+        if (backgroundChooser->getImage() == nullptr) {
+            return;
+        }
+    }
+
+    //if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
     if (cur < frames->count()) {
         frames->setCurrentIndex(++cur);
         if (frames->currentWidget() == targetSelector) {

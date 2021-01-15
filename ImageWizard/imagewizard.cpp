@@ -20,17 +20,17 @@ ImageWizard::ImageWizard(QWidget *parent)
 void ImageWizard::goNext() {
     int cur = frames->currentIndex();
     //Restrict the ability to go to the next page if certain conditions haven't been met
-    if (cur == 0) { //target image upload page
+    if (frames->currentWidget() == targetChooser) { //target image upload page
         if (targetChooser->getImage() == nullptr) {
             return;
         }
     }
-    else if (cur == 1) { //target selection/crop page
+    else if (frames->currentWidget() == targetSelector) { //target selection/crop page
         if (targetSelector->getImage() == nullptr) {
             return;
         }
     }
-    else if (cur == 2) { //background image upload page
+    else if (frames->currentWidget() == backgroundChooser) { //background image upload page
         if (backgroundChooser->getImage() == nullptr) {
             return;
         }

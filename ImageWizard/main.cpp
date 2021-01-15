@@ -3,7 +3,6 @@
 
 #include "filechooser.h"
 #include "imagewizard.h"
-#include "../AlgoManager/AlgoManager.cpp"
 
 int main(int argc, char *argv[])
 {

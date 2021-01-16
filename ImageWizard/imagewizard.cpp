@@ -1,12 +1,11 @@
 #include "imagewizard.h"
 #include "filechooser.h"
-#include "../AlgoManager/AlgoManager.cpp"
+#include "../AlgoManager/algomanager.h"
 
 
-ImageWizard::ImageWizard(QWidget *parent)
-    : QWidget(parent)
-{
-    ui.setupUi(this);
+ImageWizard::ImageWizard(QWidget* parent)
+	: QWidget(parent) {
+	ui.setupUi(this);
 
 	frames = findChild<QStackedWidget*>("frames");
 
@@ -30,16 +29,16 @@ void ImageWizard::goNext() {
 }
 //Previous page in UI 
 void ImageWizard::goPrev() {
-    //test function for static library... to be deleted after validation
-    fnAlgoManager();
+	//test function for static library... to be deleted after validation
+	AlgoManager::AlgoManager::testFunction();
 
-    int cur = frames->currentIndex();
-    if (cur > 0) {
-        frames->setCurrentIndex(--cur);
-        if (frames->currentWidget() == targetSelector) {
-            setTargetSelectorImage();
-        }
-    }
+	int cur = frames->currentIndex();
+	if(cur > 0) {
+		frames->setCurrentIndex(--cur);
+		if(frames->currentWidget() == targetSelector) {
+			setTargetSelectorImage();
+		}
+	}
 }
 
 void ImageWizard::setTargetSelectorImage() {

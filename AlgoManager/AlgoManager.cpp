@@ -1,12 +1,6 @@
-// AlgoManager.cpp : Defines the functions for the static library.
-//
+#include "algomanager.h"
 
-#include "pch.h"
-#include "framework.h"
-#include <iostream>
-
-// TODO: This is an example of a library function
-void fnAlgoManager()
-{
-	std::cout << "Test";
+namespace AlgoManager {
+	void AlgoManager::testFunction() {
+	}
 }

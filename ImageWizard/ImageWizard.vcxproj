@@ -108,6 +108,11 @@
   <ItemGroup>
     <QtMoc Include="targetselector.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlgoManager\AlgoManager.vcxproj">
+      <Project>{cbc56d88-0e7b-4be0-8a2a-2356b9c4cb01}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

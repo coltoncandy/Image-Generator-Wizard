@@ -14,6 +14,8 @@ public:
 	~FileChooser();
 	QImage* getImage();
 
+	void resizeEvent(QResizeEvent* e);
+
 public slots:
 	void chooseFile();
 	void setFilePath(QString url);
@@ -25,9 +27,12 @@ private:
 	Ui::FileChooserClass ui;
 	QFileDialog chooser;
 	QLineEdit* chosenFileName;
+	QLabel* imgLabel;
+	bool loaded;
 
 	void setupView();
 	void loadImage(QString& path);
+	void scaleImage(const QSize& size);
 
 	QImage* selectedImage;
 };

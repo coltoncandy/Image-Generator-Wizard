@@ -20,10 +20,13 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 	chooser.setNameFilter("Images (*.jpg *.jpeg *.png)");
 
 	chosenFileName = findChild<QLineEdit*>("chosenFileName");
+	imgLabel = findChild<QLabel*>("imgLabel");
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
 
 	selectedImage = nullptr;
+
+	loaded = false;
 
 	setupView();
 }
@@ -71,8 +74,20 @@ void FileChooser::loadImage(QString& path) {
 		delete this->selectedImage;
 
 	this->selectedImage = new QImage(path);
+	loaded = true;
+	scaleImage(imgLabel->size());
+}
+
+void FileChooser::scaleImage(const QSize& size) {
+	if(!loaded)
+		return;
+
+
 	QPixmap p = QPixmap::fromImage(*(this->selectedImage));
-	// Easiest way to display an image is to set the pixmap of a label
-	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(p.scaled(imgLabel->width(), imgLabel->height(), Qt::KeepAspectRatio));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void FileChooser::resizeEvent(QResizeEvent* e) {
+	scaleImage(e->size());
+	QWidget::resizeEvent(e);
 }

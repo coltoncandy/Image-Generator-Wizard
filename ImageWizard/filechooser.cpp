@@ -88,6 +88,6 @@ void FileChooser::scaleImage(const QSize& size) {
 }
 
 void FileChooser::resizeEvent(QResizeEvent* e) {
-	scaleImage(e->size());
 	QWidget::resizeEvent(e);
+	scaleImage(imgLabel->size());
 }

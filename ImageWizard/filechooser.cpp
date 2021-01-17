@@ -66,13 +66,13 @@ void FileChooser::setupView() {
 	this->setAcceptDrops(true);
 }
 
-
 void FileChooser::loadImage(QString& path) {
 	if(this->selectedImage)
 		delete this->selectedImage;
 
 	this->selectedImage = new QImage(path);
+	QPixmap p = QPixmap::fromImage(*(this->selectedImage));
 	// Easiest way to display an image is to set the pixmap of a label
 	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
+	imgLabel->setPixmap(p.scaled(imgLabel->width(), imgLabel->height(), Qt::KeepAspectRatio));
 }

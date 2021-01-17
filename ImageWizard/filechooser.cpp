@@ -6,6 +6,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QDropEvent>
+#include <QMessageBox>
 
 FileChooser::FileChooser(const QString& title, QWidget* parent)
 	: QWidget(parent) {
@@ -17,7 +18,23 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 	chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
 
 	// only allow us to choose files with the following extensions
-	chooser.setNameFilter("Images (*.jpg *.jpeg *.png)");
+
+	acceptedFileTypes = {
+		"png",
+		"jpg",
+		"jpeg"
+	};
+
+	std::string fileFilter = "Images (";
+	for(int i = 0; i < acceptedFileTypes.size(); i++) {
+		fileFilter += "*." + acceptedFileTypes[i];
+
+		if(i < acceptedFileTypes.size() - 1)
+			fileFilter += " ";
+	}
+	fileFilter += ")";
+
+	chooser.setNameFilter(fileFilter.c_str());
 
 	chosenFileName = findChild<QLineEdit*>("chosenFileName");
 	imgLabel = findChild<QLabel*>("imgLabel");
@@ -25,7 +42,6 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 	titleLabel->setText(title);
 
 	selectedImage = nullptr;
-
 	loaded = false;
 
 	setupView();
@@ -56,13 +72,24 @@ void FileChooser::dragEnterEvent(QDragEnterEvent* event) {
 
 void FileChooser::dropEvent(QDropEvent* event) {
 	QString url = event->mimeData()->urls().first().toLocalFile();
-	chosenFileName = findChild<QLineEdit*>("chosenFileName");
-	chosenFileName->setText(url);
-	if(url.isEmpty()) {
+	if(url.isEmpty())
 		return;
+	
+	bool validFileType = false;
+
+	for(std::string fileType : acceptedFileTypes) {
+		if(url.toUtf8().endsWith(fileType))
+			validFileType = true;
 	}
-	;
-	loadImage(url);
+
+	if(validFileType) {
+		chosenFileName->setText(url);
+		loadImage(url);
+	}
+	else {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Invalid file type");
+	}
 }
 
 void FileChooser::setupView() {
@@ -81,7 +108,6 @@ void FileChooser::loadImage(QString& path) {
 void FileChooser::scaleImage(const QSize& size) {
 	if(!loaded)
 		return;
-
 
 	QPixmap p = QPixmap::fromImage(*(this->selectedImage));
 	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));

@@ -7,8 +7,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-FileChooser::FileChooser(const QString& title, QImage* image, QWidget* parent)
-	: QWidget(parent) {
+FileChooser::FileChooser(const QString& title, QImage* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);

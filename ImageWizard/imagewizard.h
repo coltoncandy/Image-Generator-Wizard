@@ -17,14 +17,17 @@ public slots:
 	void goNext();
 	void goPrev();
 
+protected:
+	QImage* target;
+	QImage* background;
+
 private:
 	Ui::ImageWizardClass ui;
 	QStackedWidget* frames;                 //Holds pages for the UI 
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
-	QImage* target;
-	QImage* background;
 
 	void setTargetSelectorImage();
+
 };

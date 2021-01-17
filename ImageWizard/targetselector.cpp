@@ -2,8 +2,7 @@
 #include <QLabel>
 #include <QImage>
 
-TargetSelector::TargetSelector(QWidget* parent)
-	: QWidget(parent) {
+TargetSelector::TargetSelector(QWidget* parent) : QWidget(parent) {
 	this->initialImage = NULL;
 	ui.setupUi(this);
 }

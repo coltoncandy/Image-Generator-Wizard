@@ -6,6 +6,8 @@ TargetSelector::TargetSelector(QWidget* parent)
 	: QWidget(parent) {
 	this->initialImage = NULL;
 	ui.setupUi(this);
+
+	imgLabel = findChild<QLabel*>("imgLabel");
 }
 
 TargetSelector::~TargetSelector() {
@@ -16,8 +18,22 @@ TargetSelector::~TargetSelector() {
 void TargetSelector::setImage(QImage* image) {
 	if(image)
 		initialImage = image;
-	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+
+	scaleImage(imgLabel->size());
+}
+
+void TargetSelector::scaleImage(const QSize& size) {
+	QPixmap p = QPixmap::fromImage(*(this->initialImage));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void TargetSelector::resizeEvent(QResizeEvent* e) {
+	QWidget::resizeEvent(e);
+
+	if(!this->initialImage)
+		return;
+
+	scaleImage(imgLabel->size());
 }
 
 //open up png file as png in C++

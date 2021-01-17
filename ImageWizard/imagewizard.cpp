@@ -8,17 +8,16 @@ ImageWizard::ImageWizard(QWidget* parent)
 	ui.setupUi(this);
 
 	frames = findChild<QStackedWidget*>("frames");
+	target = new QImage;
+	background = new QImage;
 
-	targetChooser = new FileChooser("Select or drag an image containing the target");
-	backgroundChooser = new FileChooser("Select or drag a background image");
+	targetChooser = new FileChooser("Select or drag an image containing the target", target);
+	backgroundChooser = new FileChooser("Select or drag a background image", background);
 	targetSelector = new TargetSelector();
 
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundChooser);
-
-	target = new QImage;
-	background = new QImage;
 }
 
 ImageWizard::~ImageWizard() {
@@ -54,5 +53,5 @@ void ImageWizard::goPrev() {
 }
 
 void ImageWizard::setTargetSelectorImage() {
-	targetSelector->setImage(targetChooser->getImage());
+	targetSelector->setImage(target);
 }

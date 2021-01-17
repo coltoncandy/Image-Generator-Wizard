@@ -10,9 +10,8 @@ class FileChooser : public QWidget {
 	Q_OBJECT
 
 public:
-	FileChooser(const QString& title, QWidget* parent = Q_NULLPTR);
+	FileChooser(const QString& title, QImage* image, QWidget* parent = Q_NULLPTR);
 	~FileChooser();
-	QImage* getImage();
 
 public slots:
 	void chooseFile();

@@ -9,8 +9,6 @@ TargetSelector::TargetSelector(QWidget* parent)
 }
 
 TargetSelector::~TargetSelector() {
-	if(this->initialImage)
-		delete initialImage;
 }
 
 void TargetSelector::setImage(QImage* image) {

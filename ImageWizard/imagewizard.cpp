@@ -16,7 +16,19 @@ ImageWizard::ImageWizard(QWidget* parent)
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundChooser);
+
+	target = new QImage;
+	background = new QImage;
 }
+
+ImageWizard::~ImageWizard() {
+	delete targetChooser;
+	delete backgroundChooser;
+	delete targetSelector;
+	delete target;
+	delete background;
+}
+
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();

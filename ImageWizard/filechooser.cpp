@@ -65,4 +65,5 @@ void FileChooser::loadImage(QString& path) {
 	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
 	imgLabel->setPixmap(QPixmap::fromImage(*(selectedImage->image)));
 	*(selectedImage->path) = chosenFileName->text();
+	selectedImage->loaded = true;
 }

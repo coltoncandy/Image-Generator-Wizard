@@ -25,11 +25,32 @@ ImageWizard::~ImageWizard() {
 	delete targetChooser;
 	delete backgroundChooser;
 	delete targetSelector;
+	delete initial;
+	delete target;
+	delete background;
 }
 
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();
+	//Restrict the ability to go to the next page if certain conditions haven't been met
+	if(frames->currentWidget() == targetChooser) { //target image upload page
+		if(!initial->loaded) {
+			return;
+		}
+	}
+	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
+		if(!target->loaded) {
+			return;
+		}
+	}
+	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
+		if(!background->loaded) {
+			return;
+		}
+	}
+
+	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
 		if(frames->currentWidget() == targetSelector) {

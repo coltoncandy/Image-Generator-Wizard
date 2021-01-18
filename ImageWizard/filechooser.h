@@ -25,9 +25,9 @@ private:
 	Ui::FileChooserClass ui;
 	QFileDialog chooser;
 	QLineEdit* chosenFileName;
+	ImageInfo* selectedImage;
 
 	void setupView();
 	void loadImage(QString& path);
 
-	ImageInfo* selectedImage;
 };

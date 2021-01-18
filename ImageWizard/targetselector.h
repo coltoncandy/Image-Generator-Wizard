@@ -11,7 +11,7 @@ class TargetSelector : public QWidget
 	Q_OBJECT
 
 public:
-	TargetSelector(QWidget *parent = Q_NULLPTR);
+	TargetSelector(const QString& title, QWidget *parent = Q_NULLPTR);
 	~TargetSelector();
 	void setImage(QImage*);
 
@@ -28,6 +28,7 @@ private:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
+	void reset();
 
 	bool selectionStarted;
 	QRect selectionRect;

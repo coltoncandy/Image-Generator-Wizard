@@ -3,11 +3,13 @@
 #include <QMouseEvent>
 
 
-TargetSelector::TargetSelector(QWidget *parent)
+TargetSelector::TargetSelector(const QString& title, QWidget *parent)
 	: QWidget(parent), rubberBand(0)
 {
 	ui.setupUi(this);
 
+	QLabel* titleLabel = findChild<QLabel*>("title");  
+	titleLabel->setText(title);
 }
 
 TargetSelector::~TargetSelector()
@@ -52,5 +54,12 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	image = grab(rubberBand->geometry()); //copy the selected part
 	ui.imgLabel->setPixmap(image); //show "image" in the second QLabel
 	
+}
+
+// User presses reset button to set page to original configuration
+void TargetSelector::reset()
+{
+	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
+	imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
 }
 

@@ -10,7 +10,7 @@ ImageWizard::ImageWizard(QWidget *parent)
 
     targetChooser = new FileChooser("Select or drag an image containing the target");
     backgroundChooser = new FileChooser("Select or drag a background image");
-    targetSelector = new TargetSelector;
+    targetSelector = new TargetSelector("Select Target");
 
    
     frames->addWidget(targetChooser); 

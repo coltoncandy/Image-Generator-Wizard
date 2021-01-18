@@ -2,14 +2,15 @@
 
 #include <QWidget>
 #include "ui_targetselector.h"
+#include "imageinfo.h"
 
 class TargetSelector : public QWidget {
 	Q_OBJECT
 
 public:
-	TargetSelector(QWidget* parent = Q_NULLPTR);
+	TargetSelector(ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~TargetSelector();
-	void setImage(QImage*);
+	void updateImage();
 
 public slots:
 	void resizeEvent(QResizeEvent* e);
@@ -21,4 +22,5 @@ private:
 	QImage* initialImage;
 
 	void scaleImage(const QSize& size);
+	ImageInfo* target;
 };

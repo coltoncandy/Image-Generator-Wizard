@@ -8,8 +8,7 @@
 #include <QDropEvent>
 #include <QMessageBox>
 
-FileChooser::FileChooser(const QString& title, QWidget* parent)
-	: QWidget(parent) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -41,19 +40,12 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
 
-	selectedImage = nullptr;
-	loaded = false;
+	selectedImage = image;
 
 	setupView();
 }
 
 FileChooser::~FileChooser() {
-	if(this->selectedImage)
-		delete selectedImage;
-}
-
-QImage* FileChooser::getImage() {
-	return this->selectedImage;
 }
 
 void FileChooser::chooseFile() {
@@ -95,6 +87,7 @@ void FileChooser::dropEvent(QDropEvent* event) {
 void FileChooser::setupView() {
 	this->setAcceptDrops(true);
 }
+
 
 void FileChooser::loadImage(QString& path) {
 	if(this->selectedImage)

@@ -2,17 +2,15 @@
 #include <QLabel>
 #include <QImage>
 
-TargetSelector::TargetSelector(QWidget* parent)
-	: QWidget(parent) {
-	this->initialImage = NULL;
+TargetSelector::TargetSelector(ImageInfo* target, QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
 
 	imgLabel = findChild<QLabel*>("imgLabel");
+
+	this->target = target;
 }
 
 TargetSelector::~TargetSelector() {
-	if(this->initialImage)
-		delete initialImage;
 }
 
 void TargetSelector::setImage(QImage* image) {
@@ -34,6 +32,9 @@ void TargetSelector::resizeEvent(QResizeEvent* e) {
 		return;
 
 	scaleImage(imgLabel->size());
+void TargetSelector::updateImage() {
+	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
+	imgLabel->setPixmap(QPixmap::fromImage(*(this->target->image)));
 }
 
 //open up png file as png in C++

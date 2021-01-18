@@ -7,14 +7,14 @@
 #include <vector>
 
 #include "ui_filechooser.h"
+#include "imageinfo.h"
 
 class FileChooser : public QWidget {
 	Q_OBJECT
 
 public:
-	FileChooser(const QString& title, QWidget* parent = Q_NULLPTR);
+	FileChooser(const QString& title, ImageInfo* image, QWidget* parent = Q_NULLPTR);
 	~FileChooser();
-	QImage* getImage();
 
 public slots:
 	void chooseFile();
@@ -32,6 +32,7 @@ private:
 	QImage* selectedImage;
 	std::vector<std::string> acceptedFileTypes;
 	bool loaded;
+	ImageInfo* selectedImage;
 
 	void setupView();
 	void loadImage(QString& path);

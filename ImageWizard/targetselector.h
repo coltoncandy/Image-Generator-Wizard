@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QRubberBand>
+#include <QPushButton>
 
 class TargetSelector : public QWidget
 {
@@ -23,14 +24,17 @@ private:
 	QPoint origin;
 	QRubberBand* rubberBand;
 	QImage* croppedImage;
+	QPushButton *resetButton;
 
 	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
-	void reset();
 
 	bool selectionStarted;
 	QRect selectionRect;
 	QMenu contextMenu;
+
+public slots:
+	void reset();
 };

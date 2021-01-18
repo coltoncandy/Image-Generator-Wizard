@@ -1,6 +1,7 @@
 #include "targetselector.h"
 #include <QImage>
 #include <QMouseEvent>
+#include <QMainWindow>
 
 
 TargetSelector::TargetSelector(const QString& title, QWidget *parent)
@@ -8,6 +9,8 @@ TargetSelector::TargetSelector(const QString& title, QWidget *parent)
 {
 	ui.setupUi(this);
 
+	resetButton = findChild<QPushButton*>("reset");
+	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	QLabel* titleLabel = findChild<QLabel*>("title");  
 	titleLabel->setText(title);
 }
@@ -59,7 +62,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 // User presses reset button to set page to original configuration
 void TargetSelector::reset()
 {
-	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+	ui.imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
 }
 

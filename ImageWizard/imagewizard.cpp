@@ -12,7 +12,7 @@ ImageWizard::ImageWizard(QWidget* parent)
 	targetChooser = new FileChooser("Select or drag an image containing the target");
 	backgroundChooser = new FileChooser("Select or drag a background image");
 	targetSelector = new TargetSelector();
-	welcomePage = new WelcomePage("Welcome to Image Generator.");
+	welcomePage = new WelcomePage("Welcome to Image Generator");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);

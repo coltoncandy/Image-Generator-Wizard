@@ -14,10 +14,15 @@ TargetSelector::~TargetSelector() {
 }
 
 void TargetSelector::setImage(QImage* image) {
-	if(image)
+	if(image) {
 		initialImage = image;
-	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+		QLabel* imgLabel = findChild<QLabel*>("imgLabel");
+		imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+	}
+}
+
+QImage* TargetSelector::getImage() {
+	return this->initialImage;
 }
 
 //open up png file as png in C++

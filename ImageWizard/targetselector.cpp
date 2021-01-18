@@ -2,20 +2,19 @@
 #include <QLabel>
 #include <QImage>
 
-TargetSelector::TargetSelector(QWidget *parent)
-	: QWidget(parent)
-{
-	this->initialImage = NULL; 
+TargetSelector::TargetSelector(QWidget* parent)
+	: QWidget(parent) {
+	this->initialImage = NULL;
 	ui.setupUi(this);
 }
 
-TargetSelector::~TargetSelector()
-{
-	if (this->initialImage)
+TargetSelector::~TargetSelector() {
+	if(this->initialImage)
 		delete initialImage;
 }
 
 void TargetSelector::setImage(QImage* image) {
+	if(image)
 	if (image) {
 		initialImage = image;
 		QLabel* imgLabel = findChild<QLabel*>("imgLabel");

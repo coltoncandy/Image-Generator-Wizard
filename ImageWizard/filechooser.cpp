@@ -60,7 +60,7 @@ void FileChooser::setupView() {
 }
 
 void FileChooser::loadImage(QString& path) {
-	bool result = selectedImage->image->load(path);
+	selectedImage->image->load(path);
 	// Easiest way to display an image is to set the pixmap of a label
 	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
 	imgLabel->setPixmap(QPixmap::fromImage(*(selectedImage->image)));

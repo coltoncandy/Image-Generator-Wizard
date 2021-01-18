@@ -7,12 +7,14 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
 
 	frames = findChild<QStackedWidget*>("frames");
-	target = new QImage;
-	background = new QImage;
 
-	targetChooser = new FileChooser("Select or drag an image containing the target", target);
+	initial = new ImageInfo;
+	target = new ImageInfo;
+	background = new ImageInfo;
+
+	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
-	targetSelector = new TargetSelector();
+	targetSelector = new TargetSelector(target);
 
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
@@ -23,8 +25,6 @@ ImageWizard::~ImageWizard() {
 	delete targetChooser;
 	delete backgroundChooser;
 	delete targetSelector;
-	delete target;
-	delete background;
 }
 
 //Next page in UI
@@ -33,7 +33,8 @@ void ImageWizard::goNext() {
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
 		if(frames->currentWidget() == targetSelector) {
-			setTargetSelectorImage();
+			*(target->image) = initial->image->copy();
+			targetSelector->updateImage();
 		}
 	}
 }
@@ -46,12 +47,5 @@ void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
 	if(cur > 0) {
 		frames->setCurrentIndex(--cur);
-		if(frames->currentWidget() == targetSelector) {
-			setTargetSelectorImage();
-		}
 	}
-}
-
-void ImageWizard::setTargetSelectorImage() {
-	targetSelector->setImage(target);
 }

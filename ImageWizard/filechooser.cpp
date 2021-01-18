@@ -7,7 +7,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-FileChooser::FileChooser(const QString& title, QImage* image, QWidget* parent) : QWidget(parent) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -60,8 +60,9 @@ void FileChooser::setupView() {
 }
 
 void FileChooser::loadImage(QString& path) {
-	bool result = selectedImage->load(path);
+	bool result = selectedImage->image->load(path);
 	// Easiest way to display an image is to set the pixmap of a label
 	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
+	imgLabel->setPixmap(QPixmap::fromImage(*(selectedImage->image)));
+	*(selectedImage->path) = chosenFileName->text();
 }

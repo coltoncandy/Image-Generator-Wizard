@@ -4,6 +4,7 @@
 #include "ui_imagewizard.h"
 #include "filechooser.h"
 #include "targetselector.h"
+#include "welcomepage.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -18,6 +19,7 @@ public slots:
 private:
 	Ui::ImageWizardClass ui;
 	QStackedWidget* frames;                 //Holds pages for the UI 
+	WelcomePage* welcomePage;
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;

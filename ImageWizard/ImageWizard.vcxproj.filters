@@ -44,6 +44,9 @@
     <ClCompile Include="targetselector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="welcomepage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -55,12 +58,18 @@
     <QtUic Include="targetselector.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="welcomepage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="targetselector.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="welcomepage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -19,6 +19,10 @@ ImageWizard::ImageWizard(QWidget* parent)
 }
 //Next page in UI
 void ImageWizard::goNext() {
+
+	//test function for openCV... to be deleted
+	AlgoManager::AlgoManager::testFunction();
+
 	int cur = frames->currentIndex();
 	//Restrict the ability to go to the next page if certain conditions haven't been met
 	if(frames->currentWidget() == targetChooser) { //target image upload page

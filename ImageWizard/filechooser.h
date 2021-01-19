@@ -3,8 +3,8 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include <QFileDialog>
-#include <string>
 #include <vector>
+#include <string>
 
 #include "ui_filechooser.h"
 #include "imageinfo.h"
@@ -21,8 +21,8 @@ public slots:
 	void setFilePath(QString url);
 
 	void dragEnterEvent(QDragEnterEvent* event);
-	void resizeEvent(QResizeEvent* e);
 	void dropEvent(QDropEvent* event);
+	void resizeEvent(QResizeEvent* e);
 
 private:
 	Ui::FileChooserClass ui;

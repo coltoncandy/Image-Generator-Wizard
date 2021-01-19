@@ -73,8 +73,7 @@ void FileChooser::dropEvent(QDropEvent* event) {
 	}
 
 	if(validFileType) {
-		chosenFileName->setText(url);
-		loadImage(url);
+		setFilePath(url);
 	}
 	else {
 		QMessageBox messageBox;

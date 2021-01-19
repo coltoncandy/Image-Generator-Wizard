@@ -5,14 +5,14 @@
 #include <QFileDialog>
 
 #include "ui_filechooser.h"
+#include "imageinfo.h"
 
 class FileChooser : public QWidget {
 	Q_OBJECT
 
 public:
-	FileChooser(const QString& title, QWidget* parent = Q_NULLPTR);
+	FileChooser(const QString& title, ImageInfo* image, QWidget* parent = Q_NULLPTR);
 	~FileChooser();
-	QImage* getImage();
 
 public slots:
 	void chooseFile();
@@ -25,9 +25,9 @@ private:
 	Ui::FileChooserClass ui;
 	QFileDialog chooser;
 	QLineEdit* chosenFileName;
+	ImageInfo* selectedImage;
 
 	void setupView();
 	void loadImage(QString& path);
 
-	QImage* selectedImage;
 };

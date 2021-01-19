@@ -6,14 +6,14 @@
 using namespace cv; 
 using namespace std; 
 
-const Scalar RED = Scalar(0, 0, 255);
-const Scalar PINK = Scalar(230, 130, 255);
-const Scalar BLUE = Scalar(255, 0, 0);
+const Scalar RED = Scalar(0, 0, 255);           //Brush color for foreground selection 
+const Scalar PINK = Scalar(230, 130, 255);      //Brush color for 
+const Scalar BLUE = Scalar(255, 0, 0);          //Brush color for background selection 
 const Scalar LIGHTBLUE = Scalar(255, 255, 160);
-const Scalar GREEN = Scalar(0, 255, 0);
+const Scalar GREEN = Scalar(0, 255, 0);         //Color for rect selection 
 
-const int BGD_KEY = EVENT_FLAG_CTRLKEY;
-const int FGD_KEY = EVENT_FLAG_SHIFTKEY;
+const int BGD_KEY = EVENT_FLAG_CTRLKEY;         //Hold CTRL + left mouse for background selection 
+const int FGD_KEY = EVENT_FLAG_SHIFTKEY;        //Hold shift + left mouse for foreground selection 
 
 class GCApplication {
     public:
@@ -26,6 +26,7 @@ class GCApplication {
         void mouseClick(int event, int x, int y, int flags, void* param);
         int nextIter();
         int getIterCount() const { return iterCount; }
+        Mat getResult() const; 
     private:
         void setRectInMask();
         void setLblsInMask(int flags, Point p, bool isPr);

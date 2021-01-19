@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algomanager.h" />
+    <ClInclude Include="grabcut.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algomanager.cpp" />
+    <ClCompile Include="grabcut.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -7,8 +7,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-FileChooser::FileChooser(const QString& title, QWidget* parent)
-	: QWidget(parent) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -23,18 +22,12 @@ FileChooser::FileChooser(const QString& title, QWidget* parent)
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
 
-	selectedImage = nullptr;
+	selectedImage = image;
 
 	setupView();
 }
 
 FileChooser::~FileChooser() {
-	if(this->selectedImage)
-		delete selectedImage;
-}
-
-QImage* FileChooser::getImage() {
-	return this->selectedImage;
 }
 
 void FileChooser::chooseFile() {
@@ -66,13 +59,11 @@ void FileChooser::setupView() {
 	this->setAcceptDrops(true);
 }
 
-
 void FileChooser::loadImage(QString& path) {
-	if(this->selectedImage)
-		delete this->selectedImage;
-
-	this->selectedImage = new QImage(path);
+	selectedImage->image->load(path);
 	// Easiest way to display an image is to set the pixmap of a label
 	QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
+	imgLabel->setPixmap(QPixmap::fromImage(*(selectedImage->image)));
+	*(selectedImage->path) = chosenFileName->text();
+	selectedImage->loaded = true;
 }

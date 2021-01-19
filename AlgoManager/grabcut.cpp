@@ -66,6 +66,24 @@ void GCApplication::showImage() const {
     imshow(*winName, res);
 }
 
+Mat GCApplication::getResult() const {
+
+    Mat res; 
+    if(image->empty() || winName->empty())
+        return res;
+
+    Mat binMask;
+
+    if(!isInitialized)
+        image->copyTo(res);
+    else {
+        getBinMask(mask, binMask);
+        image->copyTo(res, binMask);
+    }
+
+    return res; 
+}
+
 void GCApplication::setRectInMask() {
     
     CV_Assert(!mask.empty());

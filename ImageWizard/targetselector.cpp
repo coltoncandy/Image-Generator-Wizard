@@ -68,8 +68,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	rect.setTopLeft(origin); //top of rectangle is set to first click
 	rect.setBottomRight(event->pos()); //bottom of rectangle is set to where the user chose to release mouse
 
-	//changed image to imageCrop
-	//QPixmap image(rect.size());
 	QPixmap imageCrop(rect.size());
 	imageCrop = grab(rubberBand->geometry()); //copy the selected part
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
@@ -79,14 +77,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 // User presses reset button to set page to original configuration
 void TargetSelector::reset()
 {
-	//QLabel* titleLabel = findChild<QLabel*>("title");
-	//titleLabel->setText("Hey reset");
-
-	//ui.imgLabel->setPixmap(QPixmap::fromImage(*(this->target->image)));
-	//scaleImage(imgLabel->size());
-
-	//imgLabel = findChild<QLabel*>("imgLabel");
 	updateImage();
-	//ui.imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
 }
 

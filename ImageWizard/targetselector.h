@@ -4,7 +4,6 @@
 #include "ui_targetselector.h"
 #include "imageinfo.h"
 #include <QLabel>
-#include <QMenu>
 #include <QRubberBand>
 #include <QPushButton>
 
@@ -24,24 +23,14 @@ public slots:
 private:
 	Ui::targetselector ui;
 
-	// QImage* initialImage;
+	QLabel* imgLabel;
+	ImageInfo* target;
 	QPoint origin;
 	QRubberBand* rubberBand;
-	QImage* croppedImage;
 	QPushButton* resetButton;
 
-	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
-
-	bool selectionStarted;
-	QRect selectionRect;
-	QMenu contextMenu;
-
-
-	QLabel* imgLabel;
-	ImageInfo* target;
-
 	void scaleImage(const QSize& size);
 };

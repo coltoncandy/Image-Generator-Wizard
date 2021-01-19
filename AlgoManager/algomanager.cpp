@@ -13,18 +13,18 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
 namespace AlgoManager {
 	void AlgoManager::grabCut(const std::string& path) {
 
-       Mat image = imread(path, IMREAD_COLOR);
-       imshow("DISPLAY", image); 
+        Mat image = imread(path, IMREAD_COLOR);
 
         if(image.empty()) {
             cout << "\n Could not read file path" << endl;
             return;
         }
 
-        namedWindow("target", WINDOW_AUTOSIZE);
-        setMouseCallback("target", on_mouse, 0);         //Specifies handler for mouse events for the given window 
+        const string winName = "Target";
+        namedWindow(winName, WINDOW_AUTOSIZE);
+        setMouseCallback(winName, on_mouse, 0);         //Specifies handler for mouse events for the given window 
 
-        gcapp.setImageAndWinName(image, "target");
+        gcapp.setImageAndWinName(image, winName);
         gcapp.showImage();
 
         for(;;) {
@@ -52,7 +52,11 @@ namespace AlgoManager {
             }
         }
     exit_main:
-        destroyWindow("target");
+        Mat res = gcapp.getResult(); 
+        /*imshow("target", res);        //Uncomment to see result of grabCut before writing to disk
+        waitKey(0); */
+        imwrite("result.png", res); 
+        destroyWindow(winName);
         return;
 	}
 }

@@ -3,33 +3,36 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include <QFileDialog>
+#include <vector>
+#include <string>
 
 #include "ui_filechooser.h"
+#include "imageinfo.h"
 
-class FileChooser : public QWidget
-{
-    Q_OBJECT
+class FileChooser : public QWidget {
+	Q_OBJECT
 
 public:
-    FileChooser(const QString& title, QWidget* parent = Q_NULLPTR);
-    ~FileChooser();
-    QImage* getImage(); 
+	FileChooser(const QString& title, ImageInfo* image, QWidget* parent = Q_NULLPTR);
+	~FileChooser();
 
 public slots:
-    void chooseFile();
-    void setFilePath(QString url); //槽
+	void chooseFile();
+	void setFilePath(QString url);
 
-    void dragEnterEvent(QDragEnterEvent* event);
-    void dropEvent(QDropEvent* event);
+	void dragEnterEvent(QDragEnterEvent* event);
+	void dropEvent(QDropEvent* event);
+	void resizeEvent(QResizeEvent* e);
 
 private:
-    Ui::FileChooserClass ui;
-    QFileDialog chooser; //选择文件的对话框
-    QLineEdit* chosenFileName; //记录选择文件的名字
-    
-    void setupView();
-    void loadImage(QString& path);
+	Ui::FileChooserClass ui;
+	QFileDialog chooser;
+	QLineEdit* chosenFileName;
+	QLabel* imgLabel;
+	ImageInfo* selectedImage;
+	std::vector<std::string> acceptedFileTypes;
 
-    //(Topher and TJ): We're not sure if we need a "backgroundchooser" class or just a "chooser" class, since it seems like it would be the same code for background vs initial image.
-    QImage* selectedImage;
+	void setupView();
+	void loadImage(QString& path);
+	void scaleImage(const QSize& size);
 };

@@ -6,79 +6,102 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QDropEvent>
+#include <QMessageBox>
 
-FileChooser::FileChooser(const QString& title, QWidget* parent)
-    : QWidget(parent)
-{
-    QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath); // 发送者, 发送的信号， 接收者， 接受的槽
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
+	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
-    ui.setupUi(this);
+	ui.setupUi(this);
 
-    // this makes it so we can only choose a single file that exists; no directories or multiple files
-    chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
+	// this makes it so we can only choose a single file that exists; no directories or multiple files
+	chooser.setFileMode(QFileDialog::FileMode::ExistingFile);
 
-    // only allow us to choose files with the following extensions
-    chooser.setNameFilter("Images (*.jpg *.jpeg *.png)"); // 文件过滤器
+	// only allow us to choose files with the following extensions
 
-    chosenFileName = findChild<QLineEdit*>("chosenFileName");  //设置路径的变量，链接到UI中相应的位置
-    QLabel* titleLabel = findChild<QLabel*>("title");  //设置标题的变量，链接到UI中相应的位置
-    titleLabel->setText(title); //放置标题
+	acceptedFileTypes = {
+		"png",
+	};
 
-    selectedImage = nullptr;
+	std::string fileFilter = "Images (";
+	for(int i = 0; i < acceptedFileTypes.size(); i++) {
+		fileFilter += "*." + acceptedFileTypes[i];
 
-    setupView();
+		if(i < acceptedFileTypes.size() - 1)
+			fileFilter += " ";
+	}
+	fileFilter += ")";
+
+	chooser.setNameFilter(fileFilter.c_str());
+
+	chosenFileName = findChild<QLineEdit*>("chosenFileName");
+	imgLabel = findChild<QLabel*>("imgLabel");
+	QLabel* titleLabel = findChild<QLabel*>("title");
+	titleLabel->setText(title);
+
+	selectedImage = image;
+
+	setupView();
 }
 
-FileChooser::~FileChooser()
-{
-    delete selectedImage;
+FileChooser::~FileChooser() {
 }
 
-QImage* FileChooser::getImage()
-{
-    return selectedImage; 
+void FileChooser::chooseFile() {
+	chooser.show();
 }
 
-void FileChooser::chooseFile()
-{
-    chooser.show();
+void FileChooser::setFilePath(QString path) {
+	chosenFileName->setText(path);
+
+	loadImage(path);
 }
 
-void FileChooser::setFilePath(QString path)
-{
-    chosenFileName->setText(path);  //填充文件路径
-
-    loadImage(path);
+void FileChooser::dragEnterEvent(QDragEnterEvent* event) {
+	event->acceptProposedAction();
 }
 
-void FileChooser::dragEnterEvent(QDragEnterEvent* event)
-{
-    event->acceptProposedAction();
+void FileChooser::dropEvent(QDropEvent* event) {
+	QString url = event->mimeData()->urls().first().toLocalFile();
+	if(url.isEmpty())
+		return;
+	
+	bool validFileType = false;
+
+	for(std::string fileType : acceptedFileTypes) {
+		if(url.toUtf8().endsWith(fileType))
+			validFileType = true;
+	}
+
+	if(validFileType) {
+		setFilePath(url);
+	}
+	else {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Invalid file type");
+	}
 }
 
-void FileChooser::dropEvent(QDropEvent* event)
-{
-    QString url = event->mimeData()->urls().first().toLocalFile();   // 结果   "C:/User/test/Desktop/a.png"
-    if (url.isEmpty()) {
-        return;
-    }
-;
-    loadImage(url);
+void FileChooser::setupView() {
+	this->setAcceptDrops(true);
 }
 
-void FileChooser::setupView()
-{
-    this->setAcceptDrops(true);   
+void FileChooser::loadImage(QString& path) {
+	selectedImage->image->load(path);
+	*(selectedImage->path) = path;
+	selectedImage->loaded = true;
+
+	scaleImage(imgLabel->size());
 }
 
+void FileChooser::scaleImage(const QSize& size) {
+	if(!selectedImage->loaded)
+		return;
 
-void FileChooser::loadImage(QString& path)
-{
-    if (this->selectedImage) //如果有图片，删除图片
-        delete this->selectedImage;
+	QPixmap p = QPixmap::fromImage(*(selectedImage->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
 
-    this->selectedImage = new QImage(path);
-    // Easiest way to display an image is to set the pixmap of a label
-    QLabel* imgLabel = findChild<QLabel*>("imgLabel");
-    imgLabel->setPixmap(QPixmap::fromImage(*(this->selectedImage)));
+void FileChooser::resizeEvent(QResizeEvent* e) {
+	QWidget::resizeEvent(e);
+	scaleImage(imgLabel->size());
 }

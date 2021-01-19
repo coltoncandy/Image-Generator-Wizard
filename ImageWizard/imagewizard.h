@@ -1,28 +1,30 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
+#include <QImage>
 #include "ui_imagewizard.h"
 #include "filechooser.h"
 #include "targetselector.h"
+#include "imageinfo.h"
 
-class ImageWizard : public QWidget
-{
-    Q_OBJECT 
+class ImageWizard : public QWidget {
+	Q_OBJECT
 
 public:
-    ImageWizard(QWidget *parent = Q_NULLPTR);
-    void addFrame(FileChooser& frame);
+	ImageWizard(QWidget* parent = Q_NULLPTR);
+	~ImageWizard();
 
 public slots:
-    void goNext();          
-    void goPrev();
+	void goNext();
+	void goPrev();
 
 private:
-    Ui::ImageWizardClass ui;
-    QStackedWidget* frames;                 //Holds pages for the UI 
-    FileChooser* targetChooser;
-    FileChooser* backgroundChooser;
-    TargetSelector* targetSelector;
-
-    void setTargetSelectorImage();
+	Ui::ImageWizardClass ui;
+	QStackedWidget* frames;                 //Holds pages for the UI 
+	FileChooser* targetChooser;
+	FileChooser* backgroundChooser;
+	TargetSelector* targetSelector;
+	ImageInfo* initial;
+	ImageInfo* target;
+	ImageInfo* background;
 };

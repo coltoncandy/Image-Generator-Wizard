@@ -3,26 +3,40 @@
 #include <QMouseEvent>
 #include <QMainWindow>
 
-
-TargetSelector::TargetSelector(const QString& title, QWidget *parent)
-	: QWidget(parent), rubberBand(0)
-{
+TargetSelector::TargetSelector(const QString& title, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
 
 	resetButton = findChild<QPushButton*>("reset");
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
-	QLabel* titleLabel = findChild<QLabel*>("title");  
+	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
+	imgLabel = findChild<QLabel*>("imgLabel");
+
+	this->target = target;
 }
 
-TargetSelector::~TargetSelector()
-{
+TargetSelector::~TargetSelector() {
 }
 
-void TargetSelector::setImage(QImage* image) {
-	initialImage = image;
-	QLabel* imgLabel = findChild<QLabel*>("imgLabel");  
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+void TargetSelector::scaleImage(const QSize& size) {
+	QPixmap p = QPixmap::fromImage(*(target->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void TargetSelector::resizeEvent(QResizeEvent* e) {
+	QWidget::resizeEvent(e);
+
+	/*
+	if(!target->loaded)
+		return;
+	*/
+
+	scaleImage(imgLabel->size());
+}
+
+void TargetSelector::updateImage() {
+	imgLabel->setPixmap(QPixmap::fromImage(*(this->target->image)));
+	scaleImage(imgLabel->size());
 }
 
 //open up png file as png in C++

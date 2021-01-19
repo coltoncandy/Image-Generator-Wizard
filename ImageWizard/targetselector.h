@@ -2,29 +2,32 @@
 
 #include <QWidget>
 #include "ui_targetselector.h"
+#include "imageinfo.h"
 #include <QLabel>
 #include <QMenu>
 #include <QRubberBand>
 #include <QPushButton>
 
-class TargetSelector : public QWidget
-{
+class TargetSelector : public QWidget {
 	Q_OBJECT
 
 public:
-	TargetSelector(const QString& title, QWidget *parent = Q_NULLPTR);
+	TargetSelector(const QString& title, ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~TargetSelector();
-	void setImage(QImage*);
+	void updateImage();
+
+public slots:
+	void resizeEvent(QResizeEvent* e);
 
 
 private:
 	Ui::targetselector ui;
-	
+
 	QImage* initialImage;
 	QPoint origin;
 	QRubberBand* rubberBand;
 	QImage* croppedImage;
-	QPushButton *resetButton;
+	QPushButton* resetButton;
 
 	QPixmap image;
 	void mousePressEvent(QMouseEvent* event);
@@ -34,6 +37,12 @@ private:
 	bool selectionStarted;
 	QRect selectionRect;
 	QMenu contextMenu;
+
+
+	QLabel* imgLabel;
+	ImageInfo* target;
+
+	void scaleImage(const QSize& size);
 
 public slots:
 	void reset();

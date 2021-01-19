@@ -19,8 +19,7 @@ private:
 	Ui::targetselector ui;
 
 	QLabel* imgLabel;
-	QImage* initialImage;
+	ImageInfo* target;
 
 	void scaleImage(const QSize& size);
-	ImageInfo* target;
 };

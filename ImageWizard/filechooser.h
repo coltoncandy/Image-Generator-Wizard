@@ -29,10 +29,8 @@ private:
 	QFileDialog chooser;
 	QLineEdit* chosenFileName;
 	QLabel* imgLabel;
-	QImage* selectedImage;
-	std::vector<std::string> acceptedFileTypes;
-	bool loaded;
 	ImageInfo* selectedImage;
+	std::vector<std::string> acceptedFileTypes;
 
 	void setupView();
 	void loadImage(QString& path);

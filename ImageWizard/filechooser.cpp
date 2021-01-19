@@ -88,21 +88,19 @@ void FileChooser::setupView() {
 	this->setAcceptDrops(true);
 }
 
-
 void FileChooser::loadImage(QString& path) {
-	if(this->selectedImage)
-		delete this->selectedImage;
+	selectedImage->image->load(path);
+	*(selectedImage->path) = path;
+	selectedImage->loaded = true;
 
-	this->selectedImage = new QImage(path);
-	loaded = true;
 	scaleImage(imgLabel->size());
 }
 
 void FileChooser::scaleImage(const QSize& size) {
-	if(!loaded)
+	if(!selectedImage->loaded)
 		return;
 
-	QPixmap p = QPixmap::fromImage(*(this->selectedImage));
+	QPixmap p = QPixmap::fromImage(*(selectedImage->image));
 	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
 }
 

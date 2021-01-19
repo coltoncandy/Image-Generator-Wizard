@@ -1,15 +1,18 @@
 #pragma once
 
 #include <QtWidgets/QWidget>
+#include <QImage>
 #include "ui_imagewizard.h"
 #include "filechooser.h"
 #include "targetselector.h"
+#include "imageinfo.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
 
 public:
 	ImageWizard(QWidget* parent = Q_NULLPTR);
+	~ImageWizard();
 
 public slots:
 	void goNext();
@@ -21,6 +24,7 @@ private:
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
-
-	void setTargetSelectorImage();
+	ImageInfo* initial;
+	ImageInfo* target;
+	ImageInfo* background;
 };

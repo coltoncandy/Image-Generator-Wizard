@@ -2,18 +2,18 @@
 
 #include <QWidget>
 #include "ui_targetselector.h"
+#include "imageinfo.h"
 
 class TargetSelector : public QWidget {
 	Q_OBJECT
 
 public:
-	TargetSelector(QWidget* parent = Q_NULLPTR);
+	TargetSelector(ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~TargetSelector();
-	void setImage(QImage*);
-	QImage* getImage();
+	void updateImage();
 
 private:
 	Ui::targetselector ui;
 
-	QImage* initialImage;
+	ImageInfo* target;
 };

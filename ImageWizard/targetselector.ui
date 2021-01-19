@@ -46,6 +46,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
   </layout>
   <widget class="QPushButton" name="reset">
    <property name="geometry">
@@ -60,6 +67,10 @@
     <string>Reset</string>
    </property>
   </widget>
+  <zorder>title</zorder>
+  <zorder>imgLabel</zorder>
+  <zorder>reset</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

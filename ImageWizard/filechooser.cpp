@@ -20,8 +20,6 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 
 	acceptedFileTypes = {
 		"png",
-		"jpg",
-		"jpeg"
 	};
 
 	std::string fileFilter = "Images (";

@@ -18,12 +18,13 @@ public:
 
 public slots:
 	void resizeEvent(QResizeEvent* e);
+	void reset();
 
 
 private:
 	Ui::targetselector ui;
 
-	QImage* initialImage;
+	// QImage* initialImage;
 	QPoint origin;
 	QRubberBand* rubberBand;
 	QImage* croppedImage;
@@ -43,7 +44,4 @@ private:
 	ImageInfo* target;
 
 	void scaleImage(const QSize& size);
-
-public slots:
-	void reset();
 };

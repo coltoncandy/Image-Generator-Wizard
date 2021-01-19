@@ -5,7 +5,7 @@
 
 TargetSelector::TargetSelector(const QString& title, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
-
+	
 	resetButton = findChild<QPushButton*>("reset");
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	QLabel* titleLabel = findChild<QLabel*>("title");
@@ -13,6 +13,7 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* target, QWidget*
 	imgLabel = findChild<QLabel*>("imgLabel");
 
 	this->target = target;
+	
 }
 
 TargetSelector::~TargetSelector() {
@@ -76,6 +77,9 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 // User presses reset button to set page to original configuration
 void TargetSelector::reset()
 {
-	ui.imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
+	//QLabel* titleLabel = findChild<QLabel*>("title");
+	//titleLabel->setText("Hey reset");
+	updateImage();
+	//ui.imgLabel->setPixmap(QPixmap::fromImage(*(this->initialImage)));
 }
 

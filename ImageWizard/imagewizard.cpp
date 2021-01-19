@@ -36,15 +36,6 @@ ImageWizard::~ImageWizard() {
 	delete background;
 }
 
-ImageWizard::~ImageWizard() {
-	delete targetChooser;
-	delete backgroundChooser;
-	delete targetSelector;
-	delete initial;
-	delete target;
-	delete background;
-}
-
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();

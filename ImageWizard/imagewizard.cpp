@@ -34,10 +34,11 @@ void ImageWizard::goNext() {
 
 	int cur = frames->currentIndex();
 	//Restrict the ability to go to the next page if certain conditions haven't been met
-	if(frames->currentWidget() == targetChooser) { //target image upload page
+	if(frames->currentWidget() == targetChooser) {		//target image upload page
 		if(!initial->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::grabCut(initial->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		if(!target->loaded) {

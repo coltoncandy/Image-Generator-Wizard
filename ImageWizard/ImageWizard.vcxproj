@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="targetselector.cpp" />
+    <ClCompile Include="welcomepage.cpp" />
     <QtRcc Include="imagewizard.qrc" />
     <QtUic Include="filechooser.ui" />
     <QtUic Include="imagewizard.ui" />
@@ -101,6 +102,7 @@
     <ClCompile Include="imagewizard.cpp" />
     <ClCompile Include="main.cpp" />
     <QtUic Include="targetselector.ui" />
+    <QtUic Include="welcomepage.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h" />
@@ -115,6 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageinfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="welcomepage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

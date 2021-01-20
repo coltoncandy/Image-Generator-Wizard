@@ -21,7 +21,7 @@ namespace AlgoManager {
         }
 
         const string winName = "Target";
-        namedWindow(winName, WINDOW_AUTOSIZE);
+        namedWindow(winName, WINDOW_NORMAL);            //Sets highGUI namedWindow to allow resizing. Image is processed and output at the original resolution
         setMouseCallback(winName, on_mouse, 0);         //Specifies handler for mouse events for the given window 
 
         gcapp.setImageAndWinName(image, winName);

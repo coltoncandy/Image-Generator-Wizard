@@ -66,6 +66,26 @@ void GCApplication::showImage() const {
     imshow(*winName, res);
 }
 
+Mat GCApplication::makeTransparent(Mat targetBlackBg) const {           //Makes black background present after grabCut processing transparent
+
+    if(targetBlackBg.empty())
+        return targetBlackBg;
+
+    Mat tmp;
+    Mat dst; 
+    Mat bgr[3];
+    Mat alpha; 
+    vector<Mat> rgba; 
+
+    cv::cvtColor(targetBlackBg, tmp, cv::COLOR_BGR2GRAY);       //Convert processed target image to grayscale and store in tmp 
+    cv::threshold(tmp, alpha, 0, 255, cv::THRESH_BINARY);       //All pixels > 0 are set to 255 (white), else set to 0 (black) 
+    cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    rgba = {bgr[0], bgr[1], bgr[2], alpha};                     //Stores each color channel and binary mask in vector 
+    cv::merge(rgba, dst);                                       //Merges channels stored in vector
+
+    return dst; 
+}
+
 Mat GCApplication::getResult() const {
 
     Mat res; 
@@ -80,6 +100,8 @@ Mat GCApplication::getResult() const {
         getBinMask(mask, binMask);
         image->copyTo(res, binMask);
     }
+
+    //res = makeTransparent(res); 
 
     return res; 
 }
@@ -195,9 +217,9 @@ int GCApplication::nextIter() {
         if(rectState != SET)
             return iterCount;
         if(lblsState == SET || prLblsState == SET)
-            grabCut(*image, mask, rect, bgdModel, fgdModel, 1, GC_INIT_WITH_MASK);
+            grabCut(*image, mask, rect, bgdModel, fgdModel, 1, GC_INIT_WITH_MASK);      
         else
-            grabCut(*image, mask, rect, bgdModel, fgdModel, 1, GC_INIT_WITH_RECT);
+            grabCut(*image, mask, rect, bgdModel, fgdModel, 1, GC_INIT_WITH_RECT);      
         isInitialized = true;
     }
     

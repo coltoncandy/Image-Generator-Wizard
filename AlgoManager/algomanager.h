@@ -1,9 +1,11 @@
 #pragma once
 
+#include <string>
+
 namespace AlgoManager {
 	class AlgoManager {
 	public:
-		static void testFunction();
+		static void grabCut(const std::string& path);
 	};
 }
 

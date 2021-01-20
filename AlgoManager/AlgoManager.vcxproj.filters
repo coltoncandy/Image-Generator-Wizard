@@ -18,9 +18,15 @@
     <ClInclude Include="algomanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="grabcut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algomanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grabcut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

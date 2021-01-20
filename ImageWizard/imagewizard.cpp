@@ -11,13 +11,20 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 
+	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
 	targetSelector = new TargetSelector("Select Target", target);
 
+	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundChooser);
+
+	btnPrev = findChild<QPushButton*>("btnPrev");
+	btnNext = findChild<QPushButton*>("btnNext");
+	//Hides the previous button on the first page
+	btnPrev->hide();
 }
 
 ImageWizard::~ImageWizard() {
@@ -31,12 +38,14 @@ ImageWizard::~ImageWizard() {
 
 //Next page in UI
 void ImageWizard::goNext() {
+
 	int cur = frames->currentIndex();
 	//Restrict the ability to go to the next page if certain conditions haven't been met
-	if(frames->currentWidget() == targetChooser) { //target image upload page
+	if(frames->currentWidget() == targetChooser) {		//target image upload page
 		if(!initial->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::grabCut(initial->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		if(!target->loaded) {
@@ -52,6 +61,13 @@ void ImageWizard::goNext() {
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
+		//Hides & shows navigation buttons depending on the current widget
+		if(cur == 1) {
+			btnPrev->show();
+		}
+		if(cur == frames->count() - 1) {
+			btnNext->hide();
+		}
 		if(frames->currentWidget() == targetSelector) {
 			*(target->image) = initial->image->copy();
 			targetSelector->updateImage();
@@ -61,11 +77,16 @@ void ImageWizard::goNext() {
 
 //Previous page in UI 
 void ImageWizard::goPrev() {
-	//test function for static library... to be deleted after validation
-	AlgoManager::AlgoManager::testFunction();
 
 	int cur = frames->currentIndex();
 	if(cur > 0) {
 		frames->setCurrentIndex(--cur);
+		//Hides & shows navigation buttons depending on the current widget
+		if(cur == 0) {
+			btnPrev->hide();
+		}
+		if(cur == frames->count() - 2) {
+			btnNext->show();
+		}
 	}
 }

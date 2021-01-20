@@ -1,5 +1,25 @@
 #include "grabcut.h"
 
+//static void help(char** argv) {
+//    cout << "\nThis program demonstrates GrabCut segmentation -- select an object in a region\n"
+//        "and then grabcut will attempt to segment it out.\n"
+//        "Call:\n"
+//        << argv[0] << " <image_name>\n"
+//        "\nSelect a rectangular area around the object you want to segment\n" <<
+//        "\nHot keys: \n"
+//        "\tESC - quit the program\n"
+//        "\tr - restore the original image\n"
+//        "\tn - next iteration\n"
+//        "\n"
+//        "\tleft mouse button - set rectangle\n"
+//        "\n"
+//        "\tCTRL+left mouse button - set GC_BGD pixels\n"
+//        "\tSHIFT+left mouse button - set GC_FGD pixels\n"
+//        "\n"
+//        "\tCTRL+right mouse button - set GC_PR_BGD pixels\n"
+//        "\tSHIFT+right mouse button - set GC_PR_FGD pixels\n" << endl;
+//}
+
 static void getBinMask(const Mat& comMask, Mat& binMask) {
     if(comMask.empty() || comMask.type() != CV_8UC1)
         CV_Error(Error::StsBadArg, "comMask is empty or has incorrect type (not CV_8UC1)");

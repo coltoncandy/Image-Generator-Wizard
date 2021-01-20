@@ -12,8 +12,14 @@ public:
 	~TargetSelector();
 	void updateImage();
 
+public slots:
+	void resizeEvent(QResizeEvent* e);
+
 private:
 	Ui::targetselector ui;
 
+	QLabel* imgLabel;
 	ImageInfo* target;
+
+	void scaleImage(const QSize& size);
 };

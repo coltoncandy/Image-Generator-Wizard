@@ -45,12 +45,12 @@ void ImageWizard::goNext() {
 		if(!initial->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::grabCut(initial->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		if(!target->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::grabCut(target->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		if(!background->loaded) {

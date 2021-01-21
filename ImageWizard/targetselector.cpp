@@ -2,6 +2,7 @@
 #include <QImage>
 #include <QMouseEvent>
 #include <QMainWindow>
+#include <QDir>
 
 TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
@@ -71,12 +72,16 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	QPixmap imageCrop(rect.size());
 	imageCrop = grab(rubberBand->geometry()); //copy the selected part
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
-	
+	*(target->image) = imageCrop.toImage(); //convert Pixmap to Qimage
+	*(target->path) = QDir::currentPath()+"/cropped.png"; //set path to current directory
+	target->image->save(*(target->path));
+	target->loaded = true;
 }
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset()
 {
+	target->loaded = false;
 	updateImage();
 }
 

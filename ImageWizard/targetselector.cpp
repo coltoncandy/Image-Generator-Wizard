@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <QMainWindow>
 
-TargetSelector::TargetSelector(const QString& title, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
+TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
 	
 	resetButton = findChild<QPushButton*>("reset");
@@ -13,14 +13,14 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* target, QWidget*
 	imgLabel = findChild<QLabel*>("imgLabel");
 
 	this->target = target;
-	
+	this->initial = initial;
 }
 
 TargetSelector::~TargetSelector() {
 }
 
 void TargetSelector::scaleImage(const QSize& size) {
-	QPixmap p = QPixmap::fromImage(*(target->image));
+	QPixmap p = QPixmap::fromImage(*(initial->image));
 	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
 }
 
@@ -36,7 +36,7 @@ void TargetSelector::resizeEvent(QResizeEvent* e) {
 }
 
 void TargetSelector::updateImage() {
-	imgLabel->setPixmap(QPixmap::fromImage(*(this->target->image)));
+	imgLabel->setPixmap(QPixmap::fromImage(*(this->initial->image)));
 	scaleImage(imgLabel->size());
 }
 

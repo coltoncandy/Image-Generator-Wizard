@@ -11,7 +11,7 @@ class TargetSelector : public QWidget {
 	Q_OBJECT
 
 public:
-	TargetSelector(const QString& title, ImageInfo* target, QWidget* parent = Q_NULLPTR);
+	TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~TargetSelector();
 	void updateImage();
 
@@ -25,6 +25,7 @@ private:
 
 	QLabel* imgLabel;
 	ImageInfo* target;
+	ImageInfo* initial;
 	QPoint origin;
 	QRubberBand* rubberBand;
 	QPushButton* resetButton;

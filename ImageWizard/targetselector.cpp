@@ -74,6 +74,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
 	*(target->image) = imageCrop.toImage(); //convert Pixmap to Qimage
 	*(target->path) = QDir::currentPath()+"/cropped.png"; //set path to current directory
+	// Should add error handling to when image isn't saved properly
 	target->image->save(*(target->path));
 	target->loaded = true;
 }

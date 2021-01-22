@@ -1,4 +1,5 @@
 #include "grabcut.h"
+#include "transforms.h"
 
 GCApplication gcapp; 
 
@@ -123,7 +124,7 @@ Mat GCApplication::getResult() const {
         image->copyTo(res, binMask);
     }
 
-    //res = makeTransparent(res); 
+    res = makeTransparent(res);             //Threshold black background to zero-out unwanted pixels 
 
     return res; 
 }

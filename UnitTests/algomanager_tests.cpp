@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "../AlgoManager/algomanager.h"
 
-TEST(GrabCutTests, TestThatIfAnInvalidPathIsGivenToGrabCutAnErrorMessageIsDisplayed) {
+TEST(AlgoManagerTests, TestThatIfAnInvalidPathIsGivenToGrabCutAnErrorMessageIsDisplayed) {
 	AlgoManager::AlgoManager testManager;
 	testing::internal::CaptureStdout();
 	testManager.grabCut("C:/Non/Existant/Path");

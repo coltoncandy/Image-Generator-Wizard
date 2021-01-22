@@ -1,8 +1,5 @@
 #include "algomanager.h"
 #include "grabcut.h"
-#include <iostream>
-
-using namespace std;
 
 namespace AlgoManager {
     void AlgoManager::grabCutWrapper(const std::string& path) {

@@ -23,6 +23,7 @@ public slots:
 	void dragEnterEvent(QDragEnterEvent* event);
 	void dropEvent(QDropEvent* event);
 	void resizeEvent(QResizeEvent* e);
+	void paintEvent(QPaintEvent* e);
 
 private:
 	Ui::FileChooserClass ui;

@@ -7,6 +7,8 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QMessageBox>
+#include <QPainter>
+#include <QStaticText>
 
 FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
@@ -68,7 +70,7 @@ void FileChooser::dropEvent(QDropEvent* event) {
 	bool validFileType = false;
 
 	for(std::string fileType : acceptedFileTypes) {
-		if(url.toUtf8().endsWith(fileType))
+		if(url.toUtf8().toLower().endsWith(fileType))
 			validFileType = true;
 	}
 
@@ -104,4 +106,23 @@ void FileChooser::scaleImage(const QSize& size) {
 void FileChooser::resizeEvent(QResizeEvent* e) {
 	QWidget::resizeEvent(e);
 	scaleImage(imgLabel->size());
+}
+
+void FileChooser::paintEvent(QPaintEvent* e) {
+	if(selectedImage->loaded)
+		return; 
+
+	QPainter painter(this);
+	QPen pen(Qt::DashLine);
+	QTextOption options;
+	options.setAlignment(Qt::AlignCenter);
+
+	pen.setWidth(3);
+	pen.setBrush(Qt::gray);
+	painter.setPen(pen);
+	int offset = 50;
+	int radius = 15;
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
+	painter.drawText(QRectF((width() - 150) / 2, height() / 2, 150, 50), "Drag a .png file", options);
 }

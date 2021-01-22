@@ -112,6 +112,11 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	if(selectedImage->loaded)
 		return; 
 
+	int offset = 75; // how many pixels the rectangle is from the edges
+	int radius = 15; // how many pixels the rectangle's corners are curved
+	int textWidth = 150;
+	int textHeight = 50;
+
 	QPainter painter(this);
 	QPen pen(Qt::DashLine);
 	QTextOption options;
@@ -120,9 +125,9 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	pen.setWidth(3);
 	pen.setBrush(Qt::gray);
 	painter.setPen(pen);
-	int offset = 50;
-	int radius = 15;
+	painter.setFont(QFont("Calibri", 14));
+
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
-	painter.drawText(QRectF((width() - 150) / 2, height() / 2, 150, 50), "Drag a .png file", options);
+	painter.drawText(QRectF((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight), "Drag a .png file", options);
 }

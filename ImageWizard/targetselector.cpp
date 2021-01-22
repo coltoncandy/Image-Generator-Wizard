@@ -6,7 +6,7 @@
 
 TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
-	
+
 	resetButton = findChild<QPushButton*>("reset");
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	QLabel* titleLabel = findChild<QLabel*>("title");
@@ -46,24 +46,21 @@ void TargetSelector::updateImage() {
 
 
 // Initial selection box click 
-void TargetSelector::mousePressEvent(QMouseEvent* e)
-{
+void TargetSelector::mousePressEvent(QMouseEvent* e) {
 	origin = e->pos(); //origin of first click is set to position 
-	if (!rubberBand)
+	if(!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	rubberBand->setGeometry(QRect(origin, QSize()));
 	rubberBand->show();
 }
 
 // Allows selection box to follow users movement
-void TargetSelector::mouseMoveEvent(QMouseEvent* e)
-{
+void TargetSelector::mouseMoveEvent(QMouseEvent* e) {
 	rubberBand->setGeometry(QRect(origin, e->pos()).normalized());
 }
 
 // User releases mouse. Image is then cropped then shown
-void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
-{
+void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	rubberBand->hide();
 	QRect rect; //selection rectangle
 	rect.setTopLeft(origin); //top of rectangle is set to first click
@@ -73,15 +70,14 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event)
 	imageCrop = grab(rubberBand->geometry()); //copy the selected part
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
 	*(target->image) = imageCrop.toImage(); //convert Pixmap to Qimage
-	*(target->path) = QDir::currentPath()+"/cropped.png"; //set path to current directory
+	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
 	// Should add error handling to when image isn't saved properly
 	target->image->save(*(target->path));
 	target->loaded = true;
 }
 
 // User presses reset button to set page to original configuration
-void TargetSelector::reset()
-{
+void TargetSelector::reset() {
 	target->loaded = false;
 	updateImage();
 }

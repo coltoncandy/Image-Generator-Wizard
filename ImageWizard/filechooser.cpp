@@ -124,10 +124,15 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 
 	pen.setWidth(3);
 	pen.setBrush(Qt::gray);
+	pen.setCapStyle(Qt::RoundCap);
 	painter.setPen(pen);
 	painter.setFont(QFont("Calibri", 14));
 
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
-	painter.drawText(QRectF((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight), "Drag a .png file", options);
+	painter.drawText(
+		QRectF((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),
+		"Drag a .png file",
+		options
+	);
 }

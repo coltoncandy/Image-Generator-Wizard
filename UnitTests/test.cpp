@@ -1,14 +1,10 @@
 #include "gtest/gtest.h"
 #include "../AlgoManager/algomanager.h"
 
-//This is just an example test. It should be deleted once actual tests are added
-TEST(TestSuiteName, TestName) {
-  AlgoManager::AlgoManager test;
-  //test.testFunction();
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
-}
-TEST(TestSuiteName, SecondTest) {
-	EXPECT_EQ(2, 2);
-	EXPECT_TRUE(true);
+TEST(GrabCutTests, TestThatIfAnInvalidPathIsGivenToGrabCutAnErrorMessageIsDisplayed) {
+	AlgoManager::AlgoManager testManager;
+	testing::internal::CaptureStdout();
+	testManager.grabCut("C:/Non/Existant/Path");
+	std::string stdOutput = testing::internal::GetCapturedStdout();
+	EXPECT_EQ("\n Could not read file path\n" , stdOutput);
 }

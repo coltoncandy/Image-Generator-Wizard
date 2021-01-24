@@ -1,6 +1,6 @@
 #include "imagewizard.h"
 #include "filechooser.h"
-#include "../AlgoManager/algomanager.h"
+#include "../AlgoManager/algomanager.h" 
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -14,7 +14,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
-	targetSelector = new TargetSelector(target);
+	targetSelector = new TargetSelector("Select Target", initial, target);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -45,12 +45,12 @@ void ImageWizard::goNext() {
 		if(!initial->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::grabCut(initial->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		if(!target->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::grabCut(target->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		if(!background->loaded) {

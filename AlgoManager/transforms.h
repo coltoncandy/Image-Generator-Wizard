@@ -3,4 +3,4 @@ using namespace cv;
 
 //Overlay foreground on background image at given coordinate 
 Mat overlay(Mat background, Mat foreground, Point location);
-
+Mat blurEdges(Mat initialImage, int gridSize);

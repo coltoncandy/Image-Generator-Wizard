@@ -50,7 +50,8 @@ void ImageWizard::goNext() {
 		if(!target->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::grabCutWrapper(initial->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		if(!background->loaded) {

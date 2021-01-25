@@ -50,12 +50,14 @@ void ImageWizard::goNext() {
 		if(!target->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::grabCut(target->path->toStdString());		//Send image containing target to grabCut
+		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		if(!background->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
@@ -65,7 +67,7 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
-		if(cur == frames->count() - 1) {
+		if(cur == frames->count()) {
 			btnNext->hide();
 		}
 		if(frames->currentWidget() == targetSelector) {

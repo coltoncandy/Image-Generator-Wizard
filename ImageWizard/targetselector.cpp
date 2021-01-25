@@ -149,8 +149,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	
 	imageCrop = grab(rubberBand->geometry()); //copy the selected part
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
-	//*(target->image) = initial->image->copy(0, 0, 577, 577);
-	//*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); //convert Pixmap to Qimage
+	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); //convert Pixmap to Qimage
 	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
 	// Should add error handling to when image isn't saved properly
 	target->image->save(*(target->path));

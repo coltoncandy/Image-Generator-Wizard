@@ -41,3 +41,5 @@ class GCApplication {
         vector<Point> fgdPxls, bgdPxls, prFgdPxls, prBgdPxls;
         int iterCount;
 };
+
+Mat grabCut(const std::string& path);

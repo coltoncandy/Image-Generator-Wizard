@@ -170,5 +170,5 @@ packages/
 
 # All Pngs not in the Image Gallery
 *.png
-!Image-Gallery/*/*.png
-!Image-Gallery/*/*/*.png
+!ImageGallery/*/*.png
+!ImageGallery/*/*/*.png

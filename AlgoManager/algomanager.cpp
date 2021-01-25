@@ -11,11 +11,11 @@ namespace AlgoManager {
         return;
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
-        Mat res2 = imread(fg, IMREAD_UNCHANGED);          
+        Mat foreground = imread(fg, IMREAD_UNCHANGED);          
         Mat background = imread(bg, IMREAD_COLOR);
-        Mat res3 = overlay(background, res2, Point(0, 0));
+        Mat blended = overlay(background, foreground, Point(0, 0));
 
-        imshow("res3", res3);
+        imshow("blended", blended);
         waitKey(0);
 
         return; 

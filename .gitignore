@@ -163,3 +163,9 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 /opencv
+
+# Package files created from GoogleTest. These files should be 
+# created upon the first run of the tests through the packages.config file.
+packages/
+
+*.png

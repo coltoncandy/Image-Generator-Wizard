@@ -32,6 +32,7 @@ private:
 	QLabel* imgLabel;
 	ImageInfo* selectedImage;
 	std::vector<std::string> acceptedFileTypes;
+	QFont font;
 
 	void setupView();
 	void loadImage(QString& path);

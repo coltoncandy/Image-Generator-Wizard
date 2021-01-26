@@ -7,7 +7,7 @@ WelcomePage::WelcomePage(const QString& title, QWidget* parent)
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	QTextEdit* welcomeMessage = findChild<QTextEdit*>("welcomeMessage");
 	titleLabel->setText(title);
-	welcomeMessage->setHtml("<p>This program will help you create unique images containing a selected target object. These images are free to use under the GNU General Public License v3. Press the \"->\" button to begin creating your images.<\\p>");
+	welcomeMessage->setHtml("<p>This program will help you generate unique images containing a selected target object. These images are free to use under the GNU General Public License v3. Press the \"->\" button to begin generating your images.<\\p>");
 }
 
 WelcomePage::~WelcomePage()

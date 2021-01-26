@@ -163,4 +163,9 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 /opencv
-/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.3
+
+# Package files created from GoogleTest. These files should be 
+# created upon the first run of the tests through the packages.config file.
+packages/
+
+*.png

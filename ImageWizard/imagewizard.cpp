@@ -1,6 +1,6 @@
 #include "imagewizard.h"
 #include "filechooser.h"
-#include "../AlgoManager/algomanager.h"
+#include "../AlgoManager/algomanager.h" 
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -14,7 +14,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
-	targetSelector = new TargetSelector(target);
+	targetSelector = new TargetSelector("Select Target", initial, target);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -45,17 +45,19 @@ void ImageWizard::goNext() {
 		if(!initial->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::grabCut(initial->path->toStdString());		//Send image containing target to grabCut
 	}
 	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		if(!target->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		if(!background->loaded) {
 			return;
 		}
+		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
@@ -65,7 +67,7 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
-		if(cur == frames->count() - 1) {
+		if(cur == frames->count()) {
 			btnNext->hide();
 		}
 		if(frames->currentWidget() == targetSelector) {

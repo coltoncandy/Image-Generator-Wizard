@@ -23,6 +23,7 @@ public slots:
 	void dragEnterEvent(QDragEnterEvent* event);
 	void dropEvent(QDropEvent* event);
 	void resizeEvent(QResizeEvent* e);
+	void paintEvent(QPaintEvent* e);
 
 private:
 	Ui::FileChooserClass ui;
@@ -31,6 +32,7 @@ private:
 	QLabel* imgLabel;
 	ImageInfo* selectedImage;
 	std::vector<std::string> acceptedFileTypes;
+	QFont font;
 
 	void setupView();
 	void loadImage(QString& path);

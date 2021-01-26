@@ -8,6 +8,8 @@
 #include <QDropEvent>
 #include <QMessageBox>
 
+#include "imagewizard.h"
+
 FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
@@ -91,6 +93,9 @@ void FileChooser::loadImage(QString& path) {
 	selectedImage->loaded = true;
 
 	scaleImage(imgLabel->size());
+
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->enableNext();
 }
 
 void FileChooser::scaleImage(const QSize& size) {

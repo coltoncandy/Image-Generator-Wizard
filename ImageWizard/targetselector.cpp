@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDir>
 
+#include "imagewizard.h"
+
 TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
 
@@ -74,6 +76,9 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	// Should add error handling to when image isn't saved properly
 	target->image->save(*(target->path));
 	target->loaded = true;
+
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->enableNext();
 }
 
 // User presses reset button to set page to original configuration

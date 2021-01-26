@@ -15,6 +15,9 @@ public:
 	ImageWizard(QWidget* parent = Q_NULLPTR);
 	~ImageWizard();
 
+	void enableNext();
+	void disableNext();
+
 public slots:
 	void goNext();
 	void goPrev();
@@ -31,4 +34,6 @@ private:
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
+
+	bool* ready;
 };

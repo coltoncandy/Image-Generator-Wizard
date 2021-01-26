@@ -83,6 +83,8 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset() {
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->disableNext();
 	target->loaded = false;
 	updateImage();
 }

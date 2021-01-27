@@ -1,6 +1,15 @@
 # Authors
  Andrew Nelson, Colton Russell, Taylor Atkins, TJ Nuccio, Topher Maxwell, Tula Holt, & Yichao Sun
 
+ # Before Cloning
+
+ ## Install Git LFS
+ 
+ This project uses a git extension called Git LFS to store a gallery of default images used by the program. To clone the image gallery with the project, this git extenstion must be installed on your computer.
+
+ Git LFS can be installed [here](https://git-lfs.github.com/).
+
+
 # Project Setup for Visual Studios
 
 ## QT

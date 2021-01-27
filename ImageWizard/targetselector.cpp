@@ -85,7 +85,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int xMax = 0;
 	int yMax = 0;
 
-	if(initialImageHeight / initialImageWidth > (307 / 619)) { 
+	if((double)initialImageHeight / (double)initialImageWidth > ((double)307 / (double)619)) {
 		scaledImageHeight = widgetHeight - 72;
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 
@@ -194,7 +194,7 @@ void TargetSelector::removeBorder() {
 	int scaledImageHeight = 0;
 	int scaledImageWidth = 0;
 
-	if(initialImageHeight / initialImageWidth > (307 / 619)) { // width x
+	if((double)initialImageHeight / (double)initialImageWidth > (double)307 / (double)619) { // width x
 		scaledImageHeight = widgetHeight - 72;
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 

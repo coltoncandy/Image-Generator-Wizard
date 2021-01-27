@@ -18,6 +18,9 @@ public:
 	void enableNext();
 	void disableNext();
 
+	void enablePrev();
+	void disablePrev();
+
 public slots:
 	void goNext();
 	void goPrev();

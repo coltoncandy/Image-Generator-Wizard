@@ -53,6 +53,14 @@ void ImageWizard::disableNext() {
 	ready[frames->currentIndex()] = false;
 }
 
+void ImageWizard::enablePrev() {
+	btnPrev->setEnabled(true);
+}
+
+void ImageWizard::disablePrev() {
+	btnPrev->setEnabled(false);
+}
+
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();

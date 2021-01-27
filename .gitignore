@@ -168,4 +168,7 @@ UpgradeLog*.htm
 # created upon the first run of the tests through the packages.config file.
 packages/
 
+# All Pngs not in the Image Gallery
 *.png
+!ImageGallery/*/*.png
+!ImageGallery/*/*/*.png

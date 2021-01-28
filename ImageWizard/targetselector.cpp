@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <QMainWindow>
 #include <QDir>
+#include <QMessageBox>
 
 TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
@@ -151,8 +152,14 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
 	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); //convert Pixmap to Qimage
 	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
-	// Should add error handling to when image isn't saved properly
-	target->image->save(*(target->path), "PNG", 100); //increased quality to 100
+	// pop up window error if save isn't successful. resets widget
+	if(!target->image->save(*(target->path), "PNG", 100)) //increased quality to 100
+	{
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Save failed, select target again");
+		reset();
+		return;
+	}
 	target->loaded = true;
 }
 

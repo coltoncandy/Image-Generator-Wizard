@@ -48,6 +48,18 @@ void TargetSelector::updateImage() {
 
 // Initial selection box click 
 void TargetSelector::mousePressEvent(QMouseEvent* e) {
+	// create a try and catch. if the target->loaded true then dont let the press occur
+	try {
+		if(target->loaded)
+			throw "Image already cropped. Press retry button to try again";
+		// if user clicks in area that is not in the point where photo exists
+		// throw value "Must crop only the photo"
+
+	}
+	catch(const char * warn) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", warn);
+	}
 	origin = e->pos(); //origin of first click is set to position 
 	if(!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
@@ -75,8 +87,10 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
-	int initialImageHeight = target->image->height();
-	int initialImageWidth = target->image->width();
+	//int initialImageHeight = target->image->height();
+	//int initialImageWidth = target->image->width();
+	int initialImageHeight = initial->image->height();
+	int initialImageWidth = initial->image->width();
 
 	int scaledImageHeight = 0;
 	int scaledImageWidth = 0;
@@ -86,7 +100,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int xMax = 0;
 	int yMax = 0;
 
-	if((double)initialImageHeight / (double)initialImageWidth > ((double)307 / (double)619)) {
+	if((double) initialImageHeight / (double) initialImageWidth > ((double) 307 / (double) 619)) {
 		scaledImageHeight = widgetHeight - 72;
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 
@@ -140,17 +154,20 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	target->image = initial->image->copy(newX, newY, newWidth, newHeight);
 	target->image = target->image->copy(newX, newY, newWidth, newHeight;*/
 
-	QRect rect; //selection rectangle
-	rect.setTopLeft(origin); //top of rectangle is set to first click
-	rect.setBottomRight(event->pos()); //bottom of rectangle is set to where the user chose to release mouse
-	QPixmap imageCrop(rect.size());
+	//QRect rect; //selection rectangle
+	//rect.setTopLeft(origin); //top of rectangle is set to first click
+	//rect.setBottomRight(event->pos()); //bottom of rectangle is set to where the user chose to release mouse
+	//QPixmap imageCrop(rect.size());
 
-	rubberBand->setGeometry(QRect(origin, QSize()));
-	rubberBand->setGeometry(QRect(origin, terminal).normalized());
-	
-	imageCrop = grab(rubberBand->geometry()); //copy the selected part
+	//rubberBand->setGeometry(QRect(origin, QSize()));
+	//rubberBand->setGeometry(QRect(origin, terminal).normalized());
+
+	//imageCrop = grab(rubberBand->geometry()); //copy the selected part
+	//ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
+	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); // copying qimage to qimage
+	//ui.imgLabel-> do image and pixmap show
+	QPixmap imageCrop = QPixmap::fromImage(*(target->image));
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
-	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); //convert Pixmap to Qimage
 	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
 	// pop up window error if save isn't successful. resets widget
 	if(!target->image->save(*(target->path), "PNG", 100)) //increased quality to 100
@@ -164,18 +181,23 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void TargetSelector::removeBorder() {
+	// the border is always constant whatever resize the Qwidget: top 33, right 9, left 9, down 39
+	// origin is the coordinate where you press the mouse
+	// terminal is the coordinate where you release the mouse
+
+	// If user press mouse or release mouse on the border, origin and terminal coordinate will automatically place in the area of image slot
 	QSize size = this->size();
-	if(origin.rx() <= 9) {  //size.rwidth() 0.006
+	if(origin.rx() <= 9) {
 		origin.rx() = 9;
 	}
-	if(origin.ry() <= 33) {  //size.rheight() *  0.085
+	if(origin.ry() <= 33) {
 		origin.ry() = 33;
 	}
-	if(origin.rx() >= size.rwidth() - 9) { //size.rwidth() * 0.994
+	if(origin.rx() >= size.rwidth() - 9) {
 		origin.rx() = size.rwidth() - 9;
 	}
 
-	if(origin.ry() >= size.rheight() - 39) { //size.rheight() * 0.95
+	if(origin.ry() >= size.rheight() - 39) {
 		origin.ry() = size.rheight() - 39;
 	}
 	if(terminal.rx() <= 9) {
@@ -191,21 +213,24 @@ void TargetSelector::removeBorder() {
 		terminal.ry() = size.rheight() - 39;
 	}
 
-	
+
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
-	int initialImageHeight = target->image->height();
-	int initialImageWidth = target->image->width();
+	//int initialImageHeight = target->image->height();
+	//int initialImageWidth = target->image->width();
+	int initialImageHeight = initial->image->height();
+	int initialImageWidth = initial->image->width();
 
 	int scaledImageHeight = 0;
 	int scaledImageWidth = 0;
 
-	if((double)initialImageHeight / (double)initialImageWidth > (double)307 / (double)619) { // width x
+	if((double) initialImageHeight / (double) initialImageWidth > (double) 307 / (double) 619) { // the image slot on Qwidget is 619(width)  * 307(height)
+	// so if the ratio of the initial image is greater than 307/ 619, which mean
 		scaledImageHeight = widgetHeight - 72;
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 
-		if(origin.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) 			{
+		if(origin.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
 			origin.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
 		}
 
@@ -225,7 +250,7 @@ void TargetSelector::removeBorder() {
 		scaledImageWidth = widgetWidth - 18;
 		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
 
-		if(origin.ry() < ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2)  {
+		if(origin.ry() < ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2) {
 			origin.ry() = ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2;
 		}
 
@@ -240,14 +265,21 @@ void TargetSelector::removeBorder() {
 		if(origin.ry() > ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2) {
 			origin.ry() = ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2;
 		}
-	} 
+	}
 
 
 }
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset() {
-	target->loaded = false;
+	// delete qimage object and pathway for target. set pointer to null
+	try {
+		target->reset();
+	}
+	catch(...) { // catch everything
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Reset failed");
+	}
 	updateImage();
 }
 

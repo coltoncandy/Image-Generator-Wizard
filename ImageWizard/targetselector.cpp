@@ -61,6 +61,60 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 		messageBox.warning(0, "Error", warn);
 	}
 	origin = e->pos(); //origin of first click is set to position 
+	
+	QSize size = this->size();
+	if(origin.rx() <= ui.imgLabel->x()) {
+		origin.rx() = ui.imgLabel->x();
+	}
+	if(origin.ry() <= ui.imgLabel->y()) {
+		origin.ry() = ui.imgLabel->y();
+	}
+	if(origin.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
+		origin.rx() = ui.imgLabel->x() + ui.imgLabel->width();
+	}
+
+	if(origin.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
+		origin.ry() = ui.imgLabel->y() + ui.imgLabel->height();
+	}
+	
+	int widgetHeight = size.rheight();
+	int widgetWidth = size.rwidth();
+
+	//int initialImageHeight = target->image->height();
+	//int initialImageWidth = target->image->width();
+	int initialImageHeight = initial->image->height();
+	int initialImageWidth = initial->image->width();
+
+	int scaledImageHeight = 0;
+	int scaledImageWidth = 0;
+
+	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // the image slot on Qwidget is 619(width)  * 307(height)
+	// so if the ratio of the initial image is greater than 307/ 619, which mean
+		scaledImageHeight = ui.imgLabel->height();
+		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
+
+		if(origin.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
+			origin.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
+		}
+
+		if(origin.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
+			origin.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
+		}
+	}
+	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // height y
+		scaledImageWidth = ui.imgLabel->width();
+		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
+
+		if(origin.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
+			origin.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
+		}
+
+		if(origin.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
+			origin.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
+		}
+	}
+
+
 	if(!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	rubberBand->setGeometry(QRect(origin, QSize()));
@@ -70,14 +124,64 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 // Allows selection box to follow users movement
 void TargetSelector::mouseMoveEvent(QMouseEvent* e) {
 	terminal = e->pos();
+
+	QSize size = this->size();
+	if(terminal.rx() <= ui.imgLabel->x()) {
+		terminal.rx() = ui.imgLabel->x();
+	}
+	if(terminal.ry() <= ui.imgLabel->y()) {
+		terminal.ry() = ui.imgLabel->y();
+	}
+	if(terminal.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
+		terminal.rx() = ui.imgLabel->x() + ui.imgLabel->width();
+	}
+	if(terminal.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
+		terminal.ry() = ui.imgLabel->y() + ui.imgLabel->height();
+	}
+
+	int widgetHeight = size.rheight();
+	int widgetWidth = size.rwidth();
+
+	//int initialImageHeight = target->image->height();
+	//int initialImageWidth = target->image->width();
+	int initialImageHeight = initial->image->height();
+	int initialImageWidth = initial->image->width();
+
+	int scaledImageHeight = 0;
+	int scaledImageWidth = 0;
+
+	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // the image slot on Qwidget is 619(width)  * 307(height)
+	// so if the ratio of the initial image is greater than 307/ 619, which mean
+		scaledImageHeight = ui.imgLabel->height();
+		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
+
+		if(terminal.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
+			terminal.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
+		}
+
+		if(terminal.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
+			terminal.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
+		}
+	}
+	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // height y
+		scaledImageWidth = ui.imgLabel->width();
+		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
+
+		if(terminal.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
+			terminal.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
+		}
+
+		if(terminal.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
+			terminal.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
+		}
+	}
+
 	rubberBand->setGeometry(QRect(origin, terminal).normalized());
 }
 
 // User releases mouse. Image is then cropped then shown
 void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	rubberBand->hide();
-
-	removeBorder();
 
 	QSize size = this->size();
 
@@ -99,71 +203,71 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int yMin = 0;
 	int xMax = 0;
 	int yMax = 0;
-
-	if((double) initialImageHeight / (double) initialImageWidth > ((double) 307 / (double) 619)) {
-		scaledImageHeight = widgetHeight - 72;
+	
+	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) {
+		scaledImageHeight = ui.imgLabel->height();
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 
 		if(origin.ry() < terminal.ry()) {
-			yMin = origin.ry() - 33;
-			yMax = terminal.ry() - 33;
+			yMin = origin.ry() - ui.imgLabel->y();
+			yMax = terminal.ry() - ui.imgLabel->y();
 		}
 		else {
-			yMin = terminal.ry() - 33;
-			yMax = origin.ry() - 33;
+			yMin = terminal.ry() - ui.imgLabel->y();
+			yMax = origin.ry() - ui.imgLabel->y();
 		}
 
 		if(origin.rx() < terminal.rx()) {
-			xMin = origin.rx() - 9 - (widgetWidth / 2 - scaledImageWidth / 2 - 9);
-			xMax = terminal.rx() - 9 - (widgetWidth / 2 - scaledImageWidth / 2 - 9);
+			xMin = origin.rx() - ui.imgLabel->x() - (widgetWidth / 2 - scaledImageWidth / 2 - ui.imgLabel->x());
+			xMax = terminal.rx() - ui.imgLabel->x() - (widgetWidth / 2 - scaledImageWidth / 2 - ui.imgLabel->x());
 		}
 		else {
-			xMin = terminal.rx() - 9 - (widgetWidth / 2 - scaledImageWidth / 2 - 9);
-			xMax = origin.rx() - 9 - (widgetWidth / 2 - scaledImageWidth / 2 - 9);
+			xMin = terminal.rx() - ui.imgLabel->x() - (widgetWidth / 2 - scaledImageWidth / 2 - ui.imgLabel->x());
+			xMax = origin.rx() - ui.imgLabel->x() - (widgetWidth / 2 - scaledImageWidth / 2 - ui.imgLabel->x());
 		}
 	}
-	else if((double) initialImageHeight / (double) initialImageWidth < (double) 307 / (double) 619) {
-		scaledImageWidth = widgetWidth - 18;
+	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) {
+		scaledImageWidth = ui.imgLabel->width();
 		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
 
 		if(origin.rx() < terminal.rx()) {
-			xMin = origin.rx() - 9;
-			xMax = terminal.rx() - 9;
+			xMin = origin.rx() - ui.imgLabel->x();
+			xMax = terminal.rx() - ui.imgLabel->x();
 		}
 		else {
-			xMin = terminal.rx() - 9;
-			xMax = origin.rx() - 9;
+			xMin = terminal.rx() - ui.imgLabel->x();
+			xMax = origin.rx() - ui.imgLabel->x();
 		}
 
 		if(origin.ry() < terminal.ry()) {
-			yMin = origin.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
-			yMax = terminal.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
+			yMin = origin.ry() - ui.imgLabel->y() - ((ui.imgLabel->height() / 2) - (scaledImageHeight / 2));
+			yMax = terminal.ry() - ui.imgLabel->y() - ((ui.imgLabel->height() / 2) - (scaledImageHeight / 2));
 		}
 		else {
-			yMin = terminal.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
-			yMax = origin.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
+			yMin = terminal.ry() - ui.imgLabel->y() - ((ui.imgLabel->height() / 2) - (scaledImageHeight / 2));
+			yMax = origin.ry() - ui.imgLabel->y() - ((ui.imgLabel->height() / 2) - (scaledImageHeight / 2));
 		}
 	}
 	else {
-		scaledImageWidth = widgetWidth - 18;
-		scaledImageHeight = widgetHeight - 72;
+		scaledImageWidth = ui.imgLabel->width();
+		scaledImageHeight = ui.imgLabel->height();
 
 		if(origin.rx() < terminal.rx()) {
-			xMin = origin.rx() - 9;
-			xMax = terminal.rx() - 9;
+			xMin = origin.rx() - ui.imgLabel->x();
+			xMax = terminal.rx() - ui.imgLabel->x();
 		}
 		else {
-			xMin = terminal.rx() - 9;
-			xMax = origin.rx() - 9;
+			xMin = terminal.rx() - ui.imgLabel->x();
+			xMax = origin.rx() - ui.imgLabel->x();
 		}
 
 		if(origin.ry() < terminal.ry()) {
-			yMin = origin.ry() - 33;
-			yMax = terminal.ry() - 33;
+			yMin = origin.ry() - ui.imgLabel->y();
+			yMax = terminal.ry() - ui.imgLabel->y();
 		}
 		else {
-			yMin = terminal.ry() - 33;
-			yMax = origin.ry() - 33;
+			yMin = terminal.ry() - ui.imgLabel->y();
+			yMax = origin.ry() - ui.imgLabel->y();
 		}
 	}
 
@@ -200,96 +304,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		return;
 	}
 	target->loaded = true;
-}
-
-void TargetSelector::removeBorder() {
-	// the border is always constant whatever resize the Qwidget: top 33, right 9, left 9, down 39
-	// origin is the coordinate where you press the mouse
-	// terminal is the coordinate where you release the mouse
-
-	// If user press mouse or release mouse on the border, origin and terminal coordinate will automatically place in the area of image slot
-	QSize size = this->size();
-	if(origin.rx() <= 9) {
-		origin.rx() = 9;
-	}
-	if(origin.ry() <= 33) {
-		origin.ry() = 33;
-	}
-	if(origin.rx() >= size.rwidth() - 9) {
-		origin.rx() = size.rwidth() - 9;
-	}
-
-	if(origin.ry() >= size.rheight() - 39) {
-		origin.ry() = size.rheight() - 39;
-	}
-	if(terminal.rx() <= 9) {
-		terminal.rx() = 9;
-	}
-	if(terminal.ry() <= 33) {
-		terminal.ry() = 33;
-	}
-	if(terminal.rx() >= size.rwidth() - 9) {
-		terminal.rx() = size.rwidth() - 9;
-	}
-	if(terminal.ry() >= size.rheight() - 39) {
-		terminal.ry() = size.rheight() - 39;
-	}
-
-
-	int widgetHeight = size.rheight();
-	int widgetWidth = size.rwidth();
-
-	//int initialImageHeight = target->image->height();
-	//int initialImageWidth = target->image->width();
-	int initialImageHeight = initial->image->height();
-	int initialImageWidth = initial->image->width();
-
-	int scaledImageHeight = 0;
-	int scaledImageWidth = 0;
-
-	if((double) initialImageHeight / (double) initialImageWidth > (double) 307 / (double) 619) { // the image slot on Qwidget is 619(width)  * 307(height)
-	// so if the ratio of the initial image is greater than 307/ 619, which mean
-		scaledImageHeight = widgetHeight - 72;
-		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
-
-		if(origin.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
-			origin.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
-		}
-
-		if(terminal.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
-			terminal.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
-		}
-
-		if(terminal.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
-			terminal.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
-		}
-
-		if(origin.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
-			origin.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
-		}
-	}
-	else if ((double) initialImageHeight / (double) initialImageWidth < (double) 307 / (double) 619) { // height y
-		scaledImageWidth = widgetWidth - 18;
-		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
-
-		if(origin.ry() < ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2) {
-			origin.ry() = ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2;
-		}
-
-		if(terminal.ry() < ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2) {
-			terminal.ry() = ((size.rheight() - 72) / 2 + 33) - scaledImageHeight / 2;
-		}
-
-		if(terminal.ry() > ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2) {
-			terminal.ry() = ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2;
-		}
-
-		if(origin.ry() > ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2) {
-			origin.ry() = ((size.rheight() - 72) / 2 + 33) + scaledImageHeight / 2;
-		}
-	}
-
-
 }
 
 // User presses reset button to set page to original configuration

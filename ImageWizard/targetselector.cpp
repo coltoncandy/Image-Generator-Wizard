@@ -122,7 +122,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 			xMax = origin.rx() - 9 - (widgetWidth / 2 - scaledImageWidth / 2 - 9);
 		}
 	}
-	else {
+	else if((double) initialImageHeight / (double) initialImageWidth < (double) 307 / (double) 619) {
 		scaledImageWidth = widgetWidth - 18;
 		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
 
@@ -142,6 +142,28 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		else {
 			yMin = terminal.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
 			yMax = origin.ry() - 33 - (((widgetHeight - 72) / 2) - (scaledImageHeight / 2));
+		}
+	}
+	else {
+		scaledImageWidth = widgetWidth - 18;
+		scaledImageHeight = widgetHeight - 72;
+
+		if(origin.rx() < terminal.rx()) {
+			xMin = origin.rx() - 9;
+			xMax = terminal.rx() - 9;
+		}
+		else {
+			xMin = terminal.rx() - 9;
+			xMax = origin.rx() - 9;
+		}
+
+		if(origin.ry() < terminal.ry()) {
+			yMin = origin.ry() - 33;
+			yMax = terminal.ry() - 33;
+		}
+		else {
+			yMin = terminal.ry() - 33;
+			yMax = origin.ry() - 33;
 		}
 	}
 
@@ -246,7 +268,7 @@ void TargetSelector::removeBorder() {
 			origin.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
 		}
 	}
-	else { // height y
+	else if ((double) initialImageHeight / (double) initialImageWidth < (double) 307 / (double) 619) { // height y
 		scaledImageWidth = widgetWidth - 18;
 		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
 

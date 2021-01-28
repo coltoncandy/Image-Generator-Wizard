@@ -192,6 +192,17 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
 	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
 	// pop up window error if save isn't successful. resets widget
+	try {
+		if(!target->image->save(*(target->path), "PNG", 100))
+			throw "Save failed, select target again";
+	}
+	catch(const char* warn) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", warn);
+		reset();
+		return;
+	}
+	/*
 	if(!target->image->save(*(target->path), "PNG", 100)) //increased quality to 100
 	{
 		QMessageBox messageBox;
@@ -199,6 +210,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		reset();
 		return;
 	}
+	*/
 	target->loaded = true;
 }
 

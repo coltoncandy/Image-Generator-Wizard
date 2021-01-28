@@ -14,6 +14,9 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 	titleLabel->setText(title);
 	imgLabel = findChild<QLabel*>("imgLabel");
 
+	terminal.setX(-1);
+	terminal.setY(-1);
+
 	this->target = target;
 	this->initial = initial;
 }
@@ -184,15 +187,35 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	rubberBand->hide();
 
 	QSize size = this->size();
+	
+	int x1 = origin.rx();
+	int x2 = terminal.rx();
+	int y1 = origin.ry();
+	int y2 = terminal.ry();
 
-	//int height = target->image->height();
-	//int width = target->image->width();
+	try {
+		if(terminal.rx() == -1 || terminal.ry() == -1) {
+			throw 0;
+		}
+		if(abs(origin.rx() - terminal.rx()) <= 10 || abs(origin.ry() - terminal.ry()) <= 10) {
+			throw "Select a larger area";
+		}
+	}
+	catch(int n) {
+		reset();
+		return;
+	}
+	catch(const char* warn) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", warn);
+		reset();
+		return;
+	}
+	
 
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
-	//int initialImageHeight = target->image->height();
-	//int initialImageWidth = target->image->width();
 	int initialImageHeight = initial->image->height();
 	int initialImageWidth = initial->image->width();
 
@@ -328,6 +351,8 @@ void TargetSelector::reset() {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Reset failed");
 	}
+	terminal.setX(-1);
+	terminal.setY(-1);
 	updateImage();
 }
 

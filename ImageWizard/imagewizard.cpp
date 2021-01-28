@@ -82,6 +82,9 @@ void ImageWizard::goPrev() {
 
 	int cur = frames->currentIndex();
 	if(cur > 0) {
+		if(frames->currentWidget() == targetSelector) {
+			targetSelector->reset();
+		}
 		frames->setCurrentIndex(--cur);
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {

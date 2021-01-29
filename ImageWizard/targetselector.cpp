@@ -31,12 +31,6 @@ void TargetSelector::scaleImage(const QSize& size) {
 
 void TargetSelector::resizeEvent(QResizeEvent* e) {
 	QWidget::resizeEvent(e);
-
-	/*
-	if(!target->loaded)
-		return;
-	*/
-
 	scaleImage(imgLabel->size());
 }
 
@@ -45,9 +39,6 @@ void TargetSelector::updateImage() {
 	scaleImage(imgLabel->size());
 }
 
-//open up png file as png in C++
-//create mouse events to get coordinates... and give in ratio of total size to png editor in C++
-
 
 // Initial selection box click 
 void TargetSelector::mousePressEvent(QMouseEvent* e) {
@@ -55,9 +46,6 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 	try {
 		if(target->loaded)
 			throw "Image already cropped. Press retry button to try again";
-		// if user clicks in area that is not in the point where photo exists
-		// throw value "Must crop only the photo"
-
 	}
 	catch(const char * warn) {
 		QMessageBox messageBox;
@@ -83,8 +71,6 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
-	//int initialImageHeight = target->image->height();
-	//int initialImageWidth = target->image->width();
 	int initialImageHeight = initial->image->height();
 	int initialImageWidth = initial->image->width();
 
@@ -145,8 +131,6 @@ void TargetSelector::mouseMoveEvent(QMouseEvent* e) {
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
-	//int initialImageHeight = target->image->height();
-	//int initialImageWidth = target->image->width();
 	int initialImageHeight = initial->image->height();
 	int initialImageWidth = initial->image->width();
 
@@ -194,12 +178,19 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int y2 = terminal.ry();
 
 	try {
+		// user just clicks the image
 		if(terminal.rx() == -1 || terminal.ry() == -1) {
 			throw 0;
 		}
-		if(abs(origin.rx() - terminal.rx()) <= 10 || abs(origin.ry() - terminal.ry()) <= 10) {
-			throw "Select a larger area";
+		// handles user selecting a rectangle not on the image
+		if(  (abs(origin.rx() - terminal.rx()) == 0) ||  (abs(origin.ry() - terminal.ry()) == 0) ) {
+			throw "Must select a rectangle on the image";
 		}
+		// user chooses too small of square
+		if(abs(origin.rx() - terminal.rx()) <= 10 || abs(origin.ry() - terminal.ry()) <= 10) {
+			throw "Select a larger area on the image ";
+		}
+
 	}
 	catch(int n) {
 		reset();
@@ -298,25 +289,27 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int newY = initialImageHeight * yMin / scaledImageHeight;
 	int newHeight = initialImageHeight * yMax / scaledImageHeight - newY;
 	int newWidth = initialImageWidth * xMax / scaledImageWidth - newX;
-	/*
-	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight);
-	target->image = initial->image->copy(newX, newY, newWidth, newHeight);
-	target->image = target->image->copy(newX, newY, newWidth, newHeight;*/
-
-	//QRect rect; //selection rectangle
-	//rect.setTopLeft(origin); //top of rectangle is set to first click
-	//rect.setBottomRight(event->pos()); //bottom of rectangle is set to where the user chose to release mouse
-	//QPixmap imageCrop(rect.size());
-
-	//rubberBand->setGeometry(QRect(origin, QSize()));
-	//rubberBand->setGeometry(QRect(origin, terminal).normalized());
-
-	//imageCrop = grab(rubberBand->geometry()); //copy the selected part
-	//ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
-	*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); // copying qimage to qimage
-	//ui.imgLabel-> do image and pixmap show
-	QPixmap imageCrop = QPixmap::fromImage(*(target->image));
-	ui.imgLabel->setPixmap(imageCrop); //show "image" in the second QLabel
+	
+	try {
+		*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); // copying qimage to qimage
+	}
+	catch(...) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Something went wrong with copy");
+		reset();
+		return;
+	}
+	try {
+		QPixmap imageCrop = QPixmap::fromImage(*(target->image));
+		QSize siz = imgLabel->size();
+		imgLabel->setPixmap(imageCrop.scaled(siz.width(), siz.height(), Qt::KeepAspectRatio)); //show "image" in the second QLabel
+	}
+	catch(...) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Something went wrong with display");
+		reset();
+		return;
+	}
 	*(target->path) = QDir::currentPath() + "/cropped.png"; //set path to current directory
 	// pop up window error if save isn't successful. resets widget
 	try {
@@ -329,15 +322,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		reset();
 		return;
 	}
-	/*
-	if(!target->image->save(*(target->path), "PNG", 100)) //increased quality to 100
-	{
-		QMessageBox messageBox;
-		messageBox.warning(0, "Error", "Save failed, select target again");
-		reset();
-		return;
-	}
-	*/
+	
 	target->loaded = true;
 }
 

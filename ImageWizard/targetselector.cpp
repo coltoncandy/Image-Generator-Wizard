@@ -61,12 +61,12 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 		if(target->loaded)
 			throw "Image already cropped. Press retry button to try again";
 	}
-	catch(const char * warn) {
+	catch(const char* warn) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", warn);
 	}
 	origin = e->pos(); //origin of first click is set to position 
-	
+
 	QSize size = this->size();
 	if(origin.rx() <= ui.imgLabel->x()) {
 		origin.rx() = ui.imgLabel->x();
@@ -81,7 +81,7 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 	if(origin.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
 		origin.ry() = ui.imgLabel->y() + ui.imgLabel->height();
 	}
-	
+
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
 
@@ -185,7 +185,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	rubberBand->hide();
 
 	QSize size = this->size();
-	
+
 	int x1 = origin.rx();
 	int x2 = terminal.rx();
 	int y1 = origin.ry();
@@ -197,7 +197,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 			throw 0;
 		}
 		// handles user selecting a rectangle not on the image
-		if(  (abs(origin.rx() - terminal.rx()) == 0) ||  (abs(origin.ry() - terminal.ry()) == 0) ) {
+		if((abs(origin.rx() - terminal.rx()) == 0) || (abs(origin.ry() - terminal.ry()) == 0)) {
 			throw "Must select a rectangle on the image";
 		}
 		// user chooses too small of square
@@ -216,7 +216,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		reset();
 		return;
 	}
-	
+
 
 	int widgetHeight = size.rheight();
 	int widgetWidth = size.rwidth();
@@ -231,7 +231,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int yMin = 0;
 	int xMax = 0;
 	int yMax = 0;
-	
+
 	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) {
 		scaledImageHeight = ui.imgLabel->height();
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
@@ -303,7 +303,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int newY = initialImageHeight * yMin / scaledImageHeight;
 	int newHeight = initialImageHeight * yMax / scaledImageHeight - newY;
 	int newWidth = initialImageWidth * xMax / scaledImageWidth - newX;
-	
+
 	try {
 		*(target->image) = initial->image->copy(newX, newY, newWidth, newHeight); // copying qimage to qimage
 	}
@@ -336,7 +336,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		reset();
 		return;
 	}
-	
+
 	target->loaded = true;
 
 	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());

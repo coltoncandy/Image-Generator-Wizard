@@ -5,6 +5,8 @@
 #include <QDir>
 #include <QMessageBox>
 
+#include "imagewizard.h"
+
 TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
 	ui.setupUi(this);
 
@@ -324,10 +326,15 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	}
 	
 	target->loaded = true;
+
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->enableNext();
 }
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset() {
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->disableNext();
 	// delete qimage object and pathway for target. set pointer to null
 	try {
 		target->reset();

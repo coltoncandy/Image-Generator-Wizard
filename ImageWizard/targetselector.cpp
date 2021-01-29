@@ -26,16 +26,28 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 TargetSelector::~TargetSelector() {
 }
 
+// Display image properly in widget according to widget size
 void TargetSelector::scaleImage(const QSize& size) {
-	QPixmap p = QPixmap::fromImage(*(initial->image));
-	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+	QPixmap p;
+	// display target image properly 
+	if(target->loaded) {
+		p = QPixmap::fromImage(*(target->image));
+		imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+	}
+	// display initial image properly
+	else {
+		p = QPixmap::fromImage(*(initial->image));
+		imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+	}
 }
 
+// scale image properly after window is resized
 void TargetSelector::resizeEvent(QResizeEvent* e) {
 	QWidget::resizeEvent(e);
 	scaleImage(imgLabel->size());
 }
 
+// update how image is displayed
 void TargetSelector::updateImage() {
 	imgLabel->setPixmap(QPixmap::fromImage(*(this->initial->image)));
 	scaleImage(imgLabel->size());
@@ -105,7 +117,7 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 		}
 	}
 
-
+	// select rubberband geometry and set up corner of drag box
 	if(!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
 	rubberBand->setGeometry(QRect(origin, QSize()));

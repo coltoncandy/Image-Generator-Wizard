@@ -53,6 +53,69 @@ void TargetSelector::updateImage() {
 	scaleImage(imgLabel->size());
 }
 
+void TargetSelector::resetCoordiate(QPoint & point) {
+
+	// origin is the coordinate of where user press the mouse
+	// terminal is the coordiante of where user release the mouse
+	// ui.imgLabel is the slot that place the image
+	// once we have origin and terminal, we can get the cropped rectangle's coordiate
+
+	// if origin/terminal out of ui.imgLabel, it will automatically round to the area of ui.imgLabel
+	// ui.imgLabel coordinate range: [ui.imgLabel->x() , ui.imgLabel->x() + ui.imgLabel->width()]
+	// ui.imgLabel coordinate range: [ui.imgLabel->x() , ui.imgLabel->x() + ui.imgLabel->width()]
+	QSize size = this->size();
+
+	if(point.rx() <= ui.imgLabel->x()) {
+		point.rx() = ui.imgLabel->x();
+	}
+	else if (point.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
+		point.rx() = ui.imgLabel->x() + ui.imgLabel->width();
+	}
+	if(point.ry() <= ui.imgLabel->y()) {
+		point.ry() = ui.imgLabel->y();
+	}
+	else if (point.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
+		point.ry() = ui.imgLabel->y() + ui.imgLabel->height();
+	}
+
+	// get size of widget in real-time
+	int widgetHeight = size.rheight();
+	int widgetWidth = size.rwidth();
+
+	int initialImageHeight = initial->image->height();
+	int initialImageWidth = initial->image->width();
+
+	int scaledImageHeight = 0;
+	int scaledImageWidth = 0;
+
+	// the ratio of ui.imgLabel is  ui.imgLabel->height() / ui.imgLabel->width()
+	// and initial image will keep aspect ratio and place in ui.imgLabel with 
+	// if the ratio(height/width) of initial image is larger than ui.imgLabel ratio, remove the blank area on two side in the image 
+	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { 
+		scaledImageHeight = ui.imgLabel->height();
+		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
+
+		if(point.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
+			point.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
+		}
+		else if (point.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
+			point.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
+		}
+	}
+	// if the ratio(height/width) of initial image is larger than ui.imgLabel ratio, remove the blank area on top and buttom side in the image 
+	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // height y
+		scaledImageWidth = ui.imgLabel->width();
+		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
+
+		if(point.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
+			point.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
+		}
+		else if (point.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
+			point.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
+		}
+	}
+}
+
 
 // Initial selection box click 
 void TargetSelector::mousePressEvent(QMouseEvent* e) {
@@ -67,56 +130,8 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 	}
 	origin = e->pos(); //origin of first click is set to position 
 
+	resetCoordiate(origin);
 	QSize size = this->size();
-	if(origin.rx() <= ui.imgLabel->x()) {
-		origin.rx() = ui.imgLabel->x();
-	}
-	if(origin.ry() <= ui.imgLabel->y()) {
-		origin.ry() = ui.imgLabel->y();
-	}
-	if(origin.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
-		origin.rx() = ui.imgLabel->x() + ui.imgLabel->width();
-	}
-
-	if(origin.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
-		origin.ry() = ui.imgLabel->y() + ui.imgLabel->height();
-	}
-
-	int widgetHeight = size.rheight();
-	int widgetWidth = size.rwidth();
-
-	int initialImageHeight = initial->image->height();
-	int initialImageWidth = initial->image->width();
-
-	int scaledImageHeight = 0;
-	int scaledImageWidth = 0;
-
-	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // the image slot on Qwidget is 619(width)  * 307(height)
-	// so if the ratio of the initial image is greater than 307/ 619, which mean
-		scaledImageHeight = ui.imgLabel->height();
-		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
-
-		if(origin.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
-			origin.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
-		}
-
-		if(origin.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
-			origin.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
-		}
-	}
-	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // height y
-		scaledImageWidth = ui.imgLabel->width();
-		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
-
-		if(origin.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
-			origin.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
-		}
-
-		if(origin.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
-			origin.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
-		}
-	}
-
 	// select rubberband geometry and set up corner of drag box
 	if(!rubberBand)
 		rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
@@ -127,56 +142,7 @@ void TargetSelector::mousePressEvent(QMouseEvent* e) {
 // Allows selection box to follow users movement
 void TargetSelector::mouseMoveEvent(QMouseEvent* e) {
 	terminal = e->pos();
-
-	QSize size = this->size();
-	if(terminal.rx() <= ui.imgLabel->x()) {
-		terminal.rx() = ui.imgLabel->x();
-	}
-	if(terminal.ry() <= ui.imgLabel->y()) {
-		terminal.ry() = ui.imgLabel->y();
-	}
-	if(terminal.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
-		terminal.rx() = ui.imgLabel->x() + ui.imgLabel->width();
-	}
-	if(terminal.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
-		terminal.ry() = ui.imgLabel->y() + ui.imgLabel->height();
-	}
-
-	int widgetHeight = size.rheight();
-	int widgetWidth = size.rwidth();
-
-	int initialImageHeight = initial->image->height();
-	int initialImageWidth = initial->image->width();
-
-	int scaledImageHeight = 0;
-	int scaledImageWidth = 0;
-
-	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // the image slot on Qwidget is 619(width)  * 307(height)
-	// so if the ratio of the initial image is greater than 307/ 619, which mean
-		scaledImageHeight = ui.imgLabel->height();
-		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
-
-		if(terminal.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
-			terminal.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
-		}
-
-		if(terminal.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
-			terminal.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
-		}
-	}
-	else if((double) initialImageHeight / (double) initialImageWidth < (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { // height y
-		scaledImageWidth = ui.imgLabel->width();
-		scaledImageHeight = scaledImageWidth * initialImageHeight / initialImageWidth;
-
-		if(terminal.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
-			terminal.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
-		}
-
-		if(terminal.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
-			terminal.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
-		}
-	}
-
+	resetCoordiate(terminal);
 	rubberBand->setGeometry(QRect(origin, terminal).normalized());
 }
 
@@ -185,11 +151,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	rubberBand->hide();
 
 	QSize size = this->size();
-
-	int x1 = origin.rx();
-	int x2 = terminal.rx();
-	int y1 = origin.ry();
-	int y2 = terminal.ry();
 
 	try {
 		// user just clicks the image
@@ -232,6 +193,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	int xMax = 0;
 	int yMax = 0;
 
+	// calculate the absolute coordinate for the points for origin and terminal for scaled image, which the new coordinate is not for Qwidget, it's for scaled image
 	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) {
 		scaledImageHeight = ui.imgLabel->height();
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
@@ -299,6 +261,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 		}
 	}
 
+	// Use X,Y,X,Y,Height,Width for cropped rectangle on scaled image and initial image size to calculate the X,Y,Height,Width for cropped rectangle on initial image
 	int newX = initialImageWidth * xMin / scaledImageWidth;
 	int newY = initialImageHeight * yMin / scaledImageHeight;
 	int newHeight = initialImageHeight * yMax / scaledImageHeight - newY;

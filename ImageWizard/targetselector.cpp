@@ -53,7 +53,7 @@ void TargetSelector::updateImage() {
 	scaleImage(imgLabel->size());
 }
 
-void TargetSelector::resetCoordiate(QPoint & point) {
+void TargetSelector::resetCoordiate(QPoint& point) {
 
 	// origin is the coordinate of where user press the mouse
 	// terminal is the coordiante of where user release the mouse
@@ -68,13 +68,13 @@ void TargetSelector::resetCoordiate(QPoint & point) {
 	if(point.rx() <= ui.imgLabel->x()) {
 		point.rx() = ui.imgLabel->x();
 	}
-	else if (point.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
+	else if(point.rx() >= ui.imgLabel->x() + ui.imgLabel->width()) {
 		point.rx() = ui.imgLabel->x() + ui.imgLabel->width();
 	}
 	if(point.ry() <= ui.imgLabel->y()) {
 		point.ry() = ui.imgLabel->y();
 	}
-	else if (point.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
+	else if(point.ry() >= ui.imgLabel->y() + ui.imgLabel->height()) {
 		point.ry() = ui.imgLabel->y() + ui.imgLabel->height();
 	}
 
@@ -91,14 +91,14 @@ void TargetSelector::resetCoordiate(QPoint & point) {
 	// the ratio of ui.imgLabel is  ui.imgLabel->height() / ui.imgLabel->width()
 	// and initial image will keep aspect ratio and place in ui.imgLabel with 
 	// if the ratio(height/width) of initial image is larger than ui.imgLabel ratio, remove the blank area on two side in the image 
-	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) { 
+	if((double) initialImageHeight / (double) initialImageWidth > (double) ui.imgLabel->height() / (double) ui.imgLabel->width()) {
 		scaledImageHeight = ui.imgLabel->height();
 		scaledImageWidth = scaledImageHeight * initialImageWidth / initialImageHeight;
 
 		if(point.rx() < (size.rwidth() / 2 - scaledImageWidth / 2)) {
 			point.rx() = (size.rwidth() / 2 - scaledImageWidth / 2);
 		}
-		else if (point.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
+		else if(point.rx() > (size.rwidth() / 2 + scaledImageWidth / 2)) {
 			point.rx() = (size.rwidth() / 2 + scaledImageWidth / 2);
 		}
 	}
@@ -110,7 +110,7 @@ void TargetSelector::resetCoordiate(QPoint & point) {
 		if(point.ry() < (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2) {
 			point.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) - scaledImageHeight / 2;
 		}
-		else if (point.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
+		else if(point.ry() > (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2) {
 			point.ry() = (ui.imgLabel->height() / 2 + ui.imgLabel->y()) + scaledImageHeight / 2;
 		}
 	}

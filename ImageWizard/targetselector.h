@@ -31,7 +31,7 @@ private:
 	QRubberBand* rubberBand;
 	QPushButton* resetButton;
 
-	void resetCoordiate(QPoint & point);
+	void resetCoordiate(QPoint& point);
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);

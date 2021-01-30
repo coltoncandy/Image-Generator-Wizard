@@ -92,7 +92,7 @@ void ImageWizard::goNext() {
 			disableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
-			ready[cur-1] = true;
+			ready[cur - 1] = true;
 			btnPrev->show();
 		}
 		if(cur == frames->count()) {

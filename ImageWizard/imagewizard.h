@@ -10,7 +10,6 @@
 #include "selectdestination.h"
 #include "processingwindow.h"
 
-
 class ImageWizard : public QWidget {
 	Q_OBJECT
 

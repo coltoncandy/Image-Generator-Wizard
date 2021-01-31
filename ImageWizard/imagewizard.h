@@ -7,6 +7,9 @@
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
+#include "selectdestination.h"
+#include "processingwindow.h"
+
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -34,9 +37,12 @@ private:
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
+	SelectDestination* selectDestination;
+	ProcessingWindow* processingWindow;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
+	QString* destination;
 
 	bool* ready;
 };

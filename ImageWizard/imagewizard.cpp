@@ -10,16 +10,21 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
+	destination = new QString;
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
 	targetSelector = new TargetSelector("Select Target", initial, target);
+	selectDestination = new SelectDestination("Select Your Destination", destination);
+	//processingWindow = new ProcessingWindow("Select Your Destination");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundChooser);
+	frames->addWidget(selectDestination);
+	//frames->addWidget(processingWindow);
 
 	ready = new bool[frames->count()];
 	for(int i = 0; i < frames->count(); i++)
@@ -36,9 +41,12 @@ ImageWizard::~ImageWizard() {
 	delete targetChooser;
 	delete backgroundChooser;
 	delete targetSelector;
+	delete selectDestination;
+	//delete processingWindow;
 	delete initial;
 	delete target;
 	delete background;
+	delete destination;
 
 	delete[] ready;
 }
@@ -82,7 +90,15 @@ void ImageWizard::goNext() {
 		if(!background->loaded) {
 			return;
 		}
-		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
+	}
+	else if(frames->currentWidget() == selectDestination) { //background image upload page
+		if(!selectDestination->isReady()) {
+			return;
+		}
+	}
+	else if(frames->currentWidget() == processingWindow ) {
+			AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
+
 	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.

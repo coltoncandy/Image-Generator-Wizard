@@ -47,6 +47,12 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="selectdestination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="processingwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -61,6 +67,12 @@
     <QtUic Include="welcomepage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="selectdestination.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="processingwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
@@ -72,6 +84,12 @@
     <QtMoc Include="welcomepage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="selectdestination.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="processingwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageinfo.h">
@@ -82,5 +100,8 @@
     <ClInclude Include="imageinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

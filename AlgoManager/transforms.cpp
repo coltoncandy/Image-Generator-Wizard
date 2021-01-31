@@ -41,20 +41,20 @@ Mat overlay(Mat background, Mat foreground, Point location) {
     return output; 
 }
 
-Mat rotate(Mat target) {
+Mat rotation(Mat target) {
 
-    double angle = 25; 
+    double randAngle = double((rand() % 50)) - 25;      //Generates random angle between -25 and 25 degrees, can be changed as needed 
 
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
-    Mat rot = cv::getRotationMatrix2D(center, angle, 1.0); 
-    Rect2f box = RotatedRect(cv::Point2f(), target.size(), angle).boundingRect2f();
+    Mat rot = cv::getRotationMatrix2D(center, randAngle, 1.0); 
+    Rect2f box = RotatedRect(cv::Point2f(), target.size(), randAngle).boundingRect2f();
 
     rot.at<double>(0, 2) += box.width / 2.0 - target.cols / 2.0; 
     rot.at<double>(1, 2) += box.height / 2.0 - target.rows / 2.0; 
 
     Mat dst; 
     warpAffine(target, dst, rot, box.size()); 
-    imshow("rotated", dst); 
+    //imshow("rotated", dst); 
 
     return dst; 
 

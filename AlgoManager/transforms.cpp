@@ -41,6 +41,25 @@ Mat overlay(Mat background, Mat foreground, Point location) {
     return output; 
 }
 
+Mat rotation(Mat target) {
+
+    double randAngle = double((rand() % 50)) - 25;      //Generates random angle between -25 and 25 degrees, can be changed as needed 
+
+    Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
+    Mat rot = cv::getRotationMatrix2D(center, randAngle, 1.0); 
+    Rect2f box = RotatedRect(cv::Point2f(), target.size(), randAngle).boundingRect2f();
+
+    rot.at<double>(0, 2) += box.width / 2.0 - target.cols / 2.0; 
+    rot.at<double>(1, 2) += box.height / 2.0 - target.rows / 2.0; 
+
+    Mat dst; 
+    warpAffine(target, dst, rot, box.size()); 
+    //imshow("rotated", dst); 
+
+    return dst; 
+
+}
+
 Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
     if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
         return background;

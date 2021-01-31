@@ -46,6 +46,9 @@ void SelectDestination::setDirectory(QString path) {
 
 	*(destinationPath) = path;
 	ready = true;
+
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->enableNext();
 }
 
 

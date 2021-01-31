@@ -40,3 +40,23 @@ Mat overlay(Mat background, Mat foreground, Point location) {
 
     return output; 
 }
+
+Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
+    if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
+        return background;
+
+    Size backgroundSize = background.size();
+    if(backgroundSize.width <= origin.x || backgroundSize.height <= origin.y || backgroundSize.width <= terminal.x || backgroundSize.height <= terminal.y)
+    {
+        return background;
+    }
+    else if( abs(origin.x - terminal.x) < minWidth || abs(origin.y - terminal.y) < minHeight) 
+    {
+        return background;
+    }
+
+    Rect roi = Rect(origin, terminal);
+    Mat crop = background(roi);
+
+    return crop;
+}

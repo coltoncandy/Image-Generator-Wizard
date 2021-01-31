@@ -7,6 +7,7 @@ namespace AlgoManager {
 	public:
 		static void grabCutWrapper(const std::string& path);
 		static void overlayWrapper(const std::string& bg, const std::string& fg); 
+		void process(); 
 	};
 }
 

@@ -18,9 +18,16 @@
     <widget class="QLabel" name="title">
      <property name="font">
       <font>
-       <pointsize>10</pointsize>
+       <family>Yu Gothic UI Semibold</family>
+       <pointsize>20</pointsize>
+       <italic>false</italic>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 600 20pt &quot;Yu Gothic UI Semibold&quot;;
+
+</string>
      </property>
      <property name="text">
       <string>TextLabel</string>
@@ -30,8 +37,11 @@
      </property>
     </widget>
    </item>
-   <item>
+   <item alignment="Qt::AlignVCenter">
     <widget class="QTextEdit" name="welcomeMessage">
+     <property name="styleSheet">
+      <string notr="true">font: 500 14pt &quot;Yu Gothic Medium&quot;;</string>
+     </property>
      <property name="tabChangesFocus">
       <bool>false</bool>
      </property>

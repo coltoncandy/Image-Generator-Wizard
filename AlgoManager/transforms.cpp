@@ -166,7 +166,7 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur) {  //call
 
 	for(int y = 0; y < height; y++) {
 		for(int x = 0; x < width; x++) {
-			if(alphaMask[x][y]) {
+			if(alphaMask[y][x]) {
 				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);
 				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 1);
 				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 2);

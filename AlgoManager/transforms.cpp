@@ -246,12 +246,18 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) {
 
 	}
 	unsigned char initialPx;
+	double initialAlpha;
 	for(int y = 0; y < initialImage.rows; ++y) {
 		for(int x = 0; x < initialImage.cols; ++x) { //Step through every pixel and update its transparency to the values stored in alphaMask
-			//r(int c = 0; c < output.channels(); ++c) {
-			initialPx = initialImage.data[y * initialImage.step + x * initialImage.channels() + 3];
-			output.data[y * output.step + output.channels() * x + 3] = initialPx * alphaMask[y][x];
-			//
+			initialAlpha = initialImage.data[getIndex(x, y, output) + 3] / 255.0;
+			for(int c = 0; c < output.channels() - 1; ++c) {
+				if(initialAlpha == 0.0) {
+					initialAlpha = 0.004;
+				}
+				initialPx = initialImage.data[getIndex(x, y, output) + c] / initialAlpha;
+				output.data[getIndex(x, y, output) + c] = initialPx * alphaMask[y][x];
+			}
+			output.data[getIndex(x, y, output) + 3] = 255 * alphaMask[y][x];
 			//output.data[y * output.step + output.channels() * x + 3] = alphaMask[y][x];
 		}
 	}

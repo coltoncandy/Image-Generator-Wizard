@@ -85,10 +85,6 @@ void ImageWizard::goNext() {
 		if(cur == frames->count()) {
 			btnNext->hide();
 		}
-		if(frames->currentWidget() == targetSelector) {
-			*(target->image) = initial->image->copy();
-			targetSelector->updateImage();
-		}
 	}
 }
 
@@ -97,13 +93,15 @@ void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
 
 	disableNext();
+	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+	currentPage->reset();
 
 	if(cur > 0) {
 		if(frames->currentWidget() == targetSelector) {
 			targetSelector->reset();
 		}
 		frames->setCurrentIndex(--cur);
-		WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {

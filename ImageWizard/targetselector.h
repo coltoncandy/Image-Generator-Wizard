@@ -16,6 +16,7 @@ public:
 	~TargetSelector();
 	void updateImage();
 	bool isReady();
+	void pageSwitched();
 
 public slots:
 	void resizeEvent(QResizeEvent* e);

@@ -329,3 +329,8 @@ void TargetSelector::reset() {
 	updateImage();
 }
 
+void TargetSelector::pageSwitched() {
+	*(target->image) = *(initial->image);
+	updateImage();
+}
+

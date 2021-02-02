@@ -148,5 +148,6 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 void FileChooser::reset() {
 	WizardPage::reset();
 
+	imgLabel->clear();
 	selectedImage->reset();
 }

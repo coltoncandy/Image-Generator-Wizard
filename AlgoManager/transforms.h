@@ -8,4 +8,4 @@ using namespace cv;
 Mat overlay(Mat background, Mat foreground, Point location);
 Mat rotation(Mat target, int angleBounds);
 Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight);
-
+Mat flipIt(Mat target, int flipCode); 

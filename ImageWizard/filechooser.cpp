@@ -100,8 +100,7 @@ void FileChooser::loadImage(QString& path) {
 
 	scaleImage(imgLabel->size());
 
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	getWizard()->enableNext();
 }
 
 void FileChooser::scaleImage(const QSize& size) {

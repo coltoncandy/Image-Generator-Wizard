@@ -2,21 +2,21 @@
 
 #include <QWidget>
 
+class ImageWizard;
+
 class WizardPage : public QWidget {
 	Q_OBJECT
 
 public:
-	WizardPage(QWidget* parent = nullptr) : QWidget(parent) {}
-	virtual ~WizardPage() {}
+	WizardPage(QWidget* parent = nullptr);
+	virtual ~WizardPage();
 
-	virtual bool isReady() {
-		return false;
-	}
-
-	virtual void pageSwitched() {}
+	virtual bool isReady();
+	virtual void pageSwitched();
 
 public slots:
-	virtual void reset() {}
+	virtual void reset();
 
-private:
+protected:
+	ImageWizard* getWizard();
 };

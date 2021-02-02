@@ -14,6 +14,7 @@ public:
 	~WelcomePage();
 
 	bool isReady();
+	void pageSwitched();
 
 private:
 	Ui::WelcomePage ui;

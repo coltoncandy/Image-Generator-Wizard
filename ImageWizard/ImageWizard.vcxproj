@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="targetselector.cpp" />
     <ClCompile Include="welcomepage.cpp" />
+    <ClCompile Include="wizardpage.cpp" />
     <QtRcc Include="imagewizard.qrc" />
     <QtUic Include="filechooser.ui" />
     <QtUic Include="imagewizard.ui" />

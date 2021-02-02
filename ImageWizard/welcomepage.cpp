@@ -1,4 +1,5 @@
 #include "welcomepage.h"
+#include "imagewizard.h"
 
 WelcomePage::WelcomePage(const QString& title, QWidget* parent) : WizardPage(parent) {
 	ui.setupUi(this);
@@ -11,6 +12,10 @@ WelcomePage::WelcomePage(const QString& title, QWidget* parent) : WizardPage(par
 WelcomePage::~WelcomePage() {
 }
 
-bool isReady() {
+bool WelcomePage::isReady() {
 	return true;
+}
+
+void WelcomePage::pageSwitched() {
+	getWizard()->enableNext();
 }

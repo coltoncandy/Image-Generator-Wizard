@@ -56,24 +56,19 @@ void ImageWizard::disablePrev() {
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();
+	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+	disableNext();
 
 	//Restrict the ability to go to the next page if certain conditions haven't been met
-	if(frames->currentWidget() == targetChooser) {		//target image upload page
-		if(!initial->loaded) {
-			return;
-		}
-	}
-	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
-		if(!target->loaded) {
-			return;
-		}
+
+	if(!currentPage->isReady())
+		return;
+
+	if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
-		if(!background->loaded) {
-			return;
-		}
 		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 	}
 
@@ -81,6 +76,8 @@ void ImageWizard::goNext() {
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
 		disableNext();
+		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		currentPage->pageSwitched();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
 			btnPrev->show();
@@ -98,11 +95,16 @@ void ImageWizard::goNext() {
 //Previous page in UI 
 void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
+
+	disableNext();
+
 	if(cur > 0) {
 		if(frames->currentWidget() == targetSelector) {
 			targetSelector->reset();
 		}
 		frames->setCurrentIndex(--cur);
+		WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		currentPage->pageSwitched();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {
 			btnPrev->hide();

@@ -21,10 +21,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundChooser);
 
-	ready = new bool[frames->count()];
-	for(int i = 0; i < frames->count(); i++)
-		ready[i] = false;
-
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
 	//Hides the previous button on the first page
@@ -39,18 +35,14 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
-
-	delete[] ready;
 }
 
 void ImageWizard::enableNext() {
 	btnNext->setEnabled(true);
-	ready[frames->currentIndex()] = true;
 }
 
 void ImageWizard::disableNext() {
 	btnNext->setEnabled(false);
-	ready[frames->currentIndex()] = false;
 }
 
 void ImageWizard::enablePrev() {
@@ -88,11 +80,9 @@ void ImageWizard::goNext() {
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
-		if(!ready[cur])
-			disableNext();
+		disableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
-			ready[cur - 1] = true;
 			btnPrev->show();
 		}
 		if(cur == frames->count()) {
@@ -113,8 +103,6 @@ void ImageWizard::goPrev() {
 			targetSelector->reset();
 		}
 		frames->setCurrentIndex(--cur);
-		if(ready[cur])
-			enableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {
 			btnPrev->hide();

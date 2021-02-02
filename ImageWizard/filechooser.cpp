@@ -11,7 +11,7 @@
 
 #include "imagewizard.h"
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent), font("Calibri", 14) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -48,6 +48,10 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 }
 
 FileChooser::~FileChooser() {
+}
+
+bool FileChooser::isReady() {
+	return selectedImage->loaded;
 }
 
 void FileChooser::chooseFile() {
@@ -140,4 +144,10 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 		"Drag a .png file",
 		options
 	);
+}
+
+void FileChooser::reset() {
+	WizardPage::reset();
+
+	selectedImage->reset();
 }

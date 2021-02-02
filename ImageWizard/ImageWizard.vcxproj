@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageinfo.h" />
+    <QtMoc Include="wizardpage.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="welcomepage.h" />

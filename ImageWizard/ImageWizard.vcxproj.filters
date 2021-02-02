@@ -72,6 +72,9 @@
     <QtMoc Include="welcomepage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="wizardpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageinfo.h">

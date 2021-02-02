@@ -6,26 +6,69 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>889</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>WelcomePage</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="Drone_logo">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignBottom">
     <widget class="QLabel" name="title">
      <property name="font">
       <font>
        <family>Yu Gothic UI Semibold</family>
-       <pointsize>20</pointsize>
+       <pointsize>30</pointsize>
        <italic>false</italic>
        <bold>true</bold>
       </font>
      </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font: 600 20pt &quot;Yu Gothic UI Semibold&quot;;
+      <string notr="true">font: 600 30pt &quot;Yu Gothic UI Semibold&quot;;
 
 </string>
      </property>
@@ -37,22 +80,33 @@
      </property>
     </widget>
    </item>
-   <item alignment="Qt::AlignVCenter">
-    <widget class="QTextEdit" name="welcomeMessage">
-     <property name="styleSheet">
-      <string notr="true">font: 500 14pt &quot;Yu Gothic Medium&quot;;</string>
+   <item alignment="Qt::AlignTop">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;This program will help you generate unique images containing a selected target object. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;These images are free to use under the GNU General Public License v3. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;Press the &amp;quot;-&amp;gt;&amp;quot; button to begin generating your images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
-     <property name="tabChangesFocus">
-      <bool>false</bool>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string/>
      </property>
-     <property name="readOnly">
-      <bool>true</bool>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="drone_logo.qrc"/>
+  <include location="drone_logo.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -121,9 +121,6 @@ void ImageWizard::goPrev() {
 	currentPage->reset();
 
 	if(cur > 0) {
-		if(frames->currentWidget() == targetSelector) {
-			targetSelector->reset();
-		}
 		frames->setCurrentIndex(--cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();

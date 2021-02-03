@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>637</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -64,6 +64,13 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="reset">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="browseButton">
        <property name="text">
         <string>Browse...</string>
@@ -96,6 +103,22 @@
     <hint type="destinationlabel">
      <x>319</x>
      <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>pressed()</signal>
+   <receiver>SelectDestinationClass</receiver>
+   <slot>chooseDirectory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>47</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>318</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>

@@ -10,14 +10,14 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = new QString;
+	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow();
+	processingWindow = new ProcessingWindow("Select Your Destination");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -46,7 +46,7 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
-	delete destination;
+	delete destination; 
 
 	delete[] ready;
 }
@@ -95,6 +95,7 @@ void ImageWizard::goNext() {
 		if(!selectDestination->isReady()) {
 			return;
 		}
+		destination = selectDestination->getDestination();
 	}
 	else if(frames->currentWidget() == processingWindow ) {
 			AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut

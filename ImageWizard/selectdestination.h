@@ -13,19 +13,21 @@ public:
 	SelectDestination(const QString& title, QString* destination ,QWidget* parent = Q_NULLPTR);
 	~SelectDestination();
 
-	bool isReady(); // implement this
-	void reset(); // implement this
-
+	bool isReady();
+	
 public slots:
 	void chooseDirectory();
 	void setDirectory(QString url);
+	QString* getDestination();
+	void reset(); 
 
 private:
 	Ui::SelectDestinationClass ui;
 	QFileDialog chooser;
 	QLineEdit* chosenDestination;
 	QString* destinationPath;
-	bool ready; //implement this
+	QPushButton* resetButton;
+	bool ready;
 
 };
 

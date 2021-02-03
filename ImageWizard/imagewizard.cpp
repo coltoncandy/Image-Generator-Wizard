@@ -12,8 +12,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	background = new ImageInfo;
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
-	backgroundChooser = new FileChooser("Select or drag a background image", background);
+	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
+	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 
 	frames->addWidget(welcomePage);

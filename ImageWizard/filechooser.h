@@ -8,16 +8,18 @@
 
 #include "ui_filechooser.h"
 #include "imageinfo.h"
+#include "../AlgoManager/filemanager.h"
 
 class FileChooser : public QWidget {
 	Q_OBJECT
 
 public:
-	FileChooser(const QString& title, ImageInfo* image, QWidget* parent = Q_NULLPTR);
+	FileChooser(const QString& title, ImageInfo* image, const QString& directoryPath, QWidget* parent = Q_NULLPTR);
 	~FileChooser();
 
 public slots:
 	void chooseFile();
+	void getRandomFile();
 	void setFilePath(QString url);
 
 	void dragEnterEvent(QDragEnterEvent* event);
@@ -33,6 +35,8 @@ private:
 	ImageInfo* selectedImage;
 	std::vector<std::string> acceptedFileTypes;
 	QFont font;
+	QPushButton* randomButton;
+	QFileInfo defaultDirectory;
 
 	void setupView();
 	void loadImage(QString& path);

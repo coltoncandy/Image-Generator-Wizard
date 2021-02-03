@@ -16,10 +16,12 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
 	backgroundChooser = new FileChooser("Select or drag a background image", background);
 	targetSelector = new TargetSelector("Select Target", initial, target);
+	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
+	frames->addWidget(backgroundRemoval);
 	frames->addWidget(backgroundChooser);
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
@@ -36,6 +38,7 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
+	delete backgroundRemoval;
 }
 
 void ImageWizard::enableNext() {
@@ -68,11 +71,6 @@ void ImageWizard::goNext() {
 
 	if(!currentPage->isReady())
 		return;
-
-	if(frames->currentWidget() == targetSelector) { //target selection/crop page
-		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
-		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
-	}
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
 		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 	}
@@ -93,6 +91,11 @@ void ImageWizard::goNext() {
 		if(cur == frames->count()) {
 			btnNext->hide();
 		}
+	}
+
+	if(frames->currentWidget() == backgroundRemoval) { //target selection/crop page
+		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
+#include "backgroundremoval.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -34,6 +35,7 @@ private:
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
+	BackgroundRemoval* backgroundRemoval;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;

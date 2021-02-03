@@ -11,6 +11,9 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 	ui.setupUi(this);
 
 	resetButton = findChild<QPushButton*>("reset");
+	resetButton->setIcon(QIcon("C:/Users/Tula/Desktop/left_arrow2.png"));
+	resetButton->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
+	resetButton->setIconSize(QSize(85, 32));
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);

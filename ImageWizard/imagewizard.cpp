@@ -63,7 +63,6 @@ void ImageWizard::goNext() {
 	// certain actions are performed. See: FileChooser::loadImage
 
 	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-	disableNext();
 
 	//Restrict the ability to go to the next page if certain conditions haven't been met
 
@@ -81,9 +80,12 @@ void ImageWizard::goNext() {
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
-		disableNext();
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
+		if(!currentPage->isReady())
+			disableNext();
+		else
+			enableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
 			btnPrev->show();
@@ -115,7 +117,6 @@ void ImageWizard::goPrev() {
 		break;
 	}
 
-	disableNext();
 	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 	currentPage->reset();
 
@@ -126,6 +127,10 @@ void ImageWizard::goPrev() {
 		frames->setCurrentIndex(--cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
+		if(!currentPage->isReady())
+			disableNext();
+		else
+			enableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {
 			btnPrev->hide();

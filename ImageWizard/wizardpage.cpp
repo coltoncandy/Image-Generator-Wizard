@@ -16,7 +16,7 @@ WizardPage::~WizardPage() {
 // HOWEVER, dynamic pages, like target selector and filechooser, still need to update
 // ImageWizard's enableNext when certain actions are performed
 bool WizardPage::isReady() {
-	return false;
+	return true;
 }
 
 // This is used for page-specific actions that need to be performed upon being switched

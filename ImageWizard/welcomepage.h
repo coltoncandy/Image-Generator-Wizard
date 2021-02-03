@@ -13,9 +13,6 @@ public:
 	WelcomePage(const QString& title, QWidget* parent = Q_NULLPTR);
 	~WelcomePage();
 
-	bool isReady();
-	void pageSwitched();
-
 private:
 	Ui::WelcomePage ui;
 };

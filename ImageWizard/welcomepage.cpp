@@ -11,11 +11,3 @@ WelcomePage::WelcomePage(const QString& title, QWidget* parent) : WizardPage(par
 
 WelcomePage::~WelcomePage() {
 }
-
-bool WelcomePage::isReady() {
-	return true;
-}
-
-void WelcomePage::pageSwitched() {
-	getWizard()->enableNext();
-}

@@ -56,6 +56,11 @@ void ImageWizard::disablePrev() {
 //Next page in UI
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();
+
+	// By default, the next button is disabled. If the page is already ready, then
+	// it be re-enabled. Otherwise, it must be enabled within the page itself when
+	// certain actions are performed. See: FileChooser::loadImage
+
 	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 	disableNext();
 
@@ -91,6 +96,8 @@ void ImageWizard::goNext() {
 //Previous page in UI 
 void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
+
+
 
 	disableNext();
 	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());

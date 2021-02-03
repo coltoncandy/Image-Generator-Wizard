@@ -151,4 +151,5 @@ void FileChooser::reset() {
 	chosenFileName->clear();
 	imgLabel->clear();
 	selectedImage->reset();
+	getWizard()->disableNext();
 }

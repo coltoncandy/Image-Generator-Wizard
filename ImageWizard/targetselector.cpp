@@ -306,16 +306,14 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 
 	target->loaded = true;
 
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	getWizard()->enableNext();
 }
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset() {
 	WizardPage::reset();
 
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->disableNext();
+	getWizard()->disableNext();
 	// delete qimage object and pathway for target. set pointer to null
 	try {
 		target->reset();

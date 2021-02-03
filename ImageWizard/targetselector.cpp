@@ -7,7 +7,7 @@
 
 #include "imagewizard.h"
 
-TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : QWidget(parent), rubberBand(0) {
+TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent) : WizardPage(parent), rubberBand(0) {
 	ui.setupUi(this);
 
 	resetButton = findChild<QPushButton*>("reset");
@@ -51,6 +51,10 @@ void TargetSelector::resizeEvent(QResizeEvent* e) {
 void TargetSelector::updateImage() {
 	imgLabel->setPixmap(QPixmap::fromImage(*(this->initial->image)));
 	scaleImage(imgLabel->size());
+}
+
+bool TargetSelector::isReady() {
+	return target->loaded;
 }
 
 void TargetSelector::resetCoordiate(QPoint& point) {
@@ -302,14 +306,14 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 
 	target->loaded = true;
 
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	getWizard()->enableNext();
 }
 
 // User presses reset button to set page to original configuration
 void TargetSelector::reset() {
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->disableNext();
+	WizardPage::reset();
+
+	getWizard()->disableNext();
 	// delete qimage object and pathway for target. set pointer to null
 	try {
 		target->reset();
@@ -320,6 +324,11 @@ void TargetSelector::reset() {
 	}
 	terminal.setX(-1);
 	terminal.setY(-1);
+	updateImage();
+}
+
+void TargetSelector::pageSwitched() {
+	*(target->image) = *(initial->image);
 	updateImage();
 }
 

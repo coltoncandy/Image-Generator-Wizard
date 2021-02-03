@@ -6,32 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>889</width>
-    <height>556</height>
+    <width>750</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>WelcomePage</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
+   <item alignment="Qt::AlignBottom">
     <widget class="QWidget" name="widget" native="true">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
+      <item row="0" column="2" rowspan="2">
        <widget class="QLabel" name="label">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="0" column="1" rowspan="2">
        <widget class="QLabel" name="Drone_logo">
         <property name="text">
          <string>TextLabel</string>
@@ -44,7 +37,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="0" column="0" rowspan="2">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string/>
@@ -54,12 +47,12 @@
      </layout>
     </widget>
    </item>
-   <item alignment="Qt::AlignBottom">
+   <item alignment="Qt::AlignTop">
     <widget class="QLabel" name="title">
      <property name="font">
       <font>
-       <family>Yu Gothic UI Semibold</family>
-       <pointsize>30</pointsize>
+       <family>Microsoft Sans Serif</family>
+       <pointsize>35</pointsize>
        <italic>false</italic>
        <bold>true</bold>
       </font>
@@ -68,7 +61,8 @@
       <bool>true</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 600 30pt &quot;Yu Gothic UI Semibold&quot;;
+      <string notr="true">font: 600 35pt &quot;Microsoft Sans Serif&quot;; color:rgb(48, 48, 48);
+
 
 </string>
      </property>
@@ -82,10 +76,26 @@
    </item>
    <item alignment="Qt::AlignTop">
     <widget class="QLabel" name="label_3">
+     <property name="styleSheet">
+      <string notr="true">font: 14pt &quot;Microsoft Sans Serif&quot;;</string>
+     </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;This program will help you generate unique images containing a selected target object. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;These images are free to use under the GNU General Public License v3. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'Yu Gothic Medium'; font-size:14pt; font-weight:500;&quot;&gt;Press the &amp;quot;-&amp;gt;&amp;quot; button to begin generating your images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;This program will help you generate unique images containing a selected target object. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;These images are free to use under the GNU General Public License v3. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;Press the &amp;quot;-&amp;gt;&amp;quot; button to begin generating your images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#3d3d3d;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QLabel" name="label_4">

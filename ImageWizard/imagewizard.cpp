@@ -27,8 +27,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon("C:/Users/Tula/Desktop/left_arrow.png"));
-	btnNext->setIcon(QIcon("C:/Users/Tula/Desktop/right_arrow.png"));
+	btnPrev->setIcon(QIcon("C:/Users/Tula/Desktop/left_arrow2.png"));
+	btnNext->setIcon(QIcon("C:/Users/Tula/Desktop/right_arrow2.png"));
 	btnNext->setStyleSheet("padding: 6px;"); 
 	// border-color: rgb(172, 172, 172); border-style: outset; border-width: 2px; border-radius: 10px; padding: 6px; make button with border
 	//btnNext->setStyleSheet("padding-left: 5px;padding-right: 3px;""padding-top: 1px; padding-bottom: 1px;"); // round edges of button
@@ -36,7 +36,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));
 	btnPrev->setIconSize(QSize(85, 32));
-	//btnPrev->setIconSize(QSize(75, 24));
 	//Hides the previous button on the first page
 	btnPrev->hide();
 }

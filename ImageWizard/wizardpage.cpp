@@ -21,11 +21,13 @@ bool WizardPage::isReady() {
 
 // This is used for page-specific actions that need to be performed upon being switched
 // FORWARD to, e.g. TargetSelector copying image data
+// NOT NECESSARY to override.
 void WizardPage::pageSwitched() {
 
 }
 
 // This is used by the back and reset buttons for some pages. 
+// NOT NECESSARY to override.
 void WizardPage::reset() {
 
 }

@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "imagewizard.h"
 #include "filechooser.h"
 #include "../AlgoManager/algomanager.h" 
@@ -97,7 +98,22 @@ void ImageWizard::goNext() {
 void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
 
+	QMessageBox msg;
+	msg.setText("Going back will reset the current page.");
+	msg.setInformativeText("Are you sure you want to go back?");
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+	msg.setDefaultButton(QMessageBox::Cancel);
+	msg.setIcon(QMessageBox::Warning);
+	int ret = msg.exec();
 
+	switch(ret) {
+	case QMessageBox::Yes:
+		// do nothing
+		break;
+	case QMessageBox::Cancel:
+		return;
+		break;
+	}
 
 	disableNext();
 	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());

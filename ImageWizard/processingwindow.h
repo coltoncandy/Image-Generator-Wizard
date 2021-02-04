@@ -2,7 +2,6 @@
 
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
-#include <QFileDialog>
 #include "ui_processingwindow.h"
 
 class ProcessingWindow : public QWidget

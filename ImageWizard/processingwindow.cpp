@@ -1,13 +1,6 @@
 #include "processingwindow.h"
 #include "imagewizard.h"
 
-#include <QLabel>
-#include <QImage>
-#include <QlineEdit>
-#include <QDragEnterEvent>
-#include <QMimeData>
-#include <QDropEvent>
-
 ProcessingWindow::ProcessingWindow(const QString& title, QWidget* parent)
 	: QWidget(parent)
 {

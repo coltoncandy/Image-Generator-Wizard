@@ -1,24 +1,26 @@
 #pragma once
 
-#include <QWidget>
-#include "ui_targetselector.h"
-#include "imageinfo.h"
 #include <QLabel>
 #include <QRubberBand>
 #include <QPushButton>
 
-class TargetSelector : public QWidget {
+#include "ui_targetselector.h"
+#include "imageinfo.h"
+#include "wizardpage.h"
+
+class TargetSelector : public WizardPage {
 	Q_OBJECT
 
 public:
 	TargetSelector(const QString& title, ImageInfo* initial, ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~TargetSelector();
 	void updateImage();
+	bool isReady();
+	void pageSwitched();
 
 public slots:
 	void resizeEvent(QResizeEvent* e);
 	void reset();
-
 
 private:
 	Ui::targetselector ui;

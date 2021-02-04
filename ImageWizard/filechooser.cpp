@@ -7,8 +7,11 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QMessageBox>
+#include <QPainter>
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent) {
+#include "imagewizard.h"
+
+FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -37,6 +40,7 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 	imgLabel = findChild<QLabel*>("imgLabel");
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
+	titleLabel->setFont(font);
 
 	selectedImage = image;
 
@@ -44,6 +48,10 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 }
 
 FileChooser::~FileChooser() {
+}
+
+bool FileChooser::isReady() {
+	return selectedImage->loaded;
 }
 
 void FileChooser::chooseFile() {
@@ -64,11 +72,11 @@ void FileChooser::dropEvent(QDropEvent* event) {
 	QString url = event->mimeData()->urls().first().toLocalFile();
 	if(url.isEmpty())
 		return;
-	
+
 	bool validFileType = false;
 
 	for(std::string fileType : acceptedFileTypes) {
-		if(url.toUtf8().endsWith(fileType))
+		if(url.toUtf8().toLower().endsWith(fileType))
 			validFileType = true;
 	}
 
@@ -91,6 +99,8 @@ void FileChooser::loadImage(QString& path) {
 	selectedImage->loaded = true;
 
 	scaleImage(imgLabel->size());
+
+	getWizard()->enableNext();
 }
 
 void FileChooser::scaleImage(const QSize& size) {
@@ -104,4 +114,42 @@ void FileChooser::scaleImage(const QSize& size) {
 void FileChooser::resizeEvent(QResizeEvent* e) {
 	QWidget::resizeEvent(e);
 	scaleImage(imgLabel->size());
+}
+
+void FileChooser::paintEvent(QPaintEvent* e) {
+	if(selectedImage->loaded)
+		return;
+
+	int offset = 75; // how many pixels the rectangle is from the edges
+	int radius = 15; // how many pixels the rectangle's corners are curved
+	int textWidth = 150;
+	int textHeight = 50;
+
+	QPainter painter(this);
+	QPen pen(Qt::DashLine);
+	QTextOption options;
+	options.setAlignment(Qt::AlignCenter);
+
+	pen.setWidth(3);
+	pen.setBrush(Qt::gray);
+	pen.setCapStyle(Qt::RoundCap);
+	painter.setPen(pen);
+	painter.setFont(font);
+
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
+	painter.drawText(
+		QRect((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),
+		"Drag a .png file",
+		options
+	);
+}
+
+void FileChooser::reset() {
+	WizardPage::reset();
+
+	chosenFileName->clear();
+	imgLabel->clear();
+	selectedImage->reset();
+	getWizard()->disableNext();
 }

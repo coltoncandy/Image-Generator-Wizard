@@ -15,6 +15,12 @@ public:
 	ImageWizard(QWidget* parent = Q_NULLPTR);
 	~ImageWizard();
 
+	void enableNext();
+	void disableNext();
+
+	void enablePrev();
+	void disablePrev();
+
 public slots:
 	void goNext();
 	void goPrev();

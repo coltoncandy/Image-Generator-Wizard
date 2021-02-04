@@ -8,13 +8,16 @@
 
 #include "ui_filechooser.h"
 #include "imageinfo.h"
+#include "wizardpage.h"
 
-class FileChooser : public QWidget {
+class FileChooser : public WizardPage {
 	Q_OBJECT
 
 public:
 	FileChooser(const QString& title, ImageInfo* image, QWidget* parent = Q_NULLPTR);
 	~FileChooser();
+
+	bool isReady();
 
 public slots:
 	void chooseFile();
@@ -23,6 +26,8 @@ public slots:
 	void dragEnterEvent(QDragEnterEvent* event);
 	void dropEvent(QDropEvent* event);
 	void resizeEvent(QResizeEvent* e);
+	void paintEvent(QPaintEvent* e);
+	void reset();
 
 private:
 	Ui::FileChooserClass ui;
@@ -31,6 +36,7 @@ private:
 	QLabel* imgLabel;
 	ImageInfo* selectedImage;
 	std::vector<std::string> acceptedFileTypes;
+	QFont font;
 
 	void setupView();
 	void loadImage(QString& path);

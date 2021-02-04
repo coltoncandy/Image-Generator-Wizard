@@ -46,7 +46,7 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
-	delete destination; 
+	delete destination;
 
 	delete[] ready;
 }
@@ -97,8 +97,8 @@ void ImageWizard::goNext() {
 		}
 		destination = selectDestination->getDestination();
 	}
-	else if(frames->currentWidget() == processingWindow ) {
-			AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
+	else if(frames->currentWidget() == processingWindow) {
+		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 
 	}
 
@@ -109,7 +109,7 @@ void ImageWizard::goNext() {
 			disableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
-			ready[cur-1] = true;
+			ready[cur - 1] = true;
 			btnPrev->show();
 		}
 		if(cur == frames->count()) {

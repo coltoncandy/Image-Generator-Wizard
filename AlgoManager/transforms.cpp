@@ -144,12 +144,18 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 
 					sumx = clamp(sumx, 0, initialImage.rows - 1); //if we're looking at a pixel outside the image boundaries, just use the image boundary
 
-					// determine the opacity of the foregrond pixel, using its fourth (alpha) channel.
-					if(initialImage.data[getIndex(sumx, sumy, initialImage) + 3] == 0) {
-						transparentCount++;
-						if(transparentCount >= threshold) {  //if we've already found our threshold number of transparent pixels, no need to keep looking
-							break;
+					try {
+						// determine the opacity of the foregrond pixel, using its fourth (alpha) channel.
+						if(initialImage.data[getIndex(sumx, sumy, initialImage) + 3] == 0) {
+							transparentCount++;
+							if(transparentCount >= threshold) {  //if we've already found our threshold number of transparent pixels, no need to keep looking
+								break;
+							}
 						}
+					}
+					catch(...) {
+						//initialImage.data access out of bounds
+						return initialImage;
 					}
 				}
 				if(transparentCount >= threshold) {
@@ -168,19 +174,36 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 	for(int y = 0; y < height; y++) { //loop through image
 		for(int x = 0; x < width; x++) {
 			if(alphaMask[y][x]) { //apply gaussian blur to r, g, b channels (0, 1, and 2) of current pixel
-				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);  
-				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 1);
-				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 2);
-				//applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 3); //don't copy alpha
+				try {
+					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);
+					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 1);
+					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 2);
+					//applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 3); //don't copy alpha
+				}
+				catch(...) {
+					//applyFilter failed
+					return initialImage;
+				}
 			}
 			else { //if we didn't have enough transparent pixels near us, then just copy the pixel values from initialImage
-				output.data[getIndexClamped(x, y, output) + 0] = initialImage.data[getIndexClamped(x, y, initialImage) + 0];
-				output.data[getIndexClamped(x, y, output) + 1] = initialImage.data[getIndexClamped(x, y, initialImage) + 1];
-				output.data[getIndexClamped(x, y, output) + 2] = initialImage.data[getIndexClamped(x, y, initialImage) + 2];
+				try {
+					output.data[getIndexClamped(x, y, output) + 0] = initialImage.data[getIndexClamped(x, y, initialImage) + 0];
+					output.data[getIndexClamped(x, y, output) + 1] = initialImage.data[getIndexClamped(x, y, initialImage) + 1];
+					output.data[getIndexClamped(x, y, output) + 2] = initialImage.data[getIndexClamped(x, y, initialImage) + 2];
+				}
+				catch(...) {
+					//data access out of bounds
+					return initialImage;
+				}
 			}
-			//copy alpha value from initialImage (which isn't changed by this blur function)
-			output.data[getIndexClamped(x, y, output) + 3] = initialImage.data[getIndexClamped(x, y, initialImage) + 3];
-
+			try {
+				//copy alpha value from initialImage (which isn't changed by this blur function)
+				output.data[getIndexClamped(x, y, output) + 3] = initialImage.data[getIndexClamped(x, y, initialImage) + 3];
+			}
+			catch(...) {
+				//data access out of bounds
+				return initialImage;
+			}
 		}
 	}
 	return output;
@@ -210,7 +233,13 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				int sumy = y + dy;
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
 					int sumx = x + dx;
-					opacity_level = ((double) initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3]) / 255.0;
+					try {
+						opacity_level = ((double) initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3]) / 255.0;
+					}
+					catch(...) {
+						//data access out of bounds
+						return initialImage;
+					}
 					if(opacity_level == 0.0) {  //if the pixel is fully transparent, increment transparentCount
 						transparentCount++;
 					}
@@ -223,7 +252,13 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	unsigned char initialPx = 0;
 	for(int y = 0; y < initialImage.rows; ++y) {//Step through every pixel and update its transparency to the values stored in alphaMask
 		for(int x = 0; x < initialImage.cols; ++x) { 
-			output.data[getIndex(x, y, output) + 3] = alphaMask[y][x] * 255.0;
+			try {
+				output.data[getIndex(x, y, output) + 3] = alphaMask[y][x] * 255.0;
+			}
+			catch(...) {
+				//data access out of bounds
+				return initialImage;
+			}
 		}
 	}
 	return output;

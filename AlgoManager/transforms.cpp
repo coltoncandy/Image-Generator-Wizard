@@ -83,14 +83,10 @@ int applyFilter(Mat input, Mat output, int filterWidth, std::vector<std::vector<
 	return result;
 }
 
-Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur) {  //call with gridSize = (3, 5, or 7). Does not affect transparency. widthToBlur = how far away from transparent pixels will be blurred.
+Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int threshold) {  //call with gridSize = (3, 5, or 7). Does not affect transparency. widthToBlur = how far away from transparent pixels will be blurred.
 	if(!(gridSize == 3 || gridSize == 5 || gridSize == 7)) {
 		return initialImage;
 	}
-
-	float opacity = 1.0;    //can potentially be utilized as function parameter later on 
-	if(opacity < 0 || opacity > 1 || initialImage.empty())
-		return initialImage;
 
 	std::vector<std::vector<int>> filter;
 	int toDivide;
@@ -126,35 +122,41 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur) {  //call
 		toDivide = 1003;
 	}
 
-
-
 	std::vector<std::vector<bool>> alphaMask(initialImage.rows, std::vector<bool>(initialImage.cols, 0.0)); //initialize a 2D array to keep track of final alpha values. Has same number of rows and cols, initialized to 0 in every position.
 	
-
 	Mat output;
 	initialImage.copyTo(output);
 	int transparentCount;
-	for(int y = 0; y < initialImage.rows; ++y) {
-		for(int x = 0; x < initialImage.cols; ++x) {
+	int height = initialImage.rows;
+	int width = initialImage.cols;
+
+	for(int y = 0; y < height; ++y) {    //loop through image
+		for(int x = 0; x < width; ++x) {
 
 			transparentCount = 0;
-
-			for(int dy = (0 - widthToBlur); dy <= widthToBlur; dy++) {
+			for(int dy = (0 - widthToBlur); dy <= widthToBlur; dy++) {  //loop around current pixel, based on how far away we want to blur from transparent pixels
 				int sumy = y + dy;
 				
 				sumy = clamp(sumy, 0, initialImage.rows - 1); //if we're looking at a pixel outside the image boundaries, just use the image boundary
 				
 				for(int dx = (0 - widthToBlur); dx <= widthToBlur; dx++) {
 					int sumx = x + dx;
+
 					sumx = clamp(sumx, 0, initialImage.rows - 1); //if we're looking at a pixel outside the image boundaries, just use the image boundary
 
 					// determine the opacity of the foregrond pixel, using its fourth (alpha) channel.
 					if(initialImage.data[getIndex(sumx, sumy, initialImage) + 3] == 0) {
 						transparentCount++;
+						if(transparentCount >= threshold) {  //if we've already found our threshold number of transparent pixels, no need to keep looking
+							break;
+						}
 					}
 				}
+				if(transparentCount >= threshold) {
+					break;
+				}
 			}
-			if(transparentCount >= 4) {//avoid blurring around just small dots of transparency
+			if(transparentCount >= threshold) {//avoid blurring around just small dots of transparency
 				alphaMask[y][x] = true;
 			}
 			else {
@@ -162,84 +164,65 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur) {  //call
 			}
 		}
 	}
-	int height = initialImage.rows;
-	int width = initialImage.cols;
 
-	for(int y = 0; y < height; y++) {
+	for(int y = 0; y < height; y++) { //loop through image
 		for(int x = 0; x < width; x++) {
-			if(alphaMask[y][x]) {
-				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);
+			if(alphaMask[y][x]) { //apply gaussian blur to r, g, b channels (0, 1, and 2) of current pixel
+				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);  
 				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 1);
 				applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 2);
 				//applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 3); //don't copy alpha
 			}
-			else {
+			else { //if we didn't have enough transparent pixels near us, then just copy the pixel values from initialImage
 				output.data[getIndexClamped(x, y, output) + 0] = initialImage.data[getIndexClamped(x, y, initialImage) + 0];
 				output.data[getIndexClamped(x, y, output) + 1] = initialImage.data[getIndexClamped(x, y, initialImage) + 1];
 				output.data[getIndexClamped(x, y, output) + 2] = initialImage.data[getIndexClamped(x, y, initialImage) + 2];
 			}
-			//applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 3); //don't copy alpha
+			//copy alpha value from initialImage (which isn't changed by this blur function)
 			output.data[getIndexClamped(x, y, output) + 3] = initialImage.data[getIndexClamped(x, y, initialImage) + 3];
 
 		}
 	}
-
 	return output;
 }
 
-Mat blurEdgesTransparency(Mat initialImage, int gridSize) {
-	float opacity = 1.0;    //can potentially be utilized as function parameter later on 
-	if(opacity < 0 || opacity > 1 || initialImage.empty())
-		return initialImage;
+Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the distance to look at nearby pixels. 3 is a 3x3 grid centered on each pixel, 5 is 5x5, etc.
+	if(gridSize < 3) {
+		gridSize = 3; 
+	}
 
 	Mat output;
-	if(gridSize < 3 || gridSize % 2 == 0) {
-		gridSize = 3; //the size of the grid to look at nearby pixels. 3 is a 3x3 grid centered on each pixel, 5 is 5x5, etc. Only use odd numbers.
-	}
 	std::vector<std::vector<double>> alphaMask(initialImage.rows, std::vector<double> (initialImage.cols, 0.0)); //initialize a 2D array to keep track of final alpha values. Has same number of rows and cols, initialized to 0 in every position.
 	initialImage.copyTo(output);
-	//int maxPixelDistance = gridSize - 1;
+
 	int maxPixelDistance = gridSize / 2;
 	double ratio;
 	double opacity_level;
 	double old_opacity;
 	int transparentCount;
-	for(int y = 0; y < initialImage.rows; ++y) {
-		for(int x = 0; x < initialImage.cols; ++x) {
+	int height = initialImage.rows;
+	int width = initialImage.cols;
 
+	for(int y = 0; y < height; ++y) {  //loop through image
+		for(int x = 0; x < width; ++x) {
 			transparentCount = 0;
-
-			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) {
+			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) { //loop to look at nearby pixels within maxPixelDistance
 				int sumy = y + dy;
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
 					int sumx = x + dx;
 					opacity_level = ((double) initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3]) / 255.0;
-					if(opacity_level == 0.0) {
+					if(opacity_level == 0.0) {  //if the pixel is fully transparent, increment transparentCount
 						transparentCount++;
 					}
 				}
 			}
-			ratio = 1.0 - ((1.0 * transparentCount) / (1.0 * (gridSize * gridSize)));
-			old_opacity = ((double) initialImage.data[getIndexClamped(x, y, initialImage) + 3]) / 255.0;
-
-
-			//alphaMask[y][x] = old_opacity * ratio; //new opacity = old opacity * ratio of how many nearby pixels were fully transparent (so, if 12/25 pixels in the 5x5 grid were transparent, the new transparency is half as high as it used to be).
-			if(old_opacity == 0) {
-				alphaMask[y][x] = ratio;
-			}
-			else {
-				alphaMask[y][x] = ratio;
-			}
+			ratio = 1.0 - ((1.0 * transparentCount) / (1.0 * (gridSize * gridSize))); //ratio of how many nearby pixels were fully transparent (so, if 12 / 25 pixels in the 5x5 grid were transparent, the new transparency is 0.5).
+			alphaMask[y][x] = ratio; //save ratio to a matrix
 		}
-
 	}
 	unsigned char initialPx = 0;
-	for(int y = 0; y < initialImage.rows; ++y) {
-		for(int x = 0; x < initialImage.cols; ++x) { //Step through every pixel and update its transparency to the values stored in alphaMask
-			for(int c = 0; c < output.channels() - 1; ++c) {
-				initialPx = initialImage.data[getIndexClamped(x, y, initialImage) + c];// / initialAlpha;
-				output.data[getIndex(x, y, output) + c] = initialPx * alphaMask[y][x];
-			}
+	for(int y = 0; y < initialImage.rows; ++y) {//Step through every pixel and update its transparency to the values stored in alphaMask
+		for(int x = 0; x < initialImage.cols; ++x) { 
 			output.data[getIndex(x, y, output) + 3] = alphaMask[y][x] * 255.0;
 		}
 	}

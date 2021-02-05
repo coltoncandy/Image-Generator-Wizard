@@ -3,7 +3,7 @@ QWidget#FileChooserClass,QWidget#TargetSelector,QWidget#widget,QWidget#WelcomePa
 }
 
 QLabel#title{
-	font: 600 18pt "Microsoft Sans Serif";
+	font: 700 18pt "Microsoft Sans Serif";
 	color: rgb(250,250,250);
 }
 
@@ -79,14 +79,24 @@ QPushButton:disabled#browseButton{
 QPushButton:hover#btnPrev{
 	icon: url(" ");
 	icon-size: 38px, 30px;
-	image: url("C:/Users/Tula/Downloads/leftArrow2.png");
+	image: url("C:/Users/Tula/Downloads/leftHover.png");
 	background-repeat: no-repeat;
 	}
 
 QPushButton:hover#btnNext{
 	icon: url(" ");
 	icon-size: 38px, 30px;
-	image: url("C:/Users/Tula/Downloads/rightArrow2.png");
+	image: url("C:/Users/Tula/Downloads/rightHover.png");
+	background-repeat: no-repeat;
+}
+
+QPushButton#reset{
+	image: url("C:/Users/Tula/Downloads/reset.png");
+	background-repeat: no-repeat;
+}
+
+QPushButton:hover#reset{
+	image: url("C:/Users/Tula/Downloads/resetHover.png");
 	background-repeat: no-repeat;
 }
 

@@ -97,8 +97,8 @@
    <slot>chooseDirectory()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>47</x>
-     <y>457</y>
+     <x>138</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>319</x>
@@ -108,22 +108,23 @@
   </connection>
   <connection>
    <sender>reset</sender>
-   <signal>pressed()</signal>
+   <signal>clicked()</signal>
    <receiver>SelectDestinationClass</receiver>
-   <slot>chooseDirectory()</slot>
+   <slot>reset()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>47</x>
-     <y>354</y>
+     <x>68</x>
+     <y>281</y>
     </hint>
     <hint type="destinationlabel">
-     <x>318</x>
-     <y>188</y>
+     <x>355</x>
+     <y>28</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>chooseDirectory()</slot>
+  <slot>reset()</slot>
  </slots>
 </ui>

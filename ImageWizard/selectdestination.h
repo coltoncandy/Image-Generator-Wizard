@@ -17,9 +17,10 @@ public:
 	
 public slots:
 	void chooseDirectory();
+	void reset();
 	void setDirectory(QString url);
 	QString* getDestination();
-	void reset(); 
+	
 
 private:
 	Ui::SelectDestinationClass ui;

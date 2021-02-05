@@ -8,9 +8,8 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent) {
+SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent)  {
 	QObject::connect(&chooser, &QFileDialog::directoryEntered, this, &SelectDestination::setDirectory);
-
 	ui.setupUi(this);
 	chooser.setFileMode(QFileDialog::FileMode::Directory);
 
@@ -37,6 +36,9 @@ void SelectDestination::reset() {
 	destinationPath = NULL;
 	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
 	wizard->disableNext();
+	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
+	chosenDestination = findChild<QLineEdit*>("chosenDestination");
+	chosenDestination->setText(" ");
 }
 
 void SelectDestination::chooseDirectory() {

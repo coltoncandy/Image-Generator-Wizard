@@ -63,10 +63,15 @@ void FileChooser::getRandomFile() {
 //Should throw if directory does not exist
 	std::string absolutePath = defaultDirectory.absoluteFilePath().toStdString();
 	std::string* imageList = nullptr;
-	//Needs to catch errors thrown from the function
-	getRandomBackgrounds(1, absolutePath, imageList);
-	if(imageList) {
-		setFilePath(imageList[0].c_str());
+	try {
+		getRandomBackgrounds(1, absolutePath, imageList);
+		if(imageList) {
+			setFilePath(imageList[0].c_str());
+		}
+	}
+	catch(std::string ex) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", ex.c_str());
 	}
 }
 void FileChooser::setFilePath(QString path) {

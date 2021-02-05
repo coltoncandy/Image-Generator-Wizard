@@ -21,7 +21,7 @@ public slots:
 
 
 private:
-	Ui::targetselector ui;
+	Ui::TargetSelector ui;
 
 	QLabel* imgLabel;
 	ImageInfo* target;

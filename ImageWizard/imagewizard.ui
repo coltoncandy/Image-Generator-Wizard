@@ -38,7 +38,8 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true"> border-color: rgb(172, 172, 172); border-style: outset; border-width: 2px; border-radius: 10px; padding: 6px; </string>
+      <string notr="true"> border-color: rgb(43, 43, 43); border-style: outset; border-width: 2px; border-radius: 10px; padding: 6px; 
+</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

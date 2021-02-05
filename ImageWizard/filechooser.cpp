@@ -129,7 +129,7 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 
 	pen.setWidth(3);
 	//pen.setBrush(Qt::gray);
-	pen.setBrush(Qt::white);
+	pen.setBrush(Qt::lightGray);
 	pen.setCapStyle(Qt::RoundCap);
 	painter.setPen(pen);
 	painter.setFont(font);

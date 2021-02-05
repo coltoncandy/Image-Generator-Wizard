@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item alignment="Qt::AlignTop">
-    <widget class="QLabel" name="title">
+    <widget class="QLabel" name="mainTitle">
      <property name="font">
       <font>
        <family>Microsoft Sans Serif</family>
@@ -61,7 +61,7 @@
       <bool>true</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 600 35pt &quot;Microsoft Sans Serif&quot;; color:rgb(48, 48, 48);
+      <string notr="true">
 
 
 </string>
@@ -77,10 +77,10 @@
    <item alignment="Qt::AlignTop">
     <widget class="QLabel" name="label_3">
      <property name="styleSheet">
-      <string notr="true">font: 14pt &quot;Microsoft Sans Serif&quot;;</string>
+      <string notr="true">font: 14pt &quot;Microsoft Sans Serif&quot;;color:rgb(250, 250, 250);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;This program will help you generate unique images containing a selected target object. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;These images are free to use under the GNU General Public License v3. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#3d3d3d;&quot;&gt;Press the &amp;quot;-&amp;gt;&amp;quot; button to begin generating your images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#3d3d3d;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#fafafa;&quot;&gt;This program will help you generate unique images containing a selected target object. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#fafafa;&quot;&gt;These images are free to use under the GNU General Public License v3. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:500; color:#fafafa;&quot;&gt;Press the &amp;quot;-&amp;gt;&amp;quot; button to begin generating your images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#fafafa;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -114,9 +114,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="drone_logo.qrc"/>
-  <include location="drone_logo.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

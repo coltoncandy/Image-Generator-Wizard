@@ -26,8 +26,7 @@
    <string>ImageWizard</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -72,7 +71,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -98,7 +97,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>

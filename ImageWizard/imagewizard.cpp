@@ -27,8 +27,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon("C:/Users/Tula/Desktop/left_arrow2.png"));
-	btnNext->setIcon(QIcon("C:/Users/Tula/Desktop/right_arrow2.png"));
+	btnPrev->setIcon(QIcon("C:/Users/Tula/Downloads/leftArrow.png"));
+	btnNext->setIcon(QIcon("C:/Users/Tula/Downloads/rightArrow.png"));
 	btnNext->setStyleSheet("padding: 6px;"); 
 	// border-color: rgb(172, 172, 172); border-style: outset; border-width: 2px; border-radius: 10px; padding: 6px; make button with border
 	//btnNext->setStyleSheet("padding-left: 5px;padding-right: 3px;""padding-top: 1px; padding-bottom: 1px;"); // round edges of button

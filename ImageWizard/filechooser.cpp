@@ -128,12 +128,15 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	options.setAlignment(Qt::AlignCenter);
 
 	pen.setWidth(3);
-	pen.setBrush(Qt::gray);
+	//pen.setBrush(Qt::gray);
+	pen.setBrush(Qt::white);
 	pen.setCapStyle(Qt::RoundCap);
 	painter.setPen(pen);
 	painter.setFont(font);
+	//painter.setBackgroundMode(Qt::OpaqueMode);
 
 	painter.setRenderHint(QPainter::Antialiasing);
+	//painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
 	painter.drawText(
 		QRect((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),

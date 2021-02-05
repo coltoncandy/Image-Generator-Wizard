@@ -6,7 +6,7 @@ WelcomePage::WelcomePage(const QString& title, QWidget* parent)
 	ui.setupUi(this);
 	QPixmap pix("C:/Users/Tula/Desktop/Q.png");
 	ui.Drone_logo->setPixmap(pix);
-	QLabel* titleLabel = findChild<QLabel*>("title");
+	QLabel* titleLabel = findChild<QLabel*>("mainTitle");
 	titleLabel->setText(title);
 }
 

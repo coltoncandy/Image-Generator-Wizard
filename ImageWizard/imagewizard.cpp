@@ -27,8 +27,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon("C:/Users/Tula/Downloads/leftArrow.png"));
-	btnNext->setIcon(QIcon("C:/Users/Tula/Downloads/rightArrow.png"));
+	btnPrev->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png"));
+	btnNext->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png"));
 	btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));

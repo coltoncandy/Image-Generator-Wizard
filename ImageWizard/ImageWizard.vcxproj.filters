@@ -47,6 +47,9 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="wizardpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -70,6 +73,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="welcomepage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="wizardpage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

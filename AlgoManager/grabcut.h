@@ -21,7 +21,7 @@ class GCApplication {
         static const int radius = 2;
         static const int thickness = -1;
         void reset();
-        void setImageAndWinName(const Mat& _image, const string& _winName);
+        void setImageAndWinName(const Mat& _image, const Mat& _initialImage, const string& _winName);
         void showImage() const;
         void mouseClick(int event, int x, int y, int flags, void* param);
         int nextIter();
@@ -33,6 +33,7 @@ class GCApplication {
         void setLblsInMask(int flags, Point p, bool isPr);
         const string* winName;
         const Mat* image;
+        const Mat* initialImage;
         Mat mask;
         Mat bgdModel, fgdModel;
         uchar rectState, lblsState, prLblsState;

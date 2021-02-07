@@ -35,6 +35,13 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnPrev->setIconSize(QSize(85, 32)); 
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
+	
+	// Add lighter arrow when hovering
+	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
+	QString styleSheet = "QPushButton:hover#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%1); background - repeat: no - repeat;} QPushButton:hover#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%2); background - repeat: no - repeat;}";
+	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
+	setStyleSheet(styleSheet.arg(rightHover).arg(leftHover));
+
 	//Hides the previous button on the first page
 	btnPrev->hide();
 }

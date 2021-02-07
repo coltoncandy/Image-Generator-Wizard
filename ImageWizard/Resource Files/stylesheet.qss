@@ -76,29 +76,6 @@ QPushButton:disabled#browseButton{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(57, 57, 57, 255), stop:1 rgba(77, 77, 77, 255));
 }
 
-QPushButton:hover#btnPrev{
-	icon: url(" ");
-	icon-size: 38px, 30px;
-	image: url("C:/Users/Tula/Downloads/leftHover.png");
-	background-repeat: no-repeat;
-	}
-
-QPushButton:hover#btnNext{
-	icon: url(" ");
-	icon-size: 38px, 30px;
-	image: url("C:/Users/Tula/Downloads/rightHover.png");
-	background-repeat: no-repeat;
-}
-
-QPushButton#reset{
-	image: url("C:/Users/Tula/Downloads/reset.png");
-	background-repeat: no-repeat;
-}
-
-QPushButton:hover#reset{
-	image: url("C:/Users/Tula/Downloads/resetHover.png");
-	background-repeat: no-repeat;
-}
 
 QLineEdit{
 border-width: 1px; border-radius: 4px;

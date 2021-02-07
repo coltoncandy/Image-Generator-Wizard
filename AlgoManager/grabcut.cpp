@@ -46,12 +46,13 @@ void GCApplication::reset() {
     iterCount = 0;
 }
 
-void GCApplication::setImageAndWinName(const Mat& _image, const string& _winName) {
+void GCApplication::setImageAndWinName(const Mat& _image, const Mat& _initialImage, const string& _winName) {
     
     if(_image.empty() || _winName.empty())
         return;
     
     image = &_image;
+    initialImage = &_initialImage;
     winName = &_winName;
     
     mask.create(image->size(), CV_8UC1);
@@ -90,6 +91,8 @@ void GCApplication::showImage() const {
 }
 
 Mat GCApplication::makeTransparent(Mat targetBlackBg) const {           //Makes black background present after grabCut processing transparent
+    Mat copyInitial;
+    initialImage->copyTo(copyInitial);
 
     if(targetBlackBg.empty())
         return targetBlackBg;
@@ -102,7 +105,8 @@ Mat GCApplication::makeTransparent(Mat targetBlackBg) const {           //Makes 
 
     cv::cvtColor(targetBlackBg, tmp, cv::COLOR_BGR2GRAY);       //Convert processed target image to grayscale and store in tmp 
     cv::threshold(tmp, alpha, 0, 255, cv::THRESH_BINARY);       //All pixels > 0 are set to 255 (white), else set to 0 (black) 
-    cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    //cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    cv::split(copyInitial, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
     rgba = {bgr[0], bgr[1], bgr[2], alpha};                     //Stores each color channel and binary mask in vector 
     cv::merge(rgba, dst);                                       //Merges channels stored in vector
 
@@ -262,8 +266,13 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
 
 Mat grabCut(const std::string& path) {
     Mat image = imread(path, IMREAD_COLOR);
+    Mat initialImage = imread(path, IMREAD_COLOR);
 
     if(image.empty()) {
+        cout << "\n Could not read file path" << endl;
+        return image;
+    }
+    if(initialImage.empty()) {
         cout << "\n Could not read file path" << endl;
         return image;
     }
@@ -272,7 +281,7 @@ Mat grabCut(const std::string& path) {
     namedWindow(winName, WINDOW_NORMAL);            //Sets highGUI namedWindow to allow resizing. Image is processed and output at the original resolution
     setMouseCallback(winName, on_mouse, 0);         //Specifies handler for mouse events for the given window 
 
-    gcapp.setImageAndWinName(image, winName);
+    gcapp.setImageAndWinName(image, initialImage, winName);
     gcapp.showImage();
 
     for(;;) {

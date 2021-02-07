@@ -11,7 +11,7 @@
 
 #include "imagewizard.h"
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& directoryPath, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);

@@ -42,6 +42,17 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 	titleLabel->setText(title);
 	titleLabel->setFont(font);
 
+	// Set up reset button
+	QPushButton * resetButton = findChild<QPushButton*>("resetButton");
+	resetButton->setIcon(QIcon("  "));
+	resetButton->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
+	resetButton->setIconSize(QSize(100, 50));
+	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+	QString reset = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
+	QString styleSheet = "QPushButton#resetButton{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#resetButton{ image: url(%2); background-repeat: no-repeat; }";
+	QString resetHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
+	setStyleSheet(styleSheet.arg(reset).arg(resetHover));
+
 	selectedImage = image;
 
 	setupView();
@@ -131,15 +142,12 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	options.setAlignment(Qt::AlignCenter);
 
 	pen.setWidth(3);
-	//pen.setBrush(Qt::gray);
 	pen.setBrush(Qt::lightGray);
 	pen.setCapStyle(Qt::RoundCap);
 	painter.setPen(pen);
 	painter.setFont(font);
-	//painter.setBackgroundMode(Qt::OpaqueMode);
 
 	painter.setRenderHint(QPainter::Antialiasing);
-	//painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
 	painter.drawText(
 		QRect((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),

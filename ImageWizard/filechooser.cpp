@@ -11,7 +11,7 @@
 
 #include "imagewizard.h"
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& directoryPath, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -44,6 +44,10 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 
 	selectedImage = image;
 
+	randomButton = findChild<QPushButton*>("randomButton");
+	QObject::connect(randomButton, &QPushButton::pressed, this, &FileChooser::getRandomFile);
+	defaultDirectory = QFileInfo(directoryPath);
+
 	setupView();
 }
 
@@ -58,9 +62,24 @@ void FileChooser::chooseFile() {
 	chooser.show();
 }
 
+void FileChooser::getRandomFile() {
+	std::string absolutePath = defaultDirectory.absoluteFilePath().toStdString();
+	std::string* imageList = nullptr;
+	try {
+		getRandomImages(1, absolutePath, imageList);
+		if(imageList) {
+			setFilePath(imageList[0].c_str());
+			delete[] imageList;
+		}
+	}
+	catch(std::string ex) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", ex.c_str());
+	}
+}
+
 void FileChooser::setFilePath(QString path) {
 	chosenFileName->setText(path);
-
 	loadImage(path);
 }
 

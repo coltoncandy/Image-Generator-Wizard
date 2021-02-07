@@ -37,6 +37,4 @@ private:
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
-
-	bool* ready;
 };

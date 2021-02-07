@@ -178,7 +178,6 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 0);
 					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 1);
 					applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 2);
-					//applyFilter(initialImage, output, gridSize, filter, toDivide, x, y, 3); //don't copy alpha
 				}
 				catch(...) {
 					//applyFilter failed

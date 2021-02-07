@@ -1,19 +1,21 @@
 #include "fileManager.h"
 
-void getRandomBackgrounds(int backgroundNum, std::string absolutePath, std::string *& backgroundList) {
-	if(backgroundNum < 1) {
+//Randomly fills the array of strings, imageList, with paths of images found in the directory
+//specified by the absolutePath. The number of images added to imageList is set by the imageNum parameter.
+void getRandomImages(int imageNum, std::string absolutePath, std::string *& imageList) {
+	if(imageNum < 1) {
 		std::string errorMessage = "The number of background selected to return must be greater than 0.";
 		throw errorMessage;
 	}
 
-	if(backgroundList) {
-		delete[] backgroundList;
-		backgroundList = nullptr;
+	if(imageList) {
+		delete[] imageList;
+		imageList = nullptr;
 	}
 
 	absolutePath.append("/");
 	std::string searchPath = absolutePath;
-	searchPath.append("/*");
+	searchPath.append("*");
     WIN32_FIND_DATAA data;
 
     HANDLE hFind = FindFirstFileA(searchPath.c_str() , &data);
@@ -41,13 +43,13 @@ void getRandomBackgrounds(int backgroundNum, std::string absolutePath, std::stri
 		throw errorMessage;
 	}
 
-	backgroundList = new std::string[backgroundNum];
+	imageList = new std::string[imageNum];
 	int totalBackgrounds = fileList.size();
 	srand(time(NULL));
 
-	//Fills the backgroundList array with random file paths from fileList. Duplicate files may be included in final list of backgrounds. 
-	for(int i = 0; i < backgroundNum; ++i) {
+	//Fills the imageList array with random file paths from fileList. Duplicate files may be included in final list of images. 
+	for(int i = 0; i < imageNum; ++i) {
 		int randomIndex = rand() % totalBackgrounds;
-		backgroundList[i] = fileList[randomIndex];
+		imageList[i] = fileList[randomIndex];
 	}
 }

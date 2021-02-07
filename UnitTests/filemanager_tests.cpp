@@ -38,23 +38,23 @@ protected:
 };
 TEST_F(FileManagerTests, InvalidPathThrowsErrorMessage) {
 	std::string invalidPath = "C:/Non/Existant/Path";
-	EXPECT_THROW(getRandomBackgrounds(1, invalidPath, returnedImages), std::string);
+	EXPECT_THROW(getRandomImages(1, invalidPath, returnedImages), std::string);
 	EXPECT_EQ(nullptr, returnedImages);
 }
  TEST_F(FileManagerTests, InvalidBackgroundNumberThrowsErrorMessage) {
-	EXPECT_THROW(getRandomBackgrounds(0, testImageDirectory, returnedImages), std::string);
+	EXPECT_THROW(getRandomImages(0, testImageDirectory, returnedImages), std::string);
 	EXPECT_EQ(nullptr, returnedImages);
 }
 
  TEST_F(FileManagerTests, NoFoundPngFilesInGivenDirectoryThrowsErrorMessage) {
-	EXPECT_THROW(getRandomBackgrounds(1, testImageDirectory, returnedImages), std::string);
+	EXPECT_THROW(getRandomImages(1, testImageDirectory, returnedImages), std::string);
 	EXPECT_EQ(nullptr, returnedImages);
 }
 
 TEST_F(FileManagerTests, RequestingOneImageSetsAnImagePath) {
 	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
-	getRandomBackgrounds(1, testImageDirectory, returnedImages);
+	getRandomImages(1, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
 	EXPECT_EQ(returnedImages[0], filePath);
 	DeleteFileA(filePath.c_str());
@@ -63,7 +63,7 @@ TEST_F(FileManagerTests, RequestingOneImageSetsAnImagePath) {
 TEST_F(FileManagerTests, RequestingManyImagesWithOnlyOnePngExistingSetsSameImagePathMultipleTimes) {
 	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
-	getRandomBackgrounds(5, testImageDirectory, returnedImages);
+	getRandomImages(5, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
 	for(int i = 0; i < 5; ++i) {
 		EXPECT_EQ(returnedImages[i], filePath);
@@ -76,7 +76,7 @@ TEST_F(FileManagerTests, AlreadyInitializedPointerDeletedAndGetsReinitialized) {
 	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
 
-	getRandomBackgrounds(3, testImageDirectory, returnedImages);
+	getRandomImages(3, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
 	for(int i = 0; i < 3; ++i) {
 		EXPECT_EQ(returnedImages[i], filePath);
@@ -91,7 +91,7 @@ TEST_F(FileManagerTests, requestingManyImagesWithManyPngsExistingSetsMultipleDif
 	std::string filePath2 = testImageDirectory + "/testImage2.png";
 	imwrite(filePath2, testImage);
 
-	getRandomBackgrounds(imageNum, testImageDirectory, returnedImages);
+	getRandomImages(imageNum, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
 
 	int file1Count = 0;

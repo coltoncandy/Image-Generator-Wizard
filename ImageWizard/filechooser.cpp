@@ -63,14 +63,13 @@ void FileChooser::chooseFile() {
 }
 
 void FileChooser::getRandomFile() {
- 
-//Should throw if directory does not exist
 	std::string absolutePath = defaultDirectory.absoluteFilePath().toStdString();
 	std::string* imageList = nullptr;
 	try {
-		getRandomBackgrounds(1, absolutePath, imageList);
+		getRandomImages(1, absolutePath, imageList);
 		if(imageList) {
 			setFilePath(imageList[0].c_str());
+			delete[] imageList;
 		}
 	}
 	catch(std::string ex) {
@@ -78,6 +77,7 @@ void FileChooser::getRandomFile() {
 		messageBox.warning(0, "Error", ex.c_str());
 	}
 }
+
 void FileChooser::setFilePath(QString path) {
 	chosenFileName->setText(path);
 	loadImage(path);

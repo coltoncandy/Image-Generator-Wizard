@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-void getRandomBackgrounds(int backgroundNum, std::string absolutePath, std::string*& backgroundList);
+void getRandomImages(int backgroundNum, std::string absolutePath, std::string*& backgroundList);
 
 	
 

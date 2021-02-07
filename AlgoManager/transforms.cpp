@@ -43,20 +43,19 @@ Mat overlay(Mat background, Mat foreground, Point location) {
 
 Mat rotation(Mat target, int angleBounds) {
 
-    if(target.empty() || angleBounds < 0 || angleBounds > 360) 
+    if(target.empty() || angleBounds < 1 || angleBounds > 360) 
         return target; 
 
-    double randAngle = (rand() % angleBounds*2) - angleBounds;      //Generates random angle between -angleBounds and angleBounds degrees
-
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
-    Mat rot = getRotationMatrix2D(center, randAngle, 1.0); 
-    Rect2f box = RotatedRect(cv::Point2f(), target.size(), randAngle).boundingRect2f();
+    Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
 
-    rot.at<double>(0, 2) += box.width / 2.0 - target.cols / 2.0; 
-    rot.at<double>(1, 2) += box.height / 2.0 - target.rows / 2.0; 
-    
+    //Rect2f box = RotatedRect(cv::Point2f(), target.size(), angleBounds).boundingRect2f();
+
+    //rot.at<double>(0, 2) += box.width / 2.0 - target.cols / 2.0;
+    //rot.at<double>(1, 2) += box.height / 2.0 - target.rows / 2.0;
+
     Mat dst;
-    warpAffine(target, dst, rot, box.size()); 
+    warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
 
     return dst; 
 

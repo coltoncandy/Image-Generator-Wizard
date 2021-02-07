@@ -47,6 +47,12 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="wizardpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="backgroundremoval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -61,6 +67,9 @@
     <QtUic Include="welcomepage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="backgroundremoval.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
@@ -70,6 +79,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="welcomepage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="wizardpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="backgroundremoval.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

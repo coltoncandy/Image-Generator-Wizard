@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 
 namespace AlgoManager {
@@ -7,7 +6,6 @@ namespace AlgoManager {
 	public:
 		static void grabCutWrapper(const std::string& path);
 		static void overlayWrapper(const std::string& bg, const std::string& fg); 
-		void process(); 
+		static void process(const std::string& targetPath); 
 	};
 }
-

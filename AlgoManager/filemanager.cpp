@@ -11,9 +11,9 @@ void getRandomBackgrounds(int backgroundNum, std::string absolutePath, std::stri
 		backgroundList = nullptr;
 	}
 
-	absolutePath.append("\\");
+	absolutePath.append("/");
 	std::string searchPath = absolutePath;
-	searchPath.append("\\*");
+	searchPath.append("/*");
     WIN32_FIND_DATAA data;
 
     HANDLE hFind = FindFirstFileA(searchPath.c_str() , &data);
@@ -30,12 +30,10 @@ void getRandomBackgrounds(int backgroundNum, std::string absolutePath, std::stri
 		std::string file = data.cFileName;
 		//Only adds .PNG files to the list of files to select from
 		if(file.length() > 4 && file.compare(file.length() - 4, 4, ".png") == 0) {
-			std::cout << file << std::endl;
 			fileList.push_back(absolutePath + data.cFileName);
 		}
 	} while(FindNextFileA(hFind, &data));
 	FindClose(hFind);
-
 
 	if(fileList.size() < 1) {
 		std::string errorMessage = "No .png files could be found in the given directory: ";

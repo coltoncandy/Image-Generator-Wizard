@@ -14,7 +14,7 @@ protected:
 			char* cwd = new char[nBufferLength];
 			GetCurrentDirectoryA(nBufferLength, cwd);
 			testImageDirectory = cwd;
-			testImageDirectory.append("\\testingDirectory");
+			testImageDirectory.append("/testingDirectory");
 			CreateDirectoryA(testImageDirectory.c_str(), NULL);
 
 			//Creating test PNG files
@@ -37,7 +37,7 @@ protected:
 	cv::Mat testImage;
 };
 TEST_F(FileManagerTests, InvalidPathThrowsErrorMessage) {
-	std::string invalidPath = "C:\\Non\\Existant\\Path";
+	std::string invalidPath = "C:/Non/Existant/Path";
 	EXPECT_THROW(getRandomBackgrounds(1, invalidPath, returnedImages), std::string);
 	EXPECT_EQ(nullptr, returnedImages);
 }
@@ -52,7 +52,7 @@ TEST_F(FileManagerTests, InvalidPathThrowsErrorMessage) {
 }
 
 TEST_F(FileManagerTests, RequestingOneImageSetsAnImagePath) {
-	std::string filePath = testImageDirectory + "\\testImage.png";
+	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
 	getRandomBackgrounds(1, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
@@ -61,7 +61,7 @@ TEST_F(FileManagerTests, RequestingOneImageSetsAnImagePath) {
 }
 
 TEST_F(FileManagerTests, RequestingManyImagesWithOnlyOnePngExistingSetsSameImagePathMultipleTimes) {
-	std::string filePath = testImageDirectory + "\\testImage.png";
+	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
 	getRandomBackgrounds(5, testImageDirectory, returnedImages);
 	ASSERT_NE(nullptr, returnedImages);
@@ -72,8 +72,8 @@ TEST_F(FileManagerTests, RequestingManyImagesWithOnlyOnePngExistingSetsSameImage
 }
 
 TEST_F(FileManagerTests, AlreadyInitializedPointerDeletedAndGetsReinitialized) {
-	returnedImages = new std::string[] {"C:\\Previously\\Returned\\Path"};
-	std::string filePath = testImageDirectory + "\\testImage.png";
+	returnedImages = new std::string[] {"C:/Previously/Returned/Path"};
+	std::string filePath = testImageDirectory + "/testImage.png";
 	imwrite(filePath, testImage);
 
 	getRandomBackgrounds(3, testImageDirectory, returnedImages);
@@ -86,9 +86,9 @@ TEST_F(FileManagerTests, AlreadyInitializedPointerDeletedAndGetsReinitialized) {
 
 TEST_F(FileManagerTests, requestingManyImagesWithManyPngsExistingSetsMultipleDifferentPaths) {
 	int imageNum = 20;
-	std::string filePath1 = testImageDirectory + "\\testImage1.png";
+	std::string filePath1 = testImageDirectory + "/testImage1.png";
 	imwrite(filePath1, testImage);
-	std::string filePath2 = testImageDirectory + "\\testImage2.png";
+	std::string filePath2 = testImageDirectory + "/testImage2.png";
 	imwrite(filePath2, testImage);
 
 	getRandomBackgrounds(imageNum, testImageDirectory, returnedImages);

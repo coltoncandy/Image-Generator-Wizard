@@ -262,8 +262,6 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	}
 	return output;
 }
-    return output; 
-}
 
 Mat rotation(Mat target, int angleBounds) {
 

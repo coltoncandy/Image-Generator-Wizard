@@ -172,3 +172,4 @@ packages/
 *.png
 !ImageGallery/*/*.png
 !ImageGallery/*/*/*.png
+!icons/*.png

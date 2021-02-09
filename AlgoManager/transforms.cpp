@@ -314,3 +314,38 @@ Mat flipIt(Mat target, int flipCode) {
     return dst; 
 
 }
+
+Mat padImage(Mat target, int padding) {
+
+	if(target.empty() || padding < 1)
+		return target; 
+
+	Mat paddedImg = Mat(target.rows + 2 * padding, target.cols + 2 * padding, CV_8UC3); 
+	paddedImg.setTo(Scalar::all(0)); 
+	target.copyTo(paddedImg(Rect(padding, padding, target.cols, target.rows)));			//Start at (padding, padding) to center image and account for offset
+
+	return paddedImg; 
+}
+
+Mat noiseImg(Mat target, int mean, int sigma) {
+
+	if(target.empty())
+		return target; 
+
+	Mat noiseMask(target.size(), target.type()); 
+	randn(noiseMask, mean, sigma); 
+	target += noiseMask; 
+
+	return target; 
+}
+
+Mat resizeImg(Mat target, float ratio) {
+	if(target.empty() || ratio < 0)
+		return target; 
+
+	Mat resizedImg; 
+	if(ratio < 1)									//OpenCV docs recommend different interpolation specs for reducing and enlarging images
+		resize(target, resizedImg, Size(), ratio, ratio, INTER_AREA);
+	else
+		resize(target, resizedImg, Size(), ratio, ratio, INTER_CUBIC); 
+}

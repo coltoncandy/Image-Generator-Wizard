@@ -33,11 +33,13 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 	
-	// Add lighter arrow when hovering
+	// Add lighter arrow when hovering and when disabled
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
-	QString styleSheet = "QPushButton:hover#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%1); background - repeat: no - repeat;} QPushButton:hover#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%2); background - repeat: no - repeat;}";
+	QString styleSheet = "QPushButton:hover#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%1); background - repeat: no - repeat;} QPushButton:hover#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%2); background - repeat: no - repeat;} QPushButton:disabled#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%3); background - repeat: no - repeat; } QPushButton:disabled#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%4); background - repeat: no - repeat; }";
 	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
-	setStyleSheet(styleSheet.arg(rightHover).arg(leftHover));
+	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
+	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
+	setStyleSheet(styleSheet.arg(rightHover).arg(leftHover).arg(rightDisabled).arg(leftDisabled));
 
 	//Hides the previous button on the first page
 	btnPrev->hide();

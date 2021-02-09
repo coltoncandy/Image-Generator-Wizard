@@ -33,7 +33,7 @@ bool SelectDestination::isReady() {
 
 void SelectDestination::reset() {
 	ready = false;
-	destinationPath = NULL;
+	*(destinationPath) = NULL;
 	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
 	wizard->disableNext();
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget

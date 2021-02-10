@@ -20,7 +20,7 @@ namespace AlgoManager {
         imshow("res", res);
         waitKey(0);
 
-        return true; 
+        return; 
     }
 
 

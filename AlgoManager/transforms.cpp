@@ -315,14 +315,14 @@ Mat flipIt(Mat target, int flipCode) {
 
 }
 
-Mat padImage(Mat target, int padding) {
+Mat padImage(Mat background, int height, int width) {
 
-	if(target.empty() || padding < 1)
-		return target; 
+	if(background.empty())
+		return background; 
 
-	Mat paddedImg = Mat(target.rows + 2 * padding, target.cols + 2 * padding, CV_8UC3); 
+	Mat paddedImg = Mat(background.rows + 2 * height, background.cols + 2 * width, CV_8UC3); 
 	paddedImg.setTo(Scalar::all(0)); 
-	target.copyTo(paddedImg(Rect(padding, padding, target.cols, target.rows)));			//Start at (padding, padding) to center image and account for offset
+	background.copyTo(paddedImg(Rect(width, height, background.cols, background.rows)));			//Start at (padding, padding) to center image and account for offset
 
 	return paddedImg; 
 }
@@ -348,4 +348,6 @@ Mat resizeImg(Mat target, float ratio) {
 		resize(target, resizedImg, Size(), ratio, ratio, INTER_AREA);
 	else
 		resize(target, resizedImg, Size(), ratio, ratio, INTER_CUBIC); 
+
+	return resizedImg; 
 }

@@ -12,9 +12,10 @@ int clamp(int i, int low, int high); //returns i, but not less than low or more 
 int getIndex(int x, int y, Mat image); //returns (y * image.step + x * image.channels())
 int getIndexClamped(int x, int y, Mat image);
 int applyFilter(Mat input, Mat output, int filterWidth, std::vector<std::vector<int>> filter, int toDivide, int x, int y, int offset); //apply a filter to one pixel
+
 Mat rotation(Mat target, int angleBounds);
 Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight);
 Mat flipIt(Mat target, int flipCode); 
-Mat padImage(Mat target, int padding);				//Adds rows and cols of zeros around the border of the supplied target, number specified by padding parameter
+Mat padImage(Mat background, int height, int width);				//Adds rows and cols of zeros around the border of the supplied target, number specified by padding parameter
 Mat noiseImg(Mat target, int mean, int sigma);		//Creates a noise mask the size of target, random values with a mean and standard variance specified by parameters, and blends to target to create noise effect 
 Mat resizeImg(Mat target, float ratio); 

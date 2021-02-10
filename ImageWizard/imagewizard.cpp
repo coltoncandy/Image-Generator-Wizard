@@ -72,7 +72,7 @@ void ImageWizard::goNext() {
 	if(!currentPage->isReady())
 		return;
 	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
-		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
+		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), "");		//Send image containing target to grabCut
 	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.

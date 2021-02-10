@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "imagewizard.h"
 #include "filechooser.h"
 #include "../AlgoManager/algomanager.h" 
@@ -13,8 +14,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new FileChooser("Select or drag an image containing the target", initial);
-	backgroundChooser = new FileChooser("Select or drag a background image", background);
+	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
+	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("Select Your Destination");
@@ -25,10 +26,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
 	frames->addWidget(processingWindow);
-
-	ready = new bool[frames->count()];
-	for(int i = 0; i < frames->count(); i++)
-		ready[i] = false;
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
@@ -47,18 +44,14 @@ ImageWizard::~ImageWizard() {
 	delete target;
 	delete background;
 	delete destination;
-
-	delete[] ready;
 }
 
 void ImageWizard::enableNext() {
 	btnNext->setEnabled(true);
-	ready[frames->currentIndex()] = true;
 }
 
 void ImageWizard::disableNext() {
 	btnNext->setEnabled(false);
-	ready[frames->currentIndex()] = false;
 }
 
 void ImageWizard::enablePrev() {
@@ -73,16 +66,18 @@ void ImageWizard::disablePrev() {
 void ImageWizard::goNext() {
 	int cur = frames->currentIndex();
 
+	// By default, the next button is disabled. If the page is already ready, then
+	// it be re-enabled. Otherwise, it must be enabled within the page itself when
+	// certain actions are performed. See: FileChooser::loadImage
+
+	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+
 	//Restrict the ability to go to the next page if certain conditions haven't been met
-	if(frames->currentWidget() == targetChooser) {		//target image upload page
-		if(!initial->loaded) {
-			return;
-		}
-	}
-	else if(frames->currentWidget() == targetSelector) { //target selection/crop page
-		if(!target->loaded) {
-			return;
-		}
+
+	if(!currentPage->isReady())
+		return;
+
+	if(frames->currentWidget() == targetSelector) { //target selection/crop page
 		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
@@ -105,19 +100,18 @@ void ImageWizard::goNext() {
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
-		if(!ready[cur])
+		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		currentPage->pageSwitched();
+		if(!currentPage->isReady())
 			disableNext();
+		else
+			enableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
-			ready[cur - 1] = true;
 			btnPrev->show();
 		}
 		if(cur == frames->count()) {
 			btnNext->hide();
-		}
-		if(frames->currentWidget() == targetSelector) {
-			*(target->image) = initial->image->copy();
-			targetSelector->updateImage();
 		}
 	}
 }
@@ -125,9 +119,34 @@ void ImageWizard::goNext() {
 //Previous page in UI 
 void ImageWizard::goPrev() {
 	int cur = frames->currentIndex();
+
+	QMessageBox msg;
+	msg.setText("Going back will reset the current page.");
+	msg.setInformativeText("Are you sure you want to go back?");
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+	msg.setDefaultButton(QMessageBox::Cancel);
+	msg.setIcon(QMessageBox::Warning);
+	int ret = msg.exec();
+
+	switch(ret) {
+	case QMessageBox::Yes:
+		// do nothing
+		break;
+	case QMessageBox::Cancel:
+		return;
+		break;
+	}
+
+	WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+	currentPage->reset();
+
 	if(cur > 0) {
 		frames->setCurrentIndex(--cur);
-		if(ready[cur])
+		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		currentPage->pageSwitched();
+		if(!currentPage->isReady())
+			disableNext();
+		else
 			enableNext();
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {

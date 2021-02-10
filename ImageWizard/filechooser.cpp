@@ -11,7 +11,7 @@
 
 #include "imagewizard.h"
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : QWidget(parent), font("Calibri", 14) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& directoryPath, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -44,19 +44,42 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 
 	selectedImage = image;
 
+	randomButton = findChild<QPushButton*>("randomButton");
+	QObject::connect(randomButton, &QPushButton::pressed, this, &FileChooser::getRandomFile);
+	defaultDirectory = QFileInfo(directoryPath);
+
 	setupView();
 }
 
 FileChooser::~FileChooser() {
 }
 
+bool FileChooser::isReady() {
+	return selectedImage->loaded;
+}
+
 void FileChooser::chooseFile() {
 	chooser.show();
 }
 
+void FileChooser::getRandomFile() {
+	std::string absolutePath = defaultDirectory.absoluteFilePath().toStdString();
+	std::string* imageList = nullptr;
+	try {
+		getRandomImages(1, absolutePath, imageList);
+		if(imageList) {
+			setFilePath(imageList[0].c_str());
+			delete[] imageList;
+		}
+	}
+	catch(std::string ex) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", ex.c_str());
+	}
+}
+
 void FileChooser::setFilePath(QString path) {
 	chosenFileName->setText(path);
-
 	loadImage(path);
 }
 
@@ -96,8 +119,7 @@ void FileChooser::loadImage(QString& path) {
 
 	scaleImage(imgLabel->size());
 
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	getWizard()->enableNext();
 }
 
 void FileChooser::scaleImage(const QSize& size) {
@@ -140,4 +162,13 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 		"Drag a .png file",
 		options
 	);
+}
+
+void FileChooser::reset() {
+	WizardPage::reset();
+
+	chosenFileName->clear();
+	imgLabel->clear();
+	selectedImage->reset();
+	getWizard()->disableNext();
 }

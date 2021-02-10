@@ -96,6 +96,7 @@
     <ClCompile Include="selectdestination.cpp" />
     <ClCompile Include="targetselector.cpp" />
     <ClCompile Include="welcomepage.cpp" />
+    <ClCompile Include="wizardpage.cpp" />
     <QtRcc Include="imagewizard.qrc" />
     <QtUic Include="filechooser.ui" />
     <QtUic Include="imagewizard.ui" />
@@ -123,6 +124,7 @@
     <ClInclude Include="imageinfo.h" />
     <QtMoc Include="processingwindow.h" />
     <QtMoc Include="selectdestination.h" />
+    <QtMoc Include="wizardpage.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="welcomepage.h" />

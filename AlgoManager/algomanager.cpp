@@ -12,34 +12,62 @@ namespace AlgoManager {
         Mat processedTarget = grabCut(path);
         imwrite(path, processedTarget);             //Write processed target back to target's path  
 
-        process(path); 
-
         return;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    void AlgoManager::process(const std::string& targetPath) {
+    void AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
 
         Mat target = imread(targetPath);
+        Mat background = imread(backgroundPath);
 
-        int angleBounds; 
-        int flipCode; 
-        int choice; 
+        int angleBounds;
+        int flipCode;
+        int choice;
+        int mean;
+        int sigma;
+        float resizeRatio;
 
-        int numOfCalls = (rand() % 10) + 1;
+        int targetHeight; 
+        int targetWidth; 
+        int backgroundHeight; 
+        int backgroundWidth; 
+
+        int numOfCalls = rand()%10;             //Random number between 0 and 9 
 
         for(int i = 0; i < numOfCalls; i++) {
-            
-            choice = rand() % 2; 
-            
+            choice = rand() % 3; 
+
             switch(choice) {
-                case 0: 
-                    angleBounds = rand() % 26;                          //Random angleBounds between 0 - 25 degrees 
-                    target = rotation(target, angleBounds);             //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
-                case 1: 
-                    flipCode = (rand() % 2) - 1;                        //Random flipCode between -1 and 1  
-                    target = flipIt(target, flipCode); 
+            case 0:
+                angleBounds = rand() % 26;                          //Random angleBounds between 0 - 25 degrees 
+                target = rotation(target, angleBounds);             //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
+                break;
+            case 1:
+                flipCode = (rand() % 2) - 1;                        //Random flipCode between -1 and 1  
+                target = flipIt(target, flipCode);
+                break;
+            case 2:
+                resizeRatio = .5;           //Currently generates random num between 0 and 1, decimals included 
+                target = resizeImg(target, resizeRatio);
+                break;
             }
         }
+
+        choice = rand() % 2;
+        if(choice == 1) {
+            mean = rand() % 20;
+            sigma = rand() % 20 + mean;
+            target = noiseImg(target, mean, sigma);
+        }
+
+        //choice = rand() % 2;                  //Pad and crop background 
+        //if(choice == 1) {
+        //    targetHeight = target.rows; 
+        //    targetWidth = target.cols; 
+        //    padImage(background, targetHeight, targetWidth);
+        //} else {
+
+        //}
 
         namedWindow("display", WINDOW_NORMAL);                          //Displays target after running through transformations 
         imshow("display", target); 

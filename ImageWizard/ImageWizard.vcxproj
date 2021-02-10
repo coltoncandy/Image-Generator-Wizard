@@ -93,6 +93,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backgroundremoval.cpp" />
+    <ClCompile Include="processingwindow.cpp" />
+    <ClCompile Include="selectdestination.cpp" />
     <ClCompile Include="targetselector.cpp" />
     <ClCompile Include="welcomepage.cpp" />
     <ClCompile Include="wizardpage.cpp" />
@@ -104,6 +106,8 @@
     <ClCompile Include="filechooser.cpp" />
     <ClCompile Include="imagewizard.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="processingwindow.ui" />
+    <QtUic Include="selectdestination.ui" />
     <QtUic Include="targetselector.ui" />
     <QtUic Include="welcomepage.ui" />
   </ItemGroup>
@@ -121,10 +125,15 @@
   <ItemGroup>
     <QtMoc Include="backgroundremoval.h" />
     <ClInclude Include="imageinfo.h" />
+    <QtMoc Include="processingwindow.h" />
+    <QtMoc Include="selectdestination.h" />
     <QtMoc Include="wizardpage.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="welcomepage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource Files\stylesheet.qss" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

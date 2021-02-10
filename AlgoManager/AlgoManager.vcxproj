@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algomanager.h" />
+    <ClInclude Include="filemanager.h" />
     <ClInclude Include="grabcut.h" />
     <ClInclude Include="transforms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algomanager.cpp" />
+    <ClCompile Include="filemanager.cpp" />
     <ClCompile Include="grabcut.cpp" />
     <ClCompile Include="transforms.cpp" />
   </ItemGroup>

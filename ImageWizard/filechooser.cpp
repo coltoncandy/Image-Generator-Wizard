@@ -11,7 +11,7 @@
 
 #include "imagewizard.h"
 
-FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
+FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& directoryPath, QWidget* parent) : WizardPage(parent), font("Calibri", 14) {
 	QObject::connect(&chooser, &QFileDialog::fileSelected, this, &FileChooser::setFilePath);
 
 	ui.setupUi(this);
@@ -42,7 +42,22 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, QWidget* parent
 	titleLabel->setText(title);
 	titleLabel->setFont(font);
 
+	// Set up reset button
+	QPushButton * resetButton = findChild<QPushButton*>("resetButton");
+	resetButton->setIcon(QIcon("  "));
+	resetButton->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
+	resetButton->setIconSize(QSize(100, 50));
+	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+	QString reset = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
+	QString styleSheet = "QPushButton#resetButton{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#resetButton{ image: url(%2); background-repeat: no-repeat; }";
+	QString resetHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
+	setStyleSheet(styleSheet.arg(reset).arg(resetHover));
+
 	selectedImage = image;
+
+	randomButton = findChild<QPushButton*>("randomButton");
+	QObject::connect(randomButton, &QPushButton::pressed, this, &FileChooser::getRandomFile);
+	defaultDirectory = QFileInfo(directoryPath);
 
 	setupView();
 }
@@ -58,9 +73,24 @@ void FileChooser::chooseFile() {
 	chooser.show();
 }
 
+void FileChooser::getRandomFile() {
+	std::string absolutePath = defaultDirectory.absoluteFilePath().toStdString();
+	std::string* imageList = nullptr;
+	try {
+		getRandomImages(1, absolutePath, imageList);
+		if(imageList) {
+			setFilePath(imageList[0].c_str());
+			delete[] imageList;
+		}
+	}
+	catch(std::string ex) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", ex.c_str());
+	}
+}
+
 void FileChooser::setFilePath(QString path) {
 	chosenFileName->setText(path);
-
 	loadImage(path);
 }
 
@@ -131,7 +161,7 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	options.setAlignment(Qt::AlignCenter);
 
 	pen.setWidth(3);
-	pen.setBrush(Qt::gray);
+	pen.setBrush(Qt::lightGray);
 	pen.setCapStyle(Qt::RoundCap);
 	painter.setPen(pen);
 	painter.setFont(font);

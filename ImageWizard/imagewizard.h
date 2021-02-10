@@ -7,6 +7,8 @@
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
+#include "selectdestination.h"
+#include "processingwindow.h"
 #include "backgroundremoval.h"
 
 class ImageWizard : public QWidget {
@@ -35,8 +37,11 @@ private:
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
+	SelectDestination* selectDestination;
+	ProcessingWindow* processingWindow;
 	BackgroundRemoval* backgroundRemoval;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
+	QString* destination;
 };

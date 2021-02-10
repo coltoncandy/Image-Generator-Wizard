@@ -47,6 +47,12 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="selectdestination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="processingwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="wizardpage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,6 +73,12 @@
     <QtUic Include="welcomepage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="selectdestination.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="processingwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
     <QtUic Include="backgroundremoval.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -84,6 +96,12 @@
     <QtMoc Include="wizardpage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="selectdestination.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="processingwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="backgroundremoval.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -97,5 +115,10 @@
     <ClInclude Include="imageinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource Files\stylesheet.qss">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

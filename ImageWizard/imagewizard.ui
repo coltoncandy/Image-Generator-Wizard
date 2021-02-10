@@ -25,6 +25,9 @@
   <property name="windowTitle">
    <string>ImageWizard</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QStackedWidget" name="frames"/>
@@ -33,6 +36,10 @@
     <widget class="Line" name="line">
      <property name="autoFillBackground">
       <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"> border-color: rgb(43, 43, 43); border-style: outset; border-width: 2px; border-radius: 10px; padding: 6px; 
+</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -61,8 +68,11 @@
          <pointsize>9</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
-        <string>&lt;-</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -84,8 +94,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnNext">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
-        <string>-&gt;</string>
+        <string/>
        </property>
       </widget>
      </item>

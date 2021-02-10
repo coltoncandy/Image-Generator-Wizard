@@ -2,7 +2,7 @@
 #include "imagewizard.h"
 
 ProcessingWindow::ProcessingWindow(const QString& title, QWidget* parent)
-	: QWidget(parent)
+	: WizardPage(parent)
 {
 	ui.setupUi(this);
 

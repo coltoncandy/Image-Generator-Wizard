@@ -5,7 +5,10 @@
 #include <QFileDialog>
 #include "ui_selectdestination.h"
 
-class SelectDestination : public QWidget
+#include "imageinfo.h"
+#include "wizardpage.h"
+
+class SelectDestination : public WizardPage
 {
 	Q_OBJECT
 

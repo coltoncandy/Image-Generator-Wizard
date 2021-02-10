@@ -3,8 +3,10 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include "ui_processingwindow.h"
+#include "imageinfo.h"
+#include "wizardpage.h"
 
-class ProcessingWindow : public QWidget
+class ProcessingWindow : public WizardPage
 {
 	Q_OBJECT
 

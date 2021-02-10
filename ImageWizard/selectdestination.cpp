@@ -8,7 +8,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent)  {
+SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent) : WizardPage(parent) {
 	QObject::connect(&chooser, &QFileDialog::directoryEntered, this, &SelectDestination::setDirectory);
 	ui.setupUi(this);
 	chooser.setFileMode(QFileDialog::FileMode::Directory);

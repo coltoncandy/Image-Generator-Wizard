@@ -108,7 +108,7 @@ void ImageWizard::goNext() {
 		destination = selectDestination->getDestination();
 	}
 	else if(frames->currentWidget() == processingWindow) {
-		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), "");		//Send image containing target to grabCut
+		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
 
 	}
 

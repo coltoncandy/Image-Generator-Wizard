@@ -284,12 +284,13 @@ Mat grabCut(const std::string& path) {
     gcapp.setImageAndWinName(image, initialImage, winName);
     gcapp.showImage();
 
-    for(;;) {
-        char c = (char) waitKey(0);                  //Convert key press to char for switch statement 
+    while(cv::getWindowProperty(winName, cv::WND_PROP_VISIBLE) >= 1) {
+        char c = (char) waitKey(1000);                  //Convert key press to char for switch statement 
         switch(c) {
         case '\x1b':                                 //ESC key == 'exit' 
             cout << "Exiting ..." << endl;
-            goto exit_main;
+            destroyAllWindows();
+            break;
         case 'r':                                    //'r' == Reset image in OpenCV window to restart image segmentation 
             cout << endl;
             gcapp.reset();
@@ -308,7 +309,7 @@ Mat grabCut(const std::string& path) {
             break;
         }
     }
-exit_main:
+//exit_main:
     Mat res = gcapp.getResult();
     /*imshow("target", res);        //Uncomment to see result of grabCut before writing to disk
     waitKey(0); */

@@ -92,7 +92,7 @@
  <connections>
   <connection>
    <sender>browseButton</sender>
-   <signal>pressed()</signal>
+   <signal>clicked()</signal>
    <receiver>SelectDestinationClass</receiver>
    <slot>chooseDirectory()</slot>
    <hints>
@@ -122,9 +122,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>browseButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SelectDestinationClass</receiver>
+   <slot>setDirectory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>109</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>294</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>chooseDirectory()</slot>
   <slot>reset()</slot>
+  <slot>setDirectory()</slot>
  </slots>
 </ui>

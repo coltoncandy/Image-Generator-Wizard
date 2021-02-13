@@ -18,7 +18,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination");
-	processingWindow = new ProcessingWindow("Select Your Destination");
+	processingWindow = new ProcessingWindow("It won't be too long ...");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);

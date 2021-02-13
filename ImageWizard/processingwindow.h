@@ -14,8 +14,6 @@ public:
 	ProcessingWindow(const QString& title, QWidget* parent = Q_NULLPTR);
 	~ProcessingWindow();
 
-	void disableButton();
-
 private:
 	Ui::ProcessingWindow ui;
 };

@@ -10,6 +10,11 @@ ProcessingWindow::ProcessingWindow(const QString& title, QWidget* parent)
 	titleLabel->setText(title);
 }
 
+void ProcessingWindow::disableButton() {
+	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+	wizard->disableNext();
+}
+
 ProcessingWindow::~ProcessingWindow()
 {
 }

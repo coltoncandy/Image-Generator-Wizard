@@ -16,13 +16,16 @@ SelectDestination::SelectDestination(const QString& title, QWidget* parent) : Wi
 	titleLabel->setText(title);
 
 	destinationPath = NULL;
+	enmptyPath = NULL;
+	ready = false;
 
 	chosenDestination = findChild<QLineEdit*>("chosenDestination");
-	
+
 }
 
 SelectDestination::~SelectDestination() {
 }
+
 
 bool SelectDestination::isReady() {
 	return ready;
@@ -46,13 +49,15 @@ void SelectDestination::setDirectory() {
 
 	destinationPath = QFileDialog::getExistingDirectory(this,
 						tr("Choose directory"),
-						"/home",
+						"",
 						QFileDialog::DontResolveSymlinks);
 	chosenDestination->setText(destinationPath);
 
-	ready = true;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	if(destinationPath != enmptyPath) {
+		ready = true;
+		ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+		wizard->enableNext();
+	}
 }
 
 

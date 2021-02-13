@@ -28,6 +28,7 @@ private:
 	Ui::SelectDestinationClass ui;
 	QLineEdit* chosenDestination;
 	QString destinationPath;
+	QString enmptyPath;
 	QPushButton* resetButton;
 	bool ready;
 

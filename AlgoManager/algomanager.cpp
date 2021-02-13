@@ -17,7 +17,7 @@ namespace AlgoManager {
     //Parameters: Path to target, number of processed images specified by user (?)
     void AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
 
-        Mat target = imread(targetPath);
+        Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
 
         int angleBounds;
@@ -30,12 +30,14 @@ namespace AlgoManager {
         int targetHeight; 
         int targetWidth; 
         int backgroundHeight; 
-        int backgroundWidth; 
+        int backgroundWidth;
+        Mat resizedTarget; 
 
-        int numOfCalls = rand()%10;             //Random number between 0 and 9 
+        int numOfCalls = rand()%5;             //Random number between 0 and 9 
 
         for(int i = 0; i < numOfCalls; i++) {
-            choice = rand() % 3; 
+
+            choice = rand() % 3;
 
             switch(choice) {
             case 0:
@@ -47,31 +49,30 @@ namespace AlgoManager {
                 target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = .5;           //Currently generates random num between 0 and 1, decimals included 
-                target = resizeImg(target, resizeRatio);
+                resizeRatio = (float) (rand() % 10) + 1 / 10;           //Generates random number between 0.1 and 1.
+                resizeImg(target, resizedTarget, resizeRatio);
+                resizedTarget.copyTo(target); 
                 break;
             }
         }
 
-        choice = rand() % 2;
+        choice = rand() % 4;                //1 in 4 chance of applying noise.
         if(choice == 1) {
             mean = rand() % 20;
             sigma = rand() % 20 + mean;
             target = noiseImg(target, mean, sigma);
         }
 
-        //choice = rand() % 2;                  //Pad and crop background 
-        //if(choice == 1) {
-        //    targetHeight = target.rows; 
-        //    targetWidth = target.cols; 
-        //    padImage(background, targetHeight, targetWidth);
-        //} else {
+        
+        targetHeight = target.rows * 0.5;                           //Using 50% of target height and width until excess rows / cols are removed from processed target
+        targetWidth = target.cols * 0.5; 
+        background = padImage(background, targetHeight, targetWidth);                   
+        Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
-        //}
-
-        namedWindow("display", WINDOW_NORMAL);                          //Displays target after running through transformations 
-        imshow("display", target); 
-        waitKey(0); 
+        namedWindow("display", WINDOW_NORMAL);
+        imshow("display", processed);
+        waitKey(0);
+         
 
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
@@ -80,9 +81,6 @@ namespace AlgoManager {
         //Mat blurredGauss = blurEdgesGaussian(foreground, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
         Mat blurredAlpha = blurEdgesTransparency(foreground, 9); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers.
         Mat res = overlay(background, blurredAlpha, Point(0, 0));
-
-        imshow("res", res);
-        waitKey(0);
 
         return; 
     }

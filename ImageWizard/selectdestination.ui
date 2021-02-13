@@ -64,13 +64,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="reset">
-       <property name="text">
-        <string>Reset</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="browseButton">
        <property name="text">
         <string>Browse...</string>
@@ -103,22 +96,6 @@
     <hint type="destinationlabel">
      <x>319</x>
      <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>reset</sender>
-   <signal>clicked()</signal>
-   <receiver>SelectDestinationClass</receiver>
-   <slot>reset()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>68</x>
-     <y>281</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>355</x>
-     <y>28</y>
     </hint>
    </hints>
   </connection>

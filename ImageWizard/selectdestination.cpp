@@ -31,22 +31,13 @@ bool SelectDestination::isReady() {
 	return ready;
 }
 
-void SelectDestination::reset() {
-	ready = false;
-	destinationPath = NULL;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->disableNext();
-	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
-	chosenDestination = findChild<QLineEdit*>("chosenDestination");
-	chosenDestination->setText(" ");
-}
-
 QString SelectDestination::getDestination() {
 	return destinationPath;
 }
 
 void SelectDestination::setDirectory() {
 
+	destinationPath = NULL;
 	destinationPath = QFileDialog::getExistingDirectory(this,
 						tr("Choose directory"),
 						"",
@@ -57,6 +48,10 @@ void SelectDestination::setDirectory() {
 		ready = true;
 		ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
 		wizard->enableNext();
+	}
+	else {
+		ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+		wizard->disableNext();
 	}
 }
 

@@ -19,7 +19,6 @@ public:
 	bool isReady();
 	
 public slots:
-	void reset();
 	void setDirectory();
 	QString getDestination();
 	

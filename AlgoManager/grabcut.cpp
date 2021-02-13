@@ -320,9 +320,6 @@ Mat grabCut(const std::string& path) {
     }
 exit_main:
     Mat res = gcapp.getResult();
-    /*imshow("target", res);        //Uncomment to see result of grabCut before writing to disk
-    waitKey(0); */
-    //imwrite("result.png", res);
     destroyWindow(winName);
     return res;
 }

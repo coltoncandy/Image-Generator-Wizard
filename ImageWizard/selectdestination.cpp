@@ -8,11 +8,9 @@
 #include <QMimeData>
 #include <QDropEvent>
 
+SelectDestination::SelectDestination(const QString& title, QWidget* parent) : WizardPage(parent) {
 
-SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent) : WizardPage(parent) {
-	QObject::connect(&chooser, &QFileDialog::directoryEntered, this, &SelectDestination::setDirectory);
 	ui.setupUi(this);
-	chooser.setFileMode(QFileDialog::FileMode::Directory);
 
 	resetButton = findChild<QPushButton*>("reset");
 	resetButton->setIcon(QIcon("  "));
@@ -29,43 +27,44 @@ SelectDestination::SelectDestination(const QString& title, QString* destination,
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
 	titleLabel->setText(title);
 
-	destinationPath = destination;
+	destinationPath = NULL;
+	enmptyPath = NULL;
+	ready = false;
 
 	chosenDestination = findChild<QLineEdit*>("chosenDestination");
+
 }
 
 SelectDestination::~SelectDestination() {
 }
 
+
 bool SelectDestination::isReady() {
 	return ready;
 }
 
-void SelectDestination::reset() {
-	ready = false;
-	*(destinationPath) = NULL;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->disableNext();
-	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
-	chosenDestination = findChild<QLineEdit*>("chosenDestination");
-	chosenDestination->setText(" ");
-}
-
-void SelectDestination::chooseDirectory() {
-	chooser.show();
-}
-
-QString* SelectDestination::getDestination() {
+QString SelectDestination::getDestination() {
 	return destinationPath;
 }
 
-void SelectDestination::setDirectory(QString path) {
-	chosenDestination->setText(path);
+void SelectDestination::setDirectory() {
 
-	*(destinationPath) = path;
-	ready = true;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
+	destinationPath = NULL;
+	destinationPath = QFileDialog::getExistingDirectory(this,
+						tr("Choose directory"),
+						"",
+						QFileDialog::DontResolveSymlinks);
+	chosenDestination->setText(destinationPath);
+
+	if(destinationPath != enmptyPath) {
+		ready = true;
+		ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+		wizard->enableNext();
+	}
+	else {
+		ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
+		wizard->disableNext();
+	}
 }
 
 

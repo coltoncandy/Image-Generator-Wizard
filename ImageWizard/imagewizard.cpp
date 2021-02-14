@@ -11,14 +11,14 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = new QString; // new path to store
+	destination = NULL; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
-	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("Select Your Destination");
+	selectDestination = new SelectDestination("Select Your Destination");
+	processingWindow = new ProcessingWindow("It won't be too long ...");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -44,7 +44,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
 	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
 	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
-	setStyleSheet(styleSheet.arg(rightHover).arg(leftHover).arg(rightDisabled).arg(leftDisabled));
+	//setStyleSheet(styleSheet.arg(rightHover).arg(leftHover).arg(rightDisabled).arg(leftDisabled));
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
@@ -60,7 +60,6 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
-	delete destination;
 }
 
 void ImageWizard::enableNext() {
@@ -126,6 +125,10 @@ void ImageWizard::goNext() {
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
 			btnPrev->show();
+		}
+		if(cur == 5) {
+			btnNext->hide();
+			btnPrev->hide();
 		}
 		if(cur == frames->count()) {
 			btnNext->hide();

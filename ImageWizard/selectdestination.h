@@ -13,23 +13,21 @@ class SelectDestination : public WizardPage
 	Q_OBJECT
 
 public:
-	SelectDestination(const QString& title, QString* destination ,QWidget* parent = Q_NULLPTR);
+	SelectDestination(const QString& title, QWidget* parent = Q_NULLPTR);
 	~SelectDestination();
 
 	bool isReady();
 	
 public slots:
-	void chooseDirectory();
-	void reset();
-	void setDirectory(QString url);
-	QString* getDestination();
+	void setDirectory();
+	QString getDestination();
 	
 
 private:
 	Ui::SelectDestinationClass ui;
-	QFileDialog chooser;
 	QLineEdit* chosenDestination;
-	QString* destinationPath;
+	QString destinationPath;
+	QString enmptyPath;
 	QPushButton* resetButton;
 	bool ready;
 

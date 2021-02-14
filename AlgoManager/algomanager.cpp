@@ -33,15 +33,15 @@ namespace AlgoManager {
         int backgroundWidth;
         Mat resizedTarget; 
 
-        int numOfCalls = rand()%5;             //Random number between 0 and 9 
+        int numOfCalls = rand() % 5;             //Random number between 0 and 9 
 
         for(int i = 0; i < numOfCalls; i++) {
 
-            choice = rand() % 3;
+            choice = rand() % 3;;
 
             switch(choice) {
             case 0:
-                angleBounds = rand() % 26;                          //Random angleBounds between 0 - 25 degrees 
+                angleBounds = (rand() % 10) + 1;                          //Random angleBounds between 0 - 25 degrees 
                 target = rotation(target, angleBounds);             //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
@@ -49,9 +49,10 @@ namespace AlgoManager {
                 target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = (float) (rand() % 10) + 1 / 10;           //Generates random number between 0.1 and 1.
-                resizeImg(target, resizedTarget, resizeRatio);
+                resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
+                resizeImg(target, resizedTarget, resizeRatio); 
                 resizedTarget.copyTo(target); 
+                resizedTarget = Mat(); 
                 break;
             }
         }
@@ -66,7 +67,10 @@ namespace AlgoManager {
         
         targetHeight = target.rows * 0.5;                           //Using 50% of target height and width until excess rows / cols are removed from processed target
         targetWidth = target.cols * 0.5; 
+        backgroundHeight = background.rows;                         //Original background size used for cropping after adding padding 
+        backgroundWidth = background.cols; 
         background = padImage(background, targetHeight, targetWidth);                   
+        background = cropBackground(background, Point(targetWidth, targetHeight), Point(backgroundWidth, backgroundHeight), 0, 0); 
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
         namedWindow("display", WINDOW_NORMAL);

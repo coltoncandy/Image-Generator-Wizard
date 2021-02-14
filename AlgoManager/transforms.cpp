@@ -245,6 +245,12 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				}
 			}
 			ratio = 1.0 - ((1.0 * transparentCount) / (1.0 * (gridSize * gridSize))); //ratio of how many nearby pixels were fully transparent (so, if 12 / 25 pixels in the 5x5 grid were transparent, the new transparency is 0.5).
+			if(opacity_level == 0.0) { //if the original pixel was transparent, then square the ratio to show less of the original pixel color.
+				ratio = pow(ratio, 2.0);
+			}
+			else if (opacity_level == 1.0 && ratio != 1){ //if the original pixel wasn't transparent then square the inverse of the ratio in order to show more of the original pixel color.
+				ratio = 1 - pow((1 - ratio), 2.0);
+			}
 			alphaMask[y][x] = ratio; //save ratio to a matrix
 		}
 	}

@@ -20,6 +20,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("Select Your Destination");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
+	previewImage = new PreviewImage("Here is your Processed Image", destination);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -28,6 +29,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
 	frames->addWidget(processingWindow);
+	frames->addWidget(previewImage);
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
@@ -64,6 +66,7 @@ ImageWizard::~ImageWizard() {
 	delete background;
 	delete destination;
 	delete backgroundRemoval;
+	delete previewImage;
 }
 
 void ImageWizard::enableNext() {

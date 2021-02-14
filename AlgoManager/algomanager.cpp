@@ -27,10 +27,10 @@ namespace AlgoManager {
         int sigma;
         float resizeRatio;
 
-        int targetHeight; 
-        int targetWidth; 
-        int backgroundHeight; 
-        int backgroundWidth;
+        int targetHeight = target.rows; 
+        int targetWidth = target.cols; 
+        int backgroundHeight = background.rows; 
+        int backgroundWidth = background.cols;
         Mat resizedTarget; 
 
         int numOfCalls = rand() % 5;             //Random number between 0 and 9 
@@ -65,11 +65,7 @@ namespace AlgoManager {
         }
 
         
-        targetHeight = target.rows * 0.5;                                 //Using 50% of target height and width until excess rows / cols are removed from processed target
-        targetWidth = target.cols * 0.5; 
-        backgroundHeight = background.rows;                               //Original background size used for cropping after adding padding 
-        backgroundWidth = background.cols; 
-        background = padImage(background, targetHeight, targetWidth);                   
+        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);                   
         background = cropBackground(background, Point(targetWidth, targetHeight), Point(backgroundWidth, backgroundHeight), 0, 0); 
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 

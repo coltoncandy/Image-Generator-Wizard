@@ -339,15 +339,14 @@ Mat noiseImg(Mat target, int mean, int sigma) {
 	return target; 
 }
 
-Mat resizeImg(Mat target, float ratio) {
-	if(target.empty() || ratio < 0)
-		return target; 
+int resizeImg(Mat target, Mat& resizedTarget, float ratio) {
+	if(target.empty() || ratio <= 0)
+		return 0; 
 
-	Mat resizedImg; 
 	if(ratio < 1)									//OpenCV docs recommend different interpolation specs for reducing and enlarging images
-		resize(target, resizedImg, Size(), ratio, ratio, INTER_AREA);
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_AREA);
 	else
-		resize(target, resizedImg, Size(), ratio, ratio, INTER_CUBIC); 
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_CUBIC);
 
-	return resizedImg; 
+	return 1; 
 }

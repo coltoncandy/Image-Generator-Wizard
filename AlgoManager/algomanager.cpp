@@ -37,7 +37,7 @@ namespace AlgoManager {
 
         for(int i = 0; i < numOfCalls; i++) {
 
-            choice = rand() % 3;;
+            choice = rand() % 3;
 
             switch(choice) {
             case 0:

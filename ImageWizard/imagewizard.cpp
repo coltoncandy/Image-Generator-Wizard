@@ -11,13 +11,13 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = NULL; // new path to store
+	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
-	selectDestination = new SelectDestination("Select Your Destination");
+	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("It won't be too long ...");
 
 	frames->addWidget(welcomePage);
@@ -34,10 +34,10 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));
-	btnPrev->setIconSize(QSize(85, 32)); 
+	btnPrev->setIconSize(QSize(85, 32));
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
-	
+
 	// Add lighter arrow when hovering and when disabled
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
 	QString styleSheet = "QPushButton:hover#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%1); background - repeat: no - repeat;} QPushButton:hover#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%2); background - repeat: no - repeat;} QPushButton:disabled#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%3); background - repeat: no - repeat; } QPushButton:disabled#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%4); background - repeat: no - repeat; }";
@@ -60,6 +60,7 @@ ImageWizard::~ImageWizard() {
 	delete initial;
 	delete target;
 	delete background;
+	delete destination;
 }
 
 void ImageWizard::enableNext() {
@@ -106,7 +107,6 @@ void ImageWizard::goNext() {
 		if(!selectDestination->isReady()) {
 			return;
 		}
-		destination = selectDestination->getDestination();
 	}
 	else if(frames->currentWidget() == processingWindow) {
 		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut

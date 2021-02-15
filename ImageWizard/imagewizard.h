@@ -41,5 +41,5 @@ private:
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
-	QString * destination;
+	QString* destination;
 };

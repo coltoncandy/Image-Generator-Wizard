@@ -21,6 +21,7 @@ SelectDestination::~SelectDestination() {
 
 void SelectDestination::reset() {
 	destinationPath = new QString;
+	chosenDestination->setText(*destinationPath);
 }
 
 bool SelectDestination::isReady() {
@@ -28,6 +29,7 @@ bool SelectDestination::isReady() {
 }
 
 void SelectDestination::setDirectory() {
+	getWizard()->disableNext();
 	try {
 		*destinationPath = QFileDialog::getExistingDirectory(this,
 							tr("Choose directory"),

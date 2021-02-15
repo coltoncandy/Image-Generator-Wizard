@@ -1,5 +1,7 @@
 #include "backgroundremoval.h"
 #include "imagewizard.h"
+#include "../AlgoManager/algomanager.h" 
+
 
 BackgroundRemoval::BackgroundRemoval(const QString& title, QWidget* parent)
 	: WizardPage(parent) {
@@ -11,4 +13,18 @@ BackgroundRemoval::BackgroundRemoval(const QString& title, QWidget* parent)
 }
 
 BackgroundRemoval::~BackgroundRemoval() {
+}
+
+void BackgroundRemoval::pageSwitched() {
+	//load initial cropped image
+
+	//pass in target in constructor
+
+	//call algomanager grabcut wrapper 
+	//AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+
+	//load image into imageinfo struct
+	//target->image->load(*target->path);
+
+	//display imageinfo with new display
 }

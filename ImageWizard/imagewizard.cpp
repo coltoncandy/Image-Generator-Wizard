@@ -146,11 +146,6 @@ void ImageWizard::goNext() {
 			btnNext->hide();
 		}
 	}
-
-	if(frames->currentWidget() == backgroundRemoval) { //target selection/crop page
-		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
-		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
-	}
 }
 
 //Previous page in UI 

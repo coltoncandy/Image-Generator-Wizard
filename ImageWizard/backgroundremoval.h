@@ -12,6 +12,7 @@ class BackgroundRemoval : public WizardPage {
 public:
 	BackgroundRemoval(const QString& title, QWidget* parent = Q_NULLPTR);
 	~BackgroundRemoval();
+	void pageSwitched();
 
 private:
 	Ui::BackgroundRemovalClass ui;

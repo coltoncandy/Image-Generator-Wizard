@@ -29,7 +29,8 @@ bool SelectDestination::isReady() {
 }
 
 void SelectDestination::setDirectory() {
-	getWizard()->disableNext();
+	if(getWizard()->isNextEnabled())
+		getWizard()->disableNext();
 	try {
 		*destinationPath = QFileDialog::getExistingDirectory(this,
 							tr("Choose directory"),

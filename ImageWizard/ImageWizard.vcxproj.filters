@@ -47,6 +47,12 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="selectdestination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="processingwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="wizardpage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +70,12 @@
     <QtUic Include="welcomepage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="selectdestination.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="processingwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
@@ -76,6 +88,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="wizardpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="selectdestination.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="processingwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

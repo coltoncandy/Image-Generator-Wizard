@@ -134,11 +134,11 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
-		if(cur == 5) {
+		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
 		}
-		if(cur == frames->count()) {
+		else if(cur == frames->count()) {
 			btnNext->hide();
 		}
 	}

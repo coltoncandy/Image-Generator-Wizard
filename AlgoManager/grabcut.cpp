@@ -266,13 +266,14 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
     gcapp.mouseClick(event, x, y, flags, param);
 }
 
+
 void GCApplication::init() {
     mouseClick(EVENT_LBUTTONUP, 0, 0, 0, NULL); 
     //nextIter(); 
     showImage(); 
 }
 
-Mat grabCut(const std::string& path) {
+Mat grabCut(const std::string& path, bool& finished) {
     Mat image = imread(path, IMREAD_COLOR);
     Mat initialImage = imread(path, IMREAD_COLOR);
 
@@ -290,16 +291,16 @@ Mat grabCut(const std::string& path) {
     setMouseCallback(winName, on_mouse, 0);         //Specifies handler for mouse events for the given window 
 
     gcapp.setImageAndWinName(image, initialImage, winName);
-    gcapp.showImage();
-
-    gcapp.init(); 
-
-    for(;;) {
+    gcapp.init();
+    finished = false;
+    while(cv::getWindowProperty(winName, cv::WND_PROP_VISIBLE) >= 1) {
         char c = (char) waitKey(0);                  //Convert key press to char for switch statement 
         switch(c) {
         case '\x1b':                                 //ESC key == 'exit' 
             cout << "Exiting ..." << endl;
-            goto exit_main;
+            destroyAllWindows();
+            finished = true;
+            break;
         case 'r':                                    //'r' == Reset image in OpenCV window to restart image segmentation 
             cout << endl;
             gcapp.reset();
@@ -318,7 +319,7 @@ Mat grabCut(const std::string& path) {
             break;
         }
     }
-exit_main:
+//exit_main:
     Mat res = gcapp.getResult();
     destroyWindow(winName);
     return res;

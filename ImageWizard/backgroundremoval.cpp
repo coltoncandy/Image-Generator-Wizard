@@ -22,7 +22,17 @@ void BackgroundRemoval::pageSwitched() {
 	//display initial cropped image
 
 	//call algomanager grabcut wrapper 
-	AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	getWizard()->disableNext();
+	getWizard()->disablePrev();
+	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	getWizard()->enablePrev();
+	if (finished) {
+		getWizard()->enableNext();
+	}
+	else {
+		getWizard()->disableNext();
+	}
+	//AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 
 	//load image into imageinfo struct
 	targetImage->image->load(*targetImage->path);

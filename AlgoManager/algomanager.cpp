@@ -4,15 +4,16 @@
 #include "stdlib.h"
 
 namespace AlgoManager {
-    void AlgoManager::grabCutWrapper(const std::string& path) {
+    bool AlgoManager::grabCutWrapper(const std::string& path) {
 
         if(path.empty())
-            return; 
+            return false;
 
-        Mat processedTarget = grabCut(path);
+        bool finished;
+        Mat processedTarget = grabCut(path, finished);
         imwrite(path, processedTarget);             //Write processed target back to target's path  
 
-        return;
+        return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
     void AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {

@@ -216,7 +216,6 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	}
 
 	Mat output;
-	//std::vector<std::vector<double>> alphaMask(initialImage.rows, std::vector<double> (initialImage.cols, 0.0)); //initialize a 2D array to keep track of final alpha values. Has same number of rows and cols, initialized to 0 in every position.
 	initialImage.copyTo(output);
 
 	int maxPixelDistance = gridSize / 2;
@@ -289,14 +288,6 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				}
 			}
 			ratio = 1.0 - ((1.0 * transparentCount) / (1.0 * (gridSize * gridSize))); //ratio of how many nearby pixels were fully transparent (so, if 12 / 25 pixels in the 5x5 grid were transparent, the new transparency is 0.5).
-			//the following if/else if statement seemed to only highlight the edge in cases where it wasn't aligned perfectly (which is most of the time). I think the original version works better for now.
-			/*if(opacity_level == 0.0) { //if the original pixel was transparent, then square the ratio to show less of the original pixel color.
-				ratio = pow(ratio, 2.0);
-			}
-			else if (opacity_level == 1.0 && ratio != 1){ //if the original pixel wasn't transparent then square the inverse of the ratio in order to show more of the original pixel color.
-				ratio = 1 - pow((1 - ratio), 2.0);
-			}*/
-			//alphaMask[y][x] = ratio; //save ratio to a matrix
 			try {
 				output.data[getIndexClamped(x, y, output) + 3] = ratio * 255.0;
 			}
@@ -306,16 +297,5 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 			}
 		}
 	}
-	/*for(int y = 0; y < initialImage.rows; ++y) {//Step through every pixel and update its transparency to the values stored in alphaMask
-		for(int x = 0; x < initialImage.cols; ++x) { 
-			try {
-				output.data[getIndex(x, y, output) + 3] = alphaMask[y][x] * 255.0;
-			}
-			catch(...) {
-				//data access out of bounds
-				return initialImage;
-			}
-		}
-	}*/
 	return output;
 }

@@ -106,16 +106,6 @@ void ImageWizard::goNext() {
 		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 	}
-	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
-		if(!background->loaded) {
-			return;
-		}
-	}
-	else if(frames->currentWidget() == selectDestination) { //background image upload page
-		if(!selectDestination->isReady()) {
-			return;
-		}
-	}
 	else if(frames->currentWidget() == processingWindow) {
 		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 

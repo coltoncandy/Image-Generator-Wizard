@@ -29,6 +29,7 @@ private:
 	QString destinationPath;
 	QString enmptyPath;
 	QPushButton* resetButton;
+	QString* destination;
 	bool ready;
 
 };

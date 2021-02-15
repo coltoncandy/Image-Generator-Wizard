@@ -64,13 +64,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="reset">
-       <property name="text">
-        <string> </string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="browseButton">
        <property name="text">
         <string>Browse...</string>

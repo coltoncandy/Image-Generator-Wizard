@@ -12,7 +12,7 @@ SelectDestination::SelectDestination(const QString& title, QWidget* parent) : Wi
 
 	ui.setupUi(this);
 
-	resetButton = findChild<QPushButton*>("reset");
+	/*resetButton = findChild<QPushButton*>("reset");
 	resetButton->setIcon(QIcon("  "));
 	resetButton->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	resetButton->setIconSize(QSize(100, 50));
@@ -22,13 +22,14 @@ SelectDestination::SelectDestination(const QString& title, QWidget* parent) : Wi
 	QString reset = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
 	QString styleSheet = "QPushButton#reset{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#reset{ image: url(%2); background-repeat: no-repeat; }";
 	QString resetHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
-	setStyleSheet(styleSheet.arg(reset).arg(resetHover));
+	setStyleSheet(styleSheet.arg(reset).arg(resetHover));*/
 
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
 	titleLabel->setText(title);
 
 	destinationPath = NULL;
 	enmptyPath = NULL;
+	destination = NULL;
 	ready = false;
 
 	chosenDestination = findChild<QLineEdit*>("chosenDestination");
@@ -44,8 +45,6 @@ bool SelectDestination::isReady() {
 }
 
 QString * SelectDestination::getDestination() {
-
-	QString* destination = &destinationPath;
 	return destination;
 }
 
@@ -56,6 +55,7 @@ void SelectDestination::setDirectory() {
 						tr("Choose directory"),
 						"",
 						QFileDialog::DontResolveSymlinks);
+	destination = &destinationPath;
 	chosenDestination->setText(destinationPath);
 
 	if(destinationPath != enmptyPath) {

@@ -18,7 +18,8 @@ BackgroundRemoval::~BackgroundRemoval() {
 }
 
 void BackgroundRemoval::pageSwitched() {
-	//load initial cropped image
+
+	//display initial cropped image
 
 	//call algomanager grabcut wrapper 
 	AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 

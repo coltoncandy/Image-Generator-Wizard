@@ -20,7 +20,7 @@ public:
 	
 public slots:
 	void setDirectory();
-	QString getDestination();
+	QString * getDestination();
 	
 
 private:

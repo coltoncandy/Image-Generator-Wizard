@@ -43,8 +43,10 @@ bool SelectDestination::isReady() {
 	return ready;
 }
 
-QString SelectDestination::getDestination() {
-	return destinationPath;
+QString * SelectDestination::getDestination() {
+
+	QString* destination = &destinationPath;
+	return destination;
 }
 
 void SelectDestination::setDirectory() {

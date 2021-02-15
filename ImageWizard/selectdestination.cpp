@@ -25,7 +25,6 @@ SelectDestination::~SelectDestination() {
 
 void SelectDestination::reset() {
 	destinationPath = new QString;
-
 }
 
 bool SelectDestination::isReady() {

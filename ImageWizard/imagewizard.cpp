@@ -122,10 +122,6 @@ void ImageWizard::goNext() {
 		}
 		// destination = selectDestination->getDestination();
 	}
-	else if(frames->currentWidget() == processingWindow) {
-		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
-		previewImage->updateImage(destination);
-	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
@@ -143,6 +139,8 @@ void ImageWizard::goNext() {
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
+			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			previewImage->updateImage(destination);
 		}
 		else if(cur == frames->count()) {
 			btnNext->hide();

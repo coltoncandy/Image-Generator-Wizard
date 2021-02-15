@@ -20,7 +20,7 @@ SelectDestination::~SelectDestination() {
 }
 
 void SelectDestination::reset() {
-	destinationPath = new QString;
+	destinationPath->clear();
 	chosenDestination->setText(*destinationPath);
 }
 

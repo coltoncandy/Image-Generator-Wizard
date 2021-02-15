@@ -18,7 +18,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("Select Your Destination");
+	processingWindow = new ProcessingWindow("It won't be too long ...");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
 	previewImage = new PreviewImage("Here is your Processed Image");
 
@@ -38,10 +38,10 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));
-	btnPrev->setIconSize(QSize(85, 32)); 
+	btnPrev->setIconSize(QSize(85, 32));
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
-	
+
 	// Add lighter arrow when hovering and when disabled
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
 	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
@@ -81,12 +81,20 @@ void ImageWizard::disableNext() {
 	btnNext->setEnabled(false);
 }
 
+bool ImageWizard::isNextEnabled() {
+	return btnNext->isEnabled();
+}
+
 void ImageWizard::enablePrev() {
 	btnPrev->setEnabled(true);
 }
 
 void ImageWizard::disablePrev() {
 	btnPrev->setEnabled(false);
+}
+
+bool ImageWizard::isPrevEnabled() {
+	return btnPrev->isEnabled();
 }
 
 //Next page in UI
@@ -131,6 +139,10 @@ void ImageWizard::goNext() {
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 1) {
 			btnPrev->show();
+		}
+		if(cur == 5) {
+			btnNext->hide();
+			btnPrev->hide();
 		}
 		if(cur == frames->count()) {
 			btnNext->hide();

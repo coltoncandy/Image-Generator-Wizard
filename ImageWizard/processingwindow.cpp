@@ -8,6 +8,7 @@ ProcessingWindow::ProcessingWindow(const QString& title, QWidget* parent)
 
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
 	titleLabel->setText(title);
+	this->setCursor(QCursor(Qt::BusyCursor));
 }
 
 ProcessingWindow::~ProcessingWindow()

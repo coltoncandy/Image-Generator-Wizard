@@ -8,31 +8,21 @@
 #include "imageinfo.h"
 #include "wizardpage.h"
 
-class SelectDestination : public WizardPage
-{
+class SelectDestination : public WizardPage {
 	Q_OBJECT
 
 public:
-	SelectDestination(const QString& title, QString* destination ,QWidget* parent = Q_NULLPTR);
+	SelectDestination(const QString& title, QString* const path, QWidget* parent = Q_NULLPTR);
 	~SelectDestination();
 
-	bool isReady();
-	
-public slots:
-	void chooseDirectory();
 	void reset();
-	void setDirectory(QString url);
-	QString* getDestination();
-	
+	bool isReady();
+
+public slots:
+	void setDirectory();
 
 private:
 	Ui::SelectDestinationClass ui;
-	QFileDialog chooser;
 	QLineEdit* chosenDestination;
 	QString* destinationPath;
-	QPushButton* resetButton;
-	bool ready;
-
 };
-
-

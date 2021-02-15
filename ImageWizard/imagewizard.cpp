@@ -99,6 +99,8 @@ bool ImageWizard::isPrevEnabled() {
 
 //Next page in UI
 void ImageWizard::goNext() {
+	QGuiApplication::restoreOverrideCursor();
+
 	int cur = frames->currentIndex();
 
 	// By default, the next button is disabled. If the page is already ready, then
@@ -127,7 +129,6 @@ void ImageWizard::goNext() {
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-		currentPage->pageSwitched();
 		if(!currentPage->isReady())
 			disableNext();
 		else
@@ -139,17 +140,28 @@ void ImageWizard::goNext() {
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
+			QCoreApplication::processEvents();
+			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			QGuiApplication::restoreOverrideCursor();
 			previewImage->updateImage(destination);
+			frames->setCurrentIndex(++cur);
+			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
 		else if(cur == frames->count()) {
 			btnNext->hide();
 		}
 	}
+	QCoreApplication::processEvents();
+	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	currentPage->pageSwitched();
+	QGuiApplication::restoreOverrideCursor();
 }
 
 //Previous page in UI 
 void ImageWizard::goPrev() {
+	QGuiApplication::restoreOverrideCursor();
+
 	int cur = frames->currentIndex();
 
 	QMessageBox msg;

@@ -16,6 +16,7 @@ public:
 	SelectDestination(const QString& title, QWidget* parent = Q_NULLPTR);
 	~SelectDestination();
 
+	void reset();
 	bool isReady();
 	
 public slots:
@@ -26,10 +27,10 @@ public slots:
 private:
 	Ui::SelectDestinationClass ui;
 	QLineEdit* chosenDestination;
-	QString destinationPath;
+	QString destinationPath; // file browser can only get string
 	QString enmptyPath;
 	QPushButton* resetButton;
-	QString* destination;
+	QString* destination; // the pointer for the destinationPath
 	bool ready;
 
 };

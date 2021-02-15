@@ -39,6 +39,11 @@ SelectDestination::SelectDestination(const QString& title, QWidget* parent) : Wi
 SelectDestination::~SelectDestination() {
 }
 
+void SelectDestination::reset() {
+	destination = NULL;
+	destinationPath = NULL; 
+	chosenDestination->setText(" ");
+}
 
 bool SelectDestination::isReady() {
 	return ready;

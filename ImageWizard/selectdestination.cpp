@@ -1,12 +1,8 @@
 #include "selectdestination.h"
 #include "imagewizard.h"
 
-#include <QLabel>
-#include <QImage>
 #include <QlineEdit>
-#include <QDragEnterEvent>
-#include <QMimeData>
-#include <QDropEvent>
+#include <QMessageBox>
 
 SelectDestination::SelectDestination(const QString& title, QString* const path, QWidget* parent) : WizardPage(parent) {
 
@@ -32,12 +28,17 @@ bool SelectDestination::isReady() {
 }
 
 void SelectDestination::setDirectory() {
-
-	*destinationPath = QFileDialog::getExistingDirectory(this,
-						tr("Choose directory"),
-						"",
-						QFileDialog::DontResolveSymlinks);
-	chosenDestination->setText(*destinationPath);
+	try {
+		*destinationPath = QFileDialog::getExistingDirectory(this,
+							tr("Choose directory"),
+							"",
+							QFileDialog::DontResolveSymlinks);
+		chosenDestination->setText(*destinationPath);
+	}
+	catch(...) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Could not load pathway");
+	}
 
 	if(isReady())
 		getWizard()->enableNext();

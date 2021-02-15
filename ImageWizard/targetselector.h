@@ -23,7 +23,7 @@ public slots:
 	void reset();
 
 private:
-	Ui::targetselector ui;
+	Ui::TargetSelector ui;
 
 	QLabel* imgLabel;
 	ImageInfo* target;

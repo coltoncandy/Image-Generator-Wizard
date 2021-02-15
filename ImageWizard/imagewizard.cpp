@@ -71,12 +71,20 @@ void ImageWizard::disableNext() {
 	btnNext->setEnabled(false);
 }
 
+bool ImageWizard::isNextEnabled() {
+	return btnNext->isEnabled();
+}
+
 void ImageWizard::enablePrev() {
 	btnPrev->setEnabled(true);
 }
 
 void ImageWizard::disablePrev() {
 	btnPrev->setEnabled(false);
+}
+
+bool ImageWizard::isPrevEnabled() {
+	return btnPrev->isEnabled();
 }
 
 //Next page in UI

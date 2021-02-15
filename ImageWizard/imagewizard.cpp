@@ -20,7 +20,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("Select Your Destination");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
-	previewImage = new PreviewImage("Here is your Processed Image", destination);
+	previewImage = new PreviewImage("Here is your Processed Image");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -112,11 +112,11 @@ void ImageWizard::goNext() {
 		if(!selectDestination->isReady()) {
 			return;
 		}
-		destination = selectDestination->getDestination();
+		// destination = selectDestination->getDestination();
 	}
 	else if(frames->currentWidget() == processingWindow) {
 		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
-
+		previewImage->updateImage(destination);
 	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.

@@ -3,12 +3,13 @@
 #include "transforms.h"
 
 namespace AlgoManager {
-    void AlgoManager::grabCutWrapper(const std::string& path) {
+    bool AlgoManager::grabCutWrapper(const std::string& path) {
 
-        Mat res = grabCut(path);
+        bool finished;
+        Mat res = grabCut(path, finished);
         imwrite(path, res);             //Write processed target back to target's path  
 
-        return;
+        return finished;
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
         Mat foreground = imread(fg, IMREAD_UNCHANGED);

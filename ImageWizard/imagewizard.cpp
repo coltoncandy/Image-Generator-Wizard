@@ -108,10 +108,9 @@ void ImageWizard::goNext() {
 		bool finished = AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 		enablePrev();
+		enableNext();
 
-		if(finished)
-			enableNext();
-		else
+		if(!finished)
 			return;
 	}
 	else if(frames->currentWidget() == processingWindow) {

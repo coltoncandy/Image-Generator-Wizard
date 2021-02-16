@@ -276,6 +276,7 @@ void GCApplication::init() {
 Mat grabCut(const std::string& path, bool& finished) {
     Mat image = imread(path, IMREAD_COLOR);
     Mat initialImage = imread(path, IMREAD_COLOR);
+    finished = false;
 
     if(image.empty()) {
         cout << "\n Could not read file path" << endl;

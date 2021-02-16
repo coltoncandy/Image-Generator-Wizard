@@ -267,6 +267,7 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
 Mat grabCut(const std::string& path, bool& finished) {
     Mat image = imread(path, IMREAD_COLOR);
     Mat initialImage = imread(path, IMREAD_COLOR);
+    finished = false;
 
     if(image.empty()) {
         cout << "\n Could not read file path" << endl;
@@ -284,7 +285,6 @@ Mat grabCut(const std::string& path, bool& finished) {
     gcapp.setImageAndWinName(image, initialImage, winName);
     gcapp.showImage();
 
-    finished = false;
     while(cv::getWindowProperty(winName, cv::WND_PROP_VISIBLE) >= 1) {
         char c = (char) waitKey(1000);                  //Convert key press to char for switch statement 
         switch(c) {

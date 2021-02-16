@@ -43,4 +43,4 @@ class GCApplication {
         int iterCount;
 };
 
-Mat grabCut(const std::string& path);
+Mat grabCut(const std::string& path, bool& finished);

@@ -131,6 +131,7 @@ void FileChooser::loadImage(QString& path) {
 	scaleImage(imgLabel->size());
 
 	getWizard()->enableNext();
+	repaint();
 }
 
 void FileChooser::scaleImage(const QSize& size) {

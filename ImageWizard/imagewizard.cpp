@@ -18,8 +18,9 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
 	processingWindow = new ProcessingWindow("It won't be too long ...");
+	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
+	previewImage = new PreviewImage("Here is your Processed Image");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -28,6 +29,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
 	frames->addWidget(processingWindow);
+	frames->addWidget(previewImage);
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
@@ -70,6 +72,7 @@ ImageWizard::~ImageWizard() {
 	delete background;
 	delete destination;
 	delete backgroundRemoval;
+	delete previewImage;
 }
 
 void ImageWizard::enableNext() {
@@ -98,6 +101,8 @@ bool ImageWizard::isPrevEnabled() {
 
 //Next page in UI
 void ImageWizard::goNext() {
+	QGuiApplication::restoreOverrideCursor();
+
 	int cur = frames->currentIndex();
 
 	// By default, the next button is disabled. If the page is already ready, then
@@ -111,27 +116,10 @@ void ImageWizard::goNext() {
 	if(!currentPage->isReady())
 		return;
 
-	if(frames->currentWidget() == targetSelector) { //target selection/crop page
-		disableNext();
-		disablePrev();
-		bool finished = AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
-		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
-		enablePrev();
-		enableNext();
-	}
-	else if(frames->currentWidget() == selectDestination) { //background image upload page
-		if(!selectDestination->isReady()) 
-			return;
-		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
-		
-
-	}
-
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-		currentPage->pageSwitched();
 		if(!currentPage->isReady())
 			disableNext();
 		else
@@ -143,20 +131,28 @@ void ImageWizard::goNext() {
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
+			QCoreApplication::processEvents();
+			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			QGuiApplication::restoreOverrideCursor();
+			previewImage->updateImage(destination);
+			frames->setCurrentIndex(++cur);
+			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
 		else if(cur == frames->count()) {
 			btnNext->hide();
 		}
 	}
-
-	if(frames->currentWidget() == backgroundRemoval) { //target selection/crop page
-		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
-		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
-	}
+	QCoreApplication::processEvents();
+	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	currentPage->pageSwitched();
+	QGuiApplication::restoreOverrideCursor();
 }
 
 //Previous page in UI 
 void ImageWizard::goPrev() {
+	QGuiApplication::restoreOverrideCursor();
+
 	int cur = frames->currentIndex();
 
 	QMessageBox msg;

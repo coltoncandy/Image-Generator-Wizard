@@ -10,6 +10,7 @@
 #include "selectdestination.h"
 #include "processingwindow.h"
 #include "backgroundremoval.h"
+#include "previewimage.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -42,6 +43,7 @@ private:
 	SelectDestination* selectDestination;
 	ProcessingWindow* processingWindow;
 	BackgroundRemoval* backgroundRemoval;
+	PreviewImage* previewImage;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;

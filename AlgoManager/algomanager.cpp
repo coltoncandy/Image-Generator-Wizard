@@ -69,7 +69,7 @@ namespace AlgoManager {
         background = cropBackground(background, Point(targetWidth, targetHeight), Point(backgroundWidth, backgroundHeight), 0, 0); 
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
-        imwrite("processed.png", processed); 
+        imwrite(destinationPath + "/processed.png", processed);
 
         namedWindow("display", WINDOW_NORMAL);
         imshow("display", processed);

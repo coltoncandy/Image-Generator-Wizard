@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BackgroundRemovalClass</class>
- <widget class="QWidget" name="BackgroundRemovalClass">
+ <class>PreviewImageClass</class>
+ <widget class="QWidget" name="PreviewImageClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,19 +17,19 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Background Removal</string>
+   <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="title">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
      <property name="font">
       <font>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
@@ -40,27 +40,36 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="instructions">
+    <widget class="QLabel" name="imgLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="text">
       <string/>
      </property>
-     <property name="scaledContents">
-      <bool>false</bool>
-     </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
+ <slots>
+  <slot>chooseFile()</slot>
+  <slot>reset()</slot>
+ </slots>
 </ui>

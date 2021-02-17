@@ -44,8 +44,6 @@ void GCApplication::reset() {
     lblsState = NOT_SET;
     prLblsState = NOT_SET;
     iterCount = 0;
-
-    init(); 
 }
 
 void GCApplication::setImageAndWinName(const Mat& _image, const Mat& _initialImage, const string& _winName) {

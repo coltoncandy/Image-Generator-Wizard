@@ -28,7 +28,6 @@ class GCApplication {
         int getIterCount() const { return iterCount; }
         Mat getResult() const; 
         Mat makeTransparent(Mat targetBlackBg) const; 
-        void init();
     private:
         void setRectInMask();
         void setLblsInMask(int flags, Point p, bool isPr);

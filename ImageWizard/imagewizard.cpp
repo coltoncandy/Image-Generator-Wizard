@@ -118,14 +118,12 @@ void ImageWizard::goNext() {
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
 		enablePrev();
 		enableNext();
-
-		if(!finished)
+	}
 	else if(frames->currentWidget() == selectDestination) { //background image upload page
-		if(!selectDestination->isReady()) {
+		if(!selectDestination->isReady()) 
 			return;
 		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
-
-		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
+		
 
 	}
 

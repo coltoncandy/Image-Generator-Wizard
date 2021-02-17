@@ -113,27 +113,6 @@ void ImageWizard::goNext() {
 
 	if(!currentPage->isReady())
 		return;
-	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
-		if(!background->loaded) {
-			return;
-		}
-	}
-	else if(frames->currentWidget() == selectDestination) { //background image upload page
-		if(!selectDestination->isReady()) {
-			return;
-		}
-	}
-	else if(frames->currentWidget() == processingWindow) {
-		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
-
-=========
-		disableNext();
-		disablePrev();
-		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
-		enableNext();
-		enablePrev();
->>>>>>>>> Temporary merge branch 2
-	}
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {

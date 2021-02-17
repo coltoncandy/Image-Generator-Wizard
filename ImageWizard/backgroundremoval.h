@@ -19,4 +19,5 @@ public:
 private:
 	Ui::BackgroundRemovalClass ui;
 	ImageInfo* targetImage;
+	QLabel* imgLabel;
 };

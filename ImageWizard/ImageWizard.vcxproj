@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="foregroundchooser.cpp" />
     <ClCompile Include="processingwindow.cpp" />
     <ClCompile Include="selectdestination.cpp" />
     <ClCompile Include="targetselector.cpp" />
@@ -121,6 +122,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="foregroundchooser.h" />
     <ClInclude Include="imageinfo.h" />
     <QtMoc Include="processingwindow.h" />
     <QtMoc Include="selectdestination.h" />

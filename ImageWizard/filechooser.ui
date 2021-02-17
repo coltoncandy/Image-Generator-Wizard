@@ -129,28 +129,39 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="randomButton">
-       <property name="text">
-        <string>Select Random</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="randomButton">
+         <property name="text">
+          <string>Select Random</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="browseButton">
+         <property name="text">
+          <string>Browse...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="chosenFileName">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
-     <item>
-      <widget class="QPushButton" name="browseButton">
+     <item alignment="Qt::AlignVCenter">
+      <widget class="QCheckBox" name="checkBox">
        <property name="text">
-        <string>Browse...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="chosenFileName">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
+        <string>Skip Background Crop</string>
        </property>
       </widget>
      </item>

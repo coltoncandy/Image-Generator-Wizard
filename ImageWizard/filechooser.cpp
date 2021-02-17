@@ -59,6 +59,9 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& 
 	QObject::connect(randomButton, &QPushButton::pressed, this, &FileChooser::getRandomFile);
 	defaultDirectory = QFileInfo(directoryPath);
 
+	checkbox = findChild<QCheckBox*>("checkBox");
+	checkbox->hide();
+
 	setupView();
 }
 

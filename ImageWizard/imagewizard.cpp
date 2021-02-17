@@ -33,25 +33,27 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png"));
-	btnNext->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png"));
+	//btnPrev->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png"));
+	//btnNext->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png"));
 	//btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	//btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
-	btnNext->setIconSize(QSize(85, 32));
-	btnPrev->setIconSize(QSize(85, 32));
+	//btnNext->setIconSize(QSize(85, 32));
+	//btnPrev->setIconSize(QSize(85, 32));
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 
 	// Add lighter arrow when hovering and when disabled
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
 	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
-	//QString right = QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png";
-	QString rightHoverStyleSheet = "QPushButton#btnNext {border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
+	QString right = QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png";
+	QString rightHoverStyleSheet = "QPushButton#btnNext {image: url(" + right + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
+	//QString rightHoverStyleSheet = "QPushButton#btnNext {border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
 	//QString rightHoverStyleSheet = "QPushButton:hover#btnNext {icon - size: 38px, 30px; image: url("+rightHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnNext {icon - size: 38px, 30px; image: url("+rightDisabled+"); background - repeat: no - repeat; }"; 
 
 	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
 	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
-	QString leftHoverStyleSheet = "QPushButton#btnPrev {border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnPrev {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + leftHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + leftDisabled + "); background - repeat: no - repeat; }";
+	QString left = QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png";
+	QString leftHoverStyleSheet = "QPushButton#btnPrev {image: url(" + left + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnPrev {image: url(" + leftHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {image: url(" + leftDisabled + "); background - repeat: no - repeat; }";
 	//QString leftHoverStyleSheet = "QPushButton:hover#btnPrev {icon - size: 38px, 30px; image: url("+leftHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon - size: 38px, 30px; image: url("+leftDisabled+"); background - repeat: no - repeat; }";
 	
 	btnPrev->setStyleSheet(leftHoverStyleSheet);

@@ -18,8 +18,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("Select Your Destination");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions");
+	processingWindow = new ProcessingWindow("It won't be too long ...");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -36,10 +36,10 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	//btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));
-	btnPrev->setIconSize(QSize(85, 32)); 
+	btnPrev->setIconSize(QSize(85, 32));
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
-	
+
 	// Add lighter arrow when hovering and when disabled
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
 	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
@@ -80,12 +80,20 @@ void ImageWizard::disableNext() {
 	btnNext->setEnabled(false);
 }
 
+bool ImageWizard::isNextEnabled() {
+	return btnNext->isEnabled();
+}
+
 void ImageWizard::enablePrev() {
 	btnPrev->setEnabled(true);
 }
 
 void ImageWizard::disablePrev() {
 	btnPrev->setEnabled(false);
+}
+
+bool ImageWizard::isPrevEnabled() {
+	return btnPrev->isEnabled();
 }
 
 //Next page in UI
@@ -102,19 +110,22 @@ void ImageWizard::goNext() {
 
 	if(!currentPage->isReady())
 		return;
-	else if(frames->currentWidget() == backgroundChooser) { //background image upload page
-		if(!background->loaded) {
-			return;
-		}
-	}
+
+	if(frames->currentWidget() == targetSelector) { //target selection/crop page
+		disableNext();
+		disablePrev();
+		bool finished = AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
+		enablePrev();
+		enableNext();
+
+		if(!finished)
 	else if(frames->currentWidget() == selectDestination) { //background image upload page
 		if(!selectDestination->isReady()) {
 			return;
-		}
-		destination = selectDestination->getDestination();
-	}
-	else if(frames->currentWidget() == processingWindow) {
 		AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+
+		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut
 
 	}
 
@@ -131,7 +142,11 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
-		if(cur == frames->count()) {
+		else if(currentPage == processingWindow) {
+			btnNext->hide();
+			btnPrev->hide();
+		}
+		else if(cur == frames->count()) {
 			btnNext->hide();
 		}
 	}

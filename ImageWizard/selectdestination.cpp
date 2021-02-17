@@ -1,61 +1,48 @@
 #include "selectdestination.h"
 #include "imagewizard.h"
 
-#include <QLabel>
-#include <QImage>
 #include <QlineEdit>
-#include <QDragEnterEvent>
-#include <QMimeData>
-#include <QDropEvent>
+#include <QMessageBox>
 
-SelectDestination::SelectDestination(const QString& title, QString* destination, QWidget* parent) : WizardPage(parent) {
-	QObject::connect(&chooser, &QFileDialog::directoryEntered, this, &SelectDestination::setDirectory);
+SelectDestination::SelectDestination(const QString& title, QString* const path, QWidget* parent) : WizardPage(parent) {
+
 	ui.setupUi(this);
-	chooser.setFileMode(QFileDialog::FileMode::Directory);
-
-	//resetButton = findChild<QPushButton*>("reset");
-	//QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
 	titleLabel->setText(title);
 
-	destinationPath = destination;
-
 	chosenDestination = findChild<QLineEdit*>("chosenDestination");
+
+	destinationPath = path;
 }
 
 SelectDestination::~SelectDestination() {
 }
 
-bool SelectDestination::isReady() {
-	return ready;
-}
-
 void SelectDestination::reset() {
-	ready = false;
-	*(destinationPath) = NULL;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->disableNext();
-	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
-	chosenDestination = findChild<QLineEdit*>("chosenDestination");
-	chosenDestination->setText(" ");
+	destinationPath->clear();
+	chosenDestination->setText(*destinationPath);
 }
 
-void SelectDestination::chooseDirectory() {
-	chooser.show();
+bool SelectDestination::isReady() {
+	return !destinationPath->isEmpty();
 }
 
-QString* SelectDestination::getDestination() {
-	return destinationPath;
+void SelectDestination::setDirectory() {
+	if(getWizard()->isNextEnabled())
+		getWizard()->disableNext();
+	try {
+		*destinationPath = QFileDialog::getExistingDirectory(this,
+							tr("Choose directory"),
+							"",
+							QFileDialog::DontResolveSymlinks);
+		chosenDestination->setText(*destinationPath);
+	}
+	catch(...) {
+		QMessageBox messageBox;
+		messageBox.warning(0, "Error", "Could not load pathway");
+	}
+
+	if(isReady())
+		getWizard()->enableNext();
 }
-
-void SelectDestination::setDirectory(QString path) {
-	chosenDestination->setText(path);
-
-	*(destinationPath) = path;
-	ready = true;
-	ImageWizard* wizard = dynamic_cast<ImageWizard*>(parent()->parent());
-	wizard->enableNext();
-}
-
-

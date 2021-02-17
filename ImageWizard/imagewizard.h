@@ -20,9 +20,11 @@ public:
 
 	void enableNext();
 	void disableNext();
+	bool isNextEnabled();
 
 	void enablePrev();
 	void disablePrev();
+	bool isPrevEnabled();
 
 public slots:
 	void goNext();

@@ -91,7 +91,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="addButton">
+      <widget class="QPushButton" name="cropButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -145,7 +145,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>addButton</sender>
+   <sender>cropButton</sender>
    <signal>clicked()</signal>
    <receiver>BackgroundRemovalClass</receiver>
    <slot>addButton()</slot>

@@ -15,12 +15,17 @@ public:
 	BackgroundRemoval(const QString& title, ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~BackgroundRemoval();
 	void pageSwitched();
+	void disableButton();
+	void enableButton();
 
 public slots:
 	void addButton();
 
 private:
+	
 	Ui::BackgroundRemovalClass ui;
 	ImageInfo* targetImage;
 	QLabel* imgLabel;
+	QPushButton* cropButton;
+
 };

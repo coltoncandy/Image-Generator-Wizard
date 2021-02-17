@@ -11,17 +11,26 @@ BackgroundRemoval::BackgroundRemoval(const QString& title, ImageInfo* target, QW
 	QLabel* instructions = findChild<QLabel*>("instructions");
 	instructions->setStyleSheet("QLabel { color : white; }");
 	instructions->setText("<ul><b>Instructions: </b><br><li>1. Hold 'ctrl' key and use mouse to draw on areas of background</li><li>3. Hold 'shift' key and use mouse to draw on areas of foreground</li><li>4. Press 'n' to run one iteration of GrabCut</li><li>5. Press 'r' key to start over </li><li>6. Press 'esc' key to continue once satisifed with result</li></ul>");
-	
+	cropButton = findChild<QPushButton*>("cropButton");
 	targetImage = target;
 }
 
 BackgroundRemoval::~BackgroundRemoval() {
 }
 
-void BackgroundRemoval::pageSwitched() {
+void BackgroundRemoval::disableButton() {
+	cropButton->setEnabled(false);
+}
 
+void BackgroundRemoval::enableButton() {
+	cropButton->setEnabled(true);
+}
+
+void BackgroundRemoval::pageSwitched() {
+	
 	//display initial cropped image
 	imgLabel->clear();
+	disableButton();
 	//call algomanager grabcut wrapper 
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
@@ -29,6 +38,7 @@ void BackgroundRemoval::pageSwitched() {
 	getWizard()->enablePrev();
 	if (finished) {
 		getWizard()->enableNext();
+		enableButton();
 	}
 	else {
 		getWizard()->disableNext();
@@ -47,16 +57,13 @@ void BackgroundRemoval::pageSwitched() {
 }
 
 void BackgroundRemoval::addButton() {
+	disableButton();
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
 	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());
 	getWizard()->enablePrev();
-	if(finished) {
-		getWizard()->enableNext();
-	}
-	else {
-		getWizard()->disableNext();
-	}
+	getWizard()->enableNext();
+	enableButton();
 
 	targetImage->image->load(*targetImage->path);
 

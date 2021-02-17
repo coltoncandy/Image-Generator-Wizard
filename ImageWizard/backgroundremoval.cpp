@@ -21,7 +21,7 @@ BackgroundRemoval::~BackgroundRemoval() {
 void BackgroundRemoval::pageSwitched() {
 
 	//display initial cropped image
-
+	imgLabel->clear();
 	//call algomanager grabcut wrapper 
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
@@ -44,4 +44,23 @@ void BackgroundRemoval::pageSwitched() {
 
 
 	//display imageinfo with new display
+}
+
+void BackgroundRemoval::addButton() {
+	getWizard()->disableNext();
+	getWizard()->disablePrev();
+	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());
+	getWizard()->enablePrev();
+	if(finished) {
+		getWizard()->enableNext();
+	}
+	else {
+		getWizard()->disableNext();
+	}
+
+	targetImage->image->load(*targetImage->path);
+
+	QSize& size = imgLabel->size();
+	QPixmap p = QPixmap::fromImage(*(targetImage->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
 }

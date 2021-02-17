@@ -16,6 +16,9 @@ public:
 	~BackgroundRemoval();
 	void pageSwitched();
 
+public slots:
+	void addButton();
+
 private:
 	Ui::BackgroundRemovalClass ui;
 	ImageInfo* targetImage;

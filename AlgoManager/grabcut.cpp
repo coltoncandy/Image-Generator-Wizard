@@ -44,8 +44,6 @@ void GCApplication::reset() {
     lblsState = NOT_SET;
     prLblsState = NOT_SET;
     iterCount = 0;
-
-    init(); 
 }
 
 void GCApplication::setImageAndWinName(const Mat& _image, const Mat& _initialImage, const string& _winName) {
@@ -269,7 +267,6 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
 
 void GCApplication::init() {
     mouseClick(EVENT_LBUTTONUP, 0, 0, 0, NULL); 
-    //nextIter(); 
     showImage(); 
 }
 

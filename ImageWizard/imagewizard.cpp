@@ -14,9 +14,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Backgrounds");
-	//targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Drones");
-	//targetChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
+	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);

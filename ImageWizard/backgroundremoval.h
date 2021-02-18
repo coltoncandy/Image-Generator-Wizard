@@ -17,9 +17,11 @@ public:
 	void pageSwitched();
 	void disableButton();
 	void enableButton();
+	void reset();
 
 public slots:
 	void editButton();
+	void resizeEvent(QResizeEvent* e);
 
 private:
 	
@@ -27,5 +29,8 @@ private:
 	ImageInfo* targetImage;
 	QLabel* imgLabel;
 	QPushButton* cropButton;
+	bool enableDisplay;
+
+	void scaleImage(const QSize& size);
 
 };

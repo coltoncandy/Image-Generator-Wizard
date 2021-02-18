@@ -103,8 +103,15 @@ void ImageWizard::goNext() {
 		return;
 
 	if(frames->currentWidget() == targetSelector) { //target selection/crop page
-		AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+		disableNext();
+		disablePrev();
+		bool finished = AlgoManager::AlgoManager::grabCutWrapper(target->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 		target->image->load(*target->path);											//Update target struct for processed image written to target->path 
+		enablePrev();
+		enableNext();
+
+		if(!finished)
+			return;
 	}
 	else if(frames->currentWidget() == processingWindow) {
 		AlgoManager::AlgoManager::overlayWrapper(background->path->toStdString(), target->path->toStdString());		//Send image containing target to grabCut

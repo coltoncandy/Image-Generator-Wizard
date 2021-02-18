@@ -33,6 +33,8 @@ namespace AlgoManager {
         int backgroundWidth = background.cols;
         Mat resizedTarget; 
 
+        srand(time(NULL));
+
         int numOfCalls = rand() % 5;             
 
         for(int i = 0; i < numOfCalls; i++) {

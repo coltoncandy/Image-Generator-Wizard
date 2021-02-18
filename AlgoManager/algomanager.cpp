@@ -71,11 +71,6 @@ namespace AlgoManager {
 
         imwrite(destinationPath + "/processed.png", processed);
 
-        namedWindow("display", WINDOW_NORMAL);
-        imshow("display", processed);
-        waitKey(0);
-         
-
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
         Mat foreground = imread(fg, IMREAD_UNCHANGED);

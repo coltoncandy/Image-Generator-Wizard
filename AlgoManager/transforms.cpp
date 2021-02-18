@@ -271,11 +271,6 @@ Mat rotation(Mat target, int angleBounds) {
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
     Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
 
-    //Rect2f box = RotatedRect(cv::Point2f(), target.size(), angleBounds).boundingRect2f();
-
-    //rot.at<double>(0, 2) += box.width / 2.0 - target.cols / 2.0;
-    //rot.at<double>(1, 2) += box.height / 2.0 - target.rows / 2.0;
-
     Mat dst;
     warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
 

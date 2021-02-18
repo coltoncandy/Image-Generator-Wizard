@@ -170,9 +170,9 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	painter.setFont(font);
 
 	painter.setRenderHint(QPainter::Antialiasing);
-	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
+	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, imgLabel->height() - offset/2), radius, radius);
 	painter.drawText(
-		QRect((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),
+		QRect((width() - textWidth) / 2, (offset + offset / 2 + imgLabel->height() - textHeight) / 2, textWidth, textHeight),
 		"Drag a .png file",
 		options
 	);

@@ -28,32 +28,19 @@ void BackgroundRemoval::enableButton() {
 
 void BackgroundRemoval::pageSwitched() {
 
-	//display initial cropped image
-	imgLabel->clear();
 	disableButton();
-	//call algomanager grabcut wrapper 
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
-	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());	
 	getWizard()->enablePrev();
-	if(finished) {
-		getWizard()->enableNext();
-		enableButton();
-	}
-	else {
-		getWizard()->disableNext();
-	}
-	//AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	getWizard()->enableNext();
+	enableButton();
 
-	//load image into imageinfo struct
 	targetImage->image->load(*targetImage->path);
 
 	QSize& size = imgLabel->size();
 	QPixmap p = QPixmap::fromImage(*(targetImage->image));
 	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
-
-
-	//display imageinfo with new display
 }
 
 void BackgroundRemoval::editButton() {

@@ -27,7 +27,7 @@ void BackgroundRemoval::enableButton() {
 }
 
 void BackgroundRemoval::pageSwitched() {
-	
+
 	//display initial cropped image
 	imgLabel->clear();
 	disableButton();
@@ -36,7 +36,7 @@ void BackgroundRemoval::pageSwitched() {
 	getWizard()->disablePrev();
 	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
 	getWizard()->enablePrev();
-	if (finished) {
+	if(finished) {
 		getWizard()->enableNext();
 		enableButton();
 	}
@@ -56,7 +56,7 @@ void BackgroundRemoval::pageSwitched() {
 	//display imageinfo with new display
 }
 
-void BackgroundRemoval::addButton() {
+void BackgroundRemoval::editButton() {
 	disableButton();
 	getWizard()->disableNext();
 	getWizard()->disablePrev();

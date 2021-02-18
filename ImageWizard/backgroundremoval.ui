@@ -148,7 +148,7 @@
    <sender>cropButton</sender>
    <signal>clicked()</signal>
    <receiver>BackgroundRemovalClass</receiver>
-   <slot>addButton()</slot>
+   <slot>editButton()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>189</x>
@@ -162,6 +162,6 @@
   </connection>
  </connections>
  <slots>
-  <slot>addButton()</slot>
+  <slot>editButton()</slot>
  </slots>
 </ui>

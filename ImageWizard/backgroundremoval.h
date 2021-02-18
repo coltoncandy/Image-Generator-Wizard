@@ -19,7 +19,7 @@ public:
 	void enableButton();
 
 public slots:
-	void addButton();
+	void editButton();
 
 private:
 	

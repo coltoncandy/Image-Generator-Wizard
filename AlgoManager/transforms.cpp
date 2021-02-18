@@ -210,8 +210,75 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 	return output;
 }
 
+
+int findWidthToBlur(Mat input) { //find how far away from edges to blur based on the image size
+	//first find the parts of the image that we're actually keeping, by finding the left-most and right-most non-transparent pixels, then repeating with the top- and bottom-most.
+	int minx = input.cols - 1;
+	int maxx = 0;
+	int miny = input.rows - 1;
+	int maxy = 0;
+	
+	for(int y = 0; y < input.rows; ++y) {    //loop through image
+		for(int x = 0; x < input.cols; ++x) {
+			if(input.data[getIndexClamped(x, y, input) + 3] == 255) { //if we found a non-transparent pixel
+				if(x < minx) { //update minimum and maximum values
+					minx = x;
+				}
+				if(x > maxx) {
+					maxx = x;
+				}
+				if(y < miny) {
+					miny = y;
+				}
+				if(y > maxy) {
+					maxy = y;
+				}
+			}
+		}
+	}
+	
+	double minimum = maxx - minx; //calculate the minimum of width and height
+	if(maxy - miny < minimum) {
+		minimum = maxy - miny;
+	}
+	int height = input.rows;
+	int width = input.cols;
+
+	//calculate width to blur based on the minimum of image width and height
+	minimum = sqrt(minimum);
+	if(minimum < 10){
+		return 3;
+	}
+	else if(minimum > 25) {
+		return 9;
+	}
+	else{
+		int temp = (int) ((((minimum - 10) / 15.0) * 6.0) + 3);
+		if(temp % 2 == 0) {
+			temp++;
+		}
+		return temp;
+	}
+}
+
+
+
+bool isItAnEdgePixel(int x, int y, Mat input) { //determine whether a pixel location is along the edge of an image
+	if(x == 0 || x == input.cols - 1) {
+		return true;
+	}
+	if(y == 0 || y == input.rows - 1) {
+		return true;
+	}
+	return false;
+}
+
+
 Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the distance to look at nearby pixels. 3 is a 3x3 grid centered on each pixel, 5 is 5x5, etc.
-	if(gridSize < 3) {
+	if(gridSize == -1) {
+		gridSize = findWidthToBlur(initialImage);
+	}
+	else if(gridSize < 3) {
 		gridSize = 3; 
 	}
 
@@ -226,6 +293,8 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	int height = initialImage.rows;
 	int width = initialImage.cols;
 	int toFind;
+	int sumx, sumy;
+	int pixData;
 
 	std::vector<std::vector<bool>> alphaMaskBool(initialImage.rows, std::vector<bool>(initialImage.cols, false)); //initialize a 2D array to keep track of whether each pixel should be modified. Has same number of rows and cols, initialized to false in every position.
 
@@ -240,10 +309,17 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				toFind = 255;
 			}
 			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) {  //loop around current pixel, based on how far away we want to blur from transparent pixels
+				sumy = clamp(y + dy, 0, initialImage.rows - 1);
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
+					sumx = clamp(x + dx, 0, initialImage.cols - 1);
+					pixData = initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3];
+					if(isItAnEdgePixel(sumx, sumy, initialImage) && pixData == 1) { //always blur if current pixel is within the blur distance of the edge of the image
+						alphaMaskBool[y][x] = true;
+						break;
+					}
 					try {
 						// determine the opacity of the foreground pixel, using its fourth (alpha) channel.
-						if(initialImage.data[getIndexClamped(x + dx, y + dy, initialImage) + 3] == toFind) { //we've found a pixel within the range specified
+						if(pixData == toFind) { //we've found a pixel within the range specified
 							alphaMaskBool[y][x] = true;
 							break;
 						}

@@ -22,8 +22,8 @@ void PreviewImage::updateImage(cv::Mat img) {
 }
 
 void PreviewImage::loadImage(cv::Mat img) {
-	QImage result = QImage((const unsigned char*) (img.data), img.cols, img.rows, QImage::Format_RGB888);
-	imgLabel->setPixmap(QPixmap::fromImage(result)); 
+	result = QImage((const unsigned char*) (img.data), img.cols, img.rows, QImage::Format_RGB888);
+	//imgLabel->setPixmap(QPixmap::fromImage(result)); 
 	/*try {
 		*processedImage->path = *path + "/processed.png";		//fix hard code here
 		processedImage->image->load(*processedImage->path);
@@ -33,16 +33,18 @@ void PreviewImage::loadImage(cv::Mat img) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Failed loading processed image.");
 	}
-
-	scaleImage(imgLabel->size());*/
+	*/
+	scaleImage(imgLabel->size());
 }
 
 void PreviewImage::scaleImage(const QSize& size) {
 	/*if(!processedImage->loaded)
 		return;
+	*/
 
-	QPixmap p = QPixmap::fromImage(*(processedImage->image));
-	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));*/
+	//QPixmap p = QPixmap::fromImage(*(processedImage->image));
+	QPixmap p = QPixmap::fromImage(result);
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
 }
 
 void PreviewImage::reset() {
@@ -51,8 +53,8 @@ void PreviewImage::reset() {
 }
 
 void PreviewImage::resizeEvent(QResizeEvent* e) {
-	/*QWidget::resizeEvent(e);
-	scaleImage(imgLabel->size());*/
+	QWidget::resizeEvent(e);
+	scaleImage(imgLabel->size());
 }
 
 PreviewImage::~PreviewImage()

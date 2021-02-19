@@ -25,4 +25,5 @@ private:
 	void loadImage(cv::Mat img);
 	void scaleImage(const QSize&);
 	void reset();
+	QImage result;
 };

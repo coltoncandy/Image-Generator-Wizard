@@ -45,9 +45,9 @@ void BackgroundRemoval::grabCut() {
 	disableButton();
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
-
+	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());
-
+	QGuiApplication::restoreOverrideCursor();
 	getWizard()->enablePrev();
 	getWizard()->enableNext();
 	enableButton();

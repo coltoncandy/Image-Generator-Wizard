@@ -40,7 +40,7 @@ void GCApplication::reset() {
     bgdPxls.clear(); fgdPxls.clear();
     prBgdPxls.clear();  prFgdPxls.clear();
     isInitialized = false;
-    rectState = NOT_SET;
+    rectState = IN_PROCESS;
     lblsState = NOT_SET;
     prLblsState = NOT_SET;
     iterCount = 0;
@@ -105,8 +105,8 @@ Mat GCApplication::makeTransparent(Mat targetBlackBg) const {           //Makes 
 
     cv::cvtColor(targetBlackBg, tmp, cv::COLOR_BGR2GRAY);       //Convert processed target image to grayscale and store in tmp 
     cv::threshold(tmp, alpha, 0, 255, cv::THRESH_BINARY);       //All pixels > 0 are set to 255 (white), else set to 0 (black) 
-    //cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
-    cv::split(copyInitial, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    //cv::split(copyInitial, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
     rgba = {bgr[0], bgr[1], bgr[2], alpha};                     //Stores each color channel and binary mask in vector 
     cv::merge(rgba, dst);                                       //Merges channels stored in vector
 
@@ -139,10 +139,10 @@ void GCApplication::setRectInMask() {
     
     mask.setTo(GC_BGD);
     
-    rect.x = max(0, rect.x);
-    rect.y = max(0, rect.y);
-    rect.width = min(rect.width, image->cols - rect.x);
-    rect.height = min(rect.height, image->rows - rect.y);
+    rect.x = 0; 
+    rect.y = 0; 
+    rect.width = image->cols - 1;
+    rect.height = image->rows - 1;
     
     (mask(rect)).setTo(Scalar(GC_PR_FGD));
 }
@@ -264,6 +264,12 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
     gcapp.mouseClick(event, x, y, flags, param);
 }
 
+
+void GCApplication::init() {
+    mouseClick(EVENT_LBUTTONUP, 0, 0, 0, NULL); 
+    showImage(); 
+}
+
 Mat grabCut(const std::string& path, bool& finished) {
     Mat image = imread(path, IMREAD_COLOR);
     Mat initialImage = imread(path, IMREAD_COLOR);
@@ -283,10 +289,10 @@ Mat grabCut(const std::string& path, bool& finished) {
     setMouseCallback(winName, on_mouse, 0);         //Specifies handler for mouse events for the given window 
 
     gcapp.setImageAndWinName(image, initialImage, winName);
-    gcapp.showImage();
-
+    gcapp.init();
+    finished = false;
     while(cv::getWindowProperty(winName, cv::WND_PROP_VISIBLE) >= 1) {
-        char c = (char) waitKey(1000);                  //Convert key press to char for switch statement 
+        char c = (char) waitKey(0);                  //Convert key press to char for switch statement 
         switch(c) {
         case '\x1b':                                 //ESC key == 'exit' 
             cout << "Exiting ..." << endl;
@@ -313,9 +319,6 @@ Mat grabCut(const std::string& path, bool& finished) {
     }
 //exit_main:
     Mat res = gcapp.getResult();
-    /*imshow("target", res);        //Uncomment to see result of grabCut before writing to disk
-    waitKey(0); */
-    //imwrite("result.png", res);
     destroyWindow(winName);
     return res;
 }

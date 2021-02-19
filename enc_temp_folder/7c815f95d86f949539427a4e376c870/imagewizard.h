@@ -49,5 +49,5 @@ private:
 	ImageInfo* target;
 	ImageInfo* background;
 	QString* destination;
-	cv::Mat* img;
+	cv::Mat img;
 };

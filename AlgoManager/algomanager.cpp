@@ -2,6 +2,8 @@
 #include "grabcut.h"
 #include "transforms.h"
 #include "stdlib.h"
+#include <opencv2/core.hpp>
+
 
 namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
@@ -15,7 +17,7 @@ namespace AlgoManager {
         return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    void AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
+    cv::Mat AlgoManager::processor(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
 
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
@@ -72,6 +74,7 @@ namespace AlgoManager {
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
         imwrite(destinationPath + "/processed.png", processed);
+        return processed;
 
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {

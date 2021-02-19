@@ -2,8 +2,9 @@
 #include "wizardpage.h"
 #include <QLabel>
 #include <QMessageBox>
+#include <opencv2/core.hpp>
 
-PreviewImage::PreviewImage(const QString& title, QWidget *parent)
+PreviewImage::PreviewImage(const QString& title, cv::Mat img, QWidget *parent)
 	: WizardPage(parent)
 {
 	ui.setupUi(this);
@@ -13,16 +14,17 @@ PreviewImage::PreviewImage(const QString& title, QWidget *parent)
 
 	imgLabel = findChild<QLabel*>("imgLabel");
 
-	processedImage = new ImageInfo;
-
+	//processedImage = new ImageInfo;
 }
 
-void PreviewImage::updateImage(const QString* path) {
-	loadImage(path);
+void PreviewImage::updateImage(cv::Mat img) {
+	loadImage(img);
 }
 
-void PreviewImage::loadImage(const QString* path) {
-	try {
+void PreviewImage::loadImage(cv::Mat img) {
+	QImage result = QImage((const unsigned char*) (img.data), img.cols, img.rows, QImage::Format_RGB888);
+	imgLabel->setPixmap(QPixmap::fromImage(result)); 
+	/*try {
 		*processedImage->path = *path + "/processed.png";		//fix hard code here
 		processedImage->image->load(*processedImage->path);
 		processedImage->loaded = true;
@@ -32,28 +34,28 @@ void PreviewImage::loadImage(const QString* path) {
 		messageBox.warning(0, "Error", "Failed loading processed image.");
 	}
 
-	scaleImage(imgLabel->size());
+	scaleImage(imgLabel->size());*/
 }
 
 void PreviewImage::scaleImage(const QSize& size) {
-	if(!processedImage->loaded)
+	/*if(!processedImage->loaded)
 		return;
 
 	QPixmap p = QPixmap::fromImage(*(processedImage->image));
-	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));*/
 }
 
 void PreviewImage::reset() {
 	imgLabel->clear();
-	processedImage->reset();
+	//processedImage->reset();
 }
 
 void PreviewImage::resizeEvent(QResizeEvent* e) {
-	QWidget::resizeEvent(e);
-	scaleImage(imgLabel->size());
+	/*QWidget::resizeEvent(e);
+	scaleImage(imgLabel->size());*/
 }
 
 PreviewImage::~PreviewImage()
 {
-	delete processedImage;
+	//delete processedImage;
 }

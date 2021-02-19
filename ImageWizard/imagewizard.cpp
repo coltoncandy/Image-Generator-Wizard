@@ -3,8 +3,6 @@
 #include "filechooser.h"
 #include "../AlgoManager/algomanager.h" 
 #include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -23,7 +21,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("It won't be too long ...");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
-	previewImage = new PreviewImage("Here is your Processed Image");
+	previewImage = new PreviewImage("Here is your Processed Image", img);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -110,7 +108,7 @@ void ImageWizard::goNext() {
 	//cv::Mat img = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR);
 	//imshow("Display window", img);
 	//**************************************************************
-	//
+
 	QGuiApplication::restoreOverrideCursor();
 
 	int cur = frames->currentIndex();
@@ -143,9 +141,9 @@ void ImageWizard::goNext() {
 			btnPrev->hide();
 			QCoreApplication::processEvents();
 			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			img = AlgoManager::AlgoManager::processor(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
 			QGuiApplication::restoreOverrideCursor();
-			previewImage->updateImage(destination);
+			previewImage->updateImage(img);
 			frames->setCurrentIndex(++cur);
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}

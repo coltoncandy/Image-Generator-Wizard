@@ -22,11 +22,11 @@ BackgroundRemoval::~BackgroundRemoval() {
 }
 
 void BackgroundRemoval::disableButton() {
-	cropButton->setEnabled(false);
+	
 }
 
 void BackgroundRemoval::enableButton() {
-	cropButton->setEnabled(true);
+	
 }
 
 void BackgroundRemoval::pageSwitched() {
@@ -42,7 +42,7 @@ void BackgroundRemoval::resizeEvent(QResizeEvent* e) {
 }
 
 void BackgroundRemoval::grabCut() {
-	disableButton();
+	cropButton->setEnabled(false);
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
 	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -50,7 +50,7 @@ void BackgroundRemoval::grabCut() {
 	QGuiApplication::restoreOverrideCursor();
 	getWizard()->enablePrev();
 	getWizard()->enableNext();
-	enableButton();
+	cropButton->setEnabled(true);
 
 	targetImage->image->load(*targetImage->path);
 

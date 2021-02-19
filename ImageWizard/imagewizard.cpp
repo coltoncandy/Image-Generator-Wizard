@@ -2,6 +2,9 @@
 #include "imagewizard.h"
 #include "filechooser.h"
 #include "../AlgoManager/algomanager.h" 
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -101,6 +104,13 @@ bool ImageWizard::isPrevEnabled() {
 
 //Next page in UI
 void ImageWizard::goNext() {
+	//
+	//**************************************************************
+	// delete these, only use for examples
+	//cv::Mat img = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR);
+	//imshow("Display window", img);
+	//**************************************************************
+	//
 	QGuiApplication::restoreOverrideCursor();
 
 	int cur = frames->currentIndex();

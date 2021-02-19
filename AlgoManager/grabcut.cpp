@@ -267,7 +267,6 @@ static void on_mouse(int event, int x, int y, int flags, void* param) {
 
 void GCApplication::init() {
     mouseClick(EVENT_LBUTTONUP, 0, 0, 0, NULL); 
-    //nextIter(); 
     showImage(); 
 }
 

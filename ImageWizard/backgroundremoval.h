@@ -22,7 +22,7 @@ public slots:
 	void resizeEvent(QResizeEvent* e);
 
 private:
-	
+
 	Ui::BackgroundRemovalClass ui;
 	ImageInfo* targetImage;
 	QLabel* imgLabel;
@@ -31,7 +31,4 @@ private:
 
 	void scaleImage(const QSize& size);
 	void grabCut();
-	void disableButton();
-	void enableButton();
-
 };

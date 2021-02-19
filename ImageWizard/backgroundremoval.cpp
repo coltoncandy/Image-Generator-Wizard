@@ -21,14 +21,6 @@ BackgroundRemoval::BackgroundRemoval(const QString& title, ImageInfo* target, QW
 BackgroundRemoval::~BackgroundRemoval() {
 }
 
-void BackgroundRemoval::disableButton() {
-	
-}
-
-void BackgroundRemoval::enableButton() {
-	
-}
-
 void BackgroundRemoval::pageSwitched() {
 	grabCut();
 	enableDisplay = true;

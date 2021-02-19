@@ -92,18 +92,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="backgroundremoval.cpp" />
+    <ClCompile Include="previewimage.cpp" />
     <ClCompile Include="processingwindow.cpp" />
     <ClCompile Include="selectdestination.cpp" />
     <ClCompile Include="targetselector.cpp" />
     <ClCompile Include="welcomepage.cpp" />
     <ClCompile Include="wizardpage.cpp" />
     <QtRcc Include="imagewizard.qrc" />
+    <QtUic Include="backgroundremoval.ui" />
     <QtUic Include="filechooser.ui" />
     <QtUic Include="imagewizard.ui" />
     <QtMoc Include="imagewizard.h" />
     <ClCompile Include="filechooser.cpp" />
     <ClCompile Include="imagewizard.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="previewimage.ui" />
     <QtUic Include="processingwindow.ui" />
     <QtUic Include="selectdestination.ui" />
     <QtUic Include="targetselector.ui" />
@@ -121,6 +125,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="previewimage.h" />
+    <QtMoc Include="backgroundremoval.h" />
     <ClInclude Include="imageinfo.h" />
     <QtMoc Include="processingwindow.h" />
     <QtMoc Include="selectdestination.h" />

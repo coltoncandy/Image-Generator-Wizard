@@ -341,4 +341,3 @@ void TargetSelector::pageSwitched() {
 	*(target->image) = *(initial->image);
 	updateImage();
 }
-

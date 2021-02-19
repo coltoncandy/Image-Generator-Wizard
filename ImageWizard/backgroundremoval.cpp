@@ -12,7 +12,7 @@ BackgroundRemoval::BackgroundRemoval(const QString& title, ImageInfo* target, QW
 	QFont f("Arial", 9);
 	instructions->setFont(f);
 	instructions->setStyleSheet("QLabel { color : white; }");
-	instructions->setText("<li><b>Instructions: </b></li><br><li>1. Hold 'ctrl' key and use mouse to draw on areas of background</li><li>2. Hold 'shift' key and use mouse to draw on areas of foreground</li><li>3. Press 'n' to run one iteration of GrabCut</li><li>4. Press 'r' key to start over </li><li>5. Press 'esc' key to continue once satisifed with result</li>");
+	instructions->setText("<div><b>Instructions: </b></div><br><div>1. Hold 'ctrl' key and use mouse to draw on areas of background</div><div>2. Hold 'shift' key and use mouse to draw on areas of foreground</div><div>3. Press 'n' to run one iteration of GrabCut</div><div>4. Press 'r' key to start over </div><div>5. Press 'esc' key to continue once satisifed with result</div>");
 	cropButton = findChild<QPushButton*>("cropButton");
 	targetImage = target;
 	enableDisplay = false;

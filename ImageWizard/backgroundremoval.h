@@ -15,8 +15,6 @@ public:
 	BackgroundRemoval(const QString& title, ImageInfo* target, QWidget* parent = Q_NULLPTR);
 	~BackgroundRemoval();
 	void pageSwitched();
-	void disableButton();
-	void enableButton();
 	void reset();
 
 public slots:
@@ -33,5 +31,7 @@ private:
 
 	void scaleImage(const QSize& size);
 	void grabCut();
+	void disableButton();
+	void enableButton();
 
 };

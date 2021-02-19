@@ -33,6 +33,8 @@ namespace AlgoManager {
         int backgroundWidth = background.cols;
         Mat resizedTarget; 
 
+        srand(time(NULL));
+
         int numOfCalls = rand() % 5;             
 
         for(int i = 0; i < numOfCalls; i++) {
@@ -70,11 +72,6 @@ namespace AlgoManager {
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
         imwrite(destinationPath + "/processed.png", processed);
-
-        namedWindow("display", WINDOW_NORMAL);
-        imshow("display", processed);
-        waitKey(0);
-         
 
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {

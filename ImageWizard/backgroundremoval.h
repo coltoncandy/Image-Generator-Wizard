@@ -32,5 +32,6 @@ private:
 	bool enableDisplay;
 
 	void scaleImage(const QSize& size);
+	void grabCut();
 
 };

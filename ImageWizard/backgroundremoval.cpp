@@ -30,23 +30,8 @@ void BackgroundRemoval::enableButton() {
 }
 
 void BackgroundRemoval::pageSwitched() {
-
-	disableButton();
-	getWizard()->disableNext();
-	getWizard()->disablePrev();
-
-	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());	
-
+	grabCut();
 	enableDisplay = true;
-	getWizard()->enablePrev();
-	getWizard()->enableNext();
-	enableButton();
-
-	targetImage->image->load(*targetImage->path);
-
-	QSize& size = imgLabel->size();
-	QPixmap p = QPixmap::fromImage(*(targetImage->image));
-	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
 }
 
 void BackgroundRemoval::resizeEvent(QResizeEvent* e) {
@@ -56,15 +41,7 @@ void BackgroundRemoval::resizeEvent(QResizeEvent* e) {
 	}
 }
 
-void BackgroundRemoval::scaleImage(const QSize& size) {
-
-	QPixmap p = QPixmap::fromImage(*(targetImage->image));
-	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
-}
-
-void BackgroundRemoval::editButton() {
-	
-
+void BackgroundRemoval::grabCut() {
 	disableButton();
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
@@ -80,6 +57,16 @@ void BackgroundRemoval::editButton() {
 	QSize& size = imgLabel->size();
 	QPixmap p = QPixmap::fromImage(*(targetImage->image));
 	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void BackgroundRemoval::scaleImage(const QSize& size) {
+
+	QPixmap p = QPixmap::fromImage(*(targetImage->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void BackgroundRemoval::editButton() {
+	grabCut();
 }
 
 void BackgroundRemoval::reset() {

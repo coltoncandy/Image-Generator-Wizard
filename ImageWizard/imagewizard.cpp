@@ -15,6 +15,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
+	batchChoice = new BatchChoice();
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
@@ -26,6 +27,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundRemoval);
+	frames->addWidget(batchChoice);
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
 	frames->addWidget(processingWindow);

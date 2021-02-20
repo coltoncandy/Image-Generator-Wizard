@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BatchChoiceClass</class>
+ <widget class="QWidget" name="BatchChoiceClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item>
+    <widget class="QPushButton" name="singleBtn">
+     <property name="text">
+      <string>Single</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="batchBtn">
+     <property name="text">
+      <string>Batch</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>singleBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>BatchChoiceClass</receiver>
+   <slot>chooseSingle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>102</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>batchBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>BatchChoiceClass</receiver>
+   <slot>chooseBatch()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>chooseSingle()</slot>
+  <slot>chooseBatch()</slot>
+ </slots>
+</ui>

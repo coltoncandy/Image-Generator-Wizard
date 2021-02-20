@@ -62,6 +62,9 @@
     <ClCompile Include="previewimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="batchchoice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -88,6 +91,9 @@
     <QtUic Include="previewimage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="batchchoice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
@@ -112,6 +118,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="previewimage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="batchchoice.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

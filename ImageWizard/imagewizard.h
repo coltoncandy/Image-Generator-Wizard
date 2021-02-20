@@ -11,6 +11,7 @@
 #include "processingwindow.h"
 #include "backgroundremoval.h"
 #include "previewimage.h"
+#include "batchchoice.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -38,6 +39,7 @@ private:
 	QPushButton* btnNext;
 	WelcomePage* welcomePage;
 	FileChooser* targetChooser;
+	BatchChoice* batchChoice;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
 	SelectDestination* selectDestination;

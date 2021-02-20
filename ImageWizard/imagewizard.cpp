@@ -77,6 +77,14 @@ ImageWizard::~ImageWizard() {
 	delete previewImage;
 }
 
+void ImageWizard::hideNext() {
+	btnNext->hide();
+}
+
+void ImageWizard::showNext() {
+	btnNext->show();
+}
+
 void ImageWizard::enableNext() {
 	btnNext->setEnabled(true);
 }
@@ -87,6 +95,15 @@ void ImageWizard::disableNext() {
 
 bool ImageWizard::isNextEnabled() {
 	return btnNext->isEnabled();
+}
+
+
+void ImageWizard::hidePrev() {
+	btnPrev->hide();
+}
+
+void ImageWizard::showPrev() {
+	btnPrev->show();
 }
 
 void ImageWizard::enablePrev() {
@@ -178,7 +195,13 @@ void ImageWizard::goPrev() {
 	currentPage->reset();
 
 	if(cur > 0) {
-		frames->setCurrentIndex(--cur);
+		if(currentPage == batchChoice) {
+			showNext();
+			frames->setCurrentIndex(--cur);
+		}
+		else {
+			frames->setCurrentIndex(--cur);
+		}
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
 		if(!currentPage->isReady())

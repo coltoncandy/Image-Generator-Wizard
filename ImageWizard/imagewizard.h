@@ -20,10 +20,14 @@ public:
 	ImageWizard(QWidget* parent = Q_NULLPTR);
 	~ImageWizard();
 
+	void hideNext();
+	void showNext();
 	void enableNext();
 	void disableNext();
 	bool isNextEnabled();
 
+	void hidePrev();
+	void showPrev();
 	void enablePrev();
 	void disablePrev();
 	bool isPrevEnabled();

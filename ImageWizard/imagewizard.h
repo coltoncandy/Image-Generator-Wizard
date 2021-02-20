@@ -7,6 +7,10 @@
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
+#include "selectdestination.h"
+#include "processingwindow.h"
+#include "backgroundremoval.h"
+#include "previewimage.h"
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -17,9 +21,11 @@ public:
 
 	void enableNext();
 	void disableNext();
+	bool isNextEnabled();
 
 	void enablePrev();
 	void disablePrev();
+	bool isPrevEnabled();
 
 public slots:
 	void goNext();
@@ -34,7 +40,12 @@ private:
 	FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
+	SelectDestination* selectDestination;
+	ProcessingWindow* processingWindow;
+	BackgroundRemoval* backgroundRemoval;
+	PreviewImage* previewImage;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
+	QString* destination;
 };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FileChooserClass</class>
- <widget class="QWidget" name="FileChooserClass">
+ <class>BackgroundRemovalClass</class>
+ <widget class="QWidget" name="BackgroundRemovalClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,19 +17,19 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Background Removal</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="title">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="font">
       <font>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
@@ -40,29 +40,40 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="imgLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="instructions">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -80,7 +91,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="resetButton">
+      <widget class="QPushButton" name="cropButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -106,7 +117,7 @@
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string>Edit More</string>
        </property>
        <property name="flat">
         <bool>false</bool>
@@ -128,73 +139,29 @@
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="randomButton">
-       <property name="text">
-        <string>Select Random</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="browseButton">
-       <property name="text">
-        <string>Browse...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="chosenFileName">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
   <connection>
-   <sender>browseButton</sender>
-   <signal>pressed()</signal>
-   <receiver>FileChooserClass</receiver>
-   <slot>chooseFile()</slot>
+   <sender>cropButton</sender>
+   <signal>clicked()</signal>
+   <receiver>BackgroundRemovalClass</receiver>
+   <slot>editButton()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>57</x>
-     <y>289</y>
+     <x>189</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>319</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>resetButton</sender>
-   <signal>pressed()</signal>
-   <receiver>FileChooserClass</receiver>
-   <slot>reset()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>200</x>
-     <y>245</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
+     <x>195</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>chooseFile()</slot>
-  <slot>reset()</slot>
+  <slot>editButton()</slot>
  </slots>
 </ui>

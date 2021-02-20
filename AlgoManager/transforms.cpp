@@ -375,3 +375,86 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	}
 	return output;
 }
+
+Mat rotation(Mat target, int angleBounds) {
+
+    if(target.empty() || angleBounds < 1 || angleBounds > 360) 
+        return target; 
+
+    Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
+    Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
+
+    Mat dst;
+    warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
+
+    return dst; 
+
+}
+
+Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
+    if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
+        return background;
+
+    Size backgroundSize = background.size();
+    if(backgroundSize.width <= origin.x || backgroundSize.height <= origin.y || backgroundSize.width <= terminal.x || backgroundSize.height <= terminal.y)
+    {
+        return background;
+    }
+    else if( abs(origin.x - terminal.x) < minWidth || abs(origin.y - terminal.y) < minHeight) 
+    {
+        return background;
+    }
+
+    Rect roi = Rect(origin, terminal);
+    Mat crop = background(roi);
+
+    return crop;
+}
+
+Mat flipIt(Mat target, int flipCode) {
+
+    if(target.empty() || flipCode < -1 || flipCode > 1)
+        return target; 
+
+    Mat dst;
+    flip(target, dst, flipCode); 
+
+    return dst; 
+
+}
+
+Mat padImage(Mat background, int height, int width) {
+
+	if(background.empty())
+		return background; 
+
+	Mat paddedImg = Mat(background.rows + 2 * height, background.cols + 2 * width, CV_8UC3); 
+	paddedImg.setTo(Scalar::all(0)); 
+	background.copyTo(paddedImg(Rect(width, height, background.cols, background.rows)));			//Start at (padding, padding) to center image and account for offset
+
+	return paddedImg; 
+}
+
+Mat noiseImg(Mat target, int mean, int sigma) {
+
+	if(target.empty())
+		return target; 
+
+	Mat noiseMask(target.size(), target.type()); 
+	randn(noiseMask, mean, sigma); 
+	target += noiseMask; 
+
+	return target; 
+}
+
+int resizeImg(Mat target, Mat& resizedTarget, float ratio) {
+	if(target.empty() || ratio <= 0)
+		return 0; 
+
+	if(ratio < 1)									//OpenCV docs recommend different interpolation specs for reducing and enlarging images
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_AREA);
+	else
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_CUBIC);
+
+	return 1; 
+}

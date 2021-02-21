@@ -4,6 +4,7 @@
 #include <QImage>
 #include "ui_imagewizard.h"
 #include "filechooser.h"
+#include "foregroundchooser.h"
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
@@ -39,7 +40,8 @@ private:
 	QPushButton* btnPrev;
 	QPushButton* btnNext;
 	WelcomePage* welcomePage;
-	FileChooser* targetChooser;
+	ForegroundChooser* targetChooser;
+	//FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
 	SelectDestination* selectDestination;

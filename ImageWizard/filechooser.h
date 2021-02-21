@@ -3,6 +3,7 @@
 #include <QtWidgets/QWidget>
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QCheckBox>
 #include <vector>
 #include <string>
 
@@ -31,7 +32,7 @@ public slots:
 	void paintEvent(QPaintEvent* e);
 	void reset();
 
-private:
+protected:
 	Ui::FileChooserClass ui;
 	QFileDialog chooser;
 	QLineEdit* chosenFileName;
@@ -41,6 +42,7 @@ private:
 	QFont font;
 	QPushButton* randomButton;
 	QFileInfo defaultDirectory;
+	QCheckBox* checkbox;
 
 	void setupView();
 	void loadImage(QString& path);

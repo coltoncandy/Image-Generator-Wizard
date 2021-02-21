@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="backgroundremoval.cpp" />
     <ClCompile Include="previewimage.cpp" />
+    <ClCompile Include="foregroundchooser.cpp" />
     <ClCompile Include="processingwindow.cpp" />
     <ClCompile Include="selectdestination.cpp" />
     <ClCompile Include="targetselector.cpp" />
@@ -129,6 +130,7 @@
   <ItemGroup>
     <QtMoc Include="previewimage.h" />
     <QtMoc Include="backgroundremoval.h" />
+    <QtMoc Include="foregroundchooser.h" />
     <ClInclude Include="imageinfo.h" />
     <QtMoc Include="processingwindow.h" />
     <QtMoc Include="selectdestination.h" />

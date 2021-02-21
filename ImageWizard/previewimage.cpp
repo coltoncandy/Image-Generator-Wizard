@@ -6,7 +6,7 @@
 
 
 PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidget* parent)
-	: WizardPage(parent) {
+	: WizardPage(parent), imageMat(processedImage) {
 	ui.setupUi(this);
 
 	QLabel* titleLabel = findChild<QLabel*>("title");
@@ -15,6 +15,7 @@ PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidge
 	imgLabel = findChild<QLabel*>("imgLabel");
 
 	//processedImage = new ImageInfo;
+	//imageMat = processedImage;
 }
 
 void PreviewImage::loadImage() {

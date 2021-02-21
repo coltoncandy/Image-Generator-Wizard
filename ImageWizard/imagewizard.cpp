@@ -137,7 +137,7 @@ void ImageWizard::goNext() {
 			QGuiApplication::restoreOverrideCursor();
 			//previewImage->updateImage(destination);
 			frames->setCurrentIndex(++cur);
-			processedImg = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR);
+			processedImg = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR); // not wor
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
 		else if(cur == frames->count()) {

@@ -21,7 +21,7 @@ private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
 	//ImageInfo* processedImage;
-	cv::Mat imageMat;
+	cv::Mat& imageMat;
 	QImage image;
 	void loadImage();
 	void scaleImage(const QSize&);

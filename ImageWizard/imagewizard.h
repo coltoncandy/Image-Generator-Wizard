@@ -59,6 +59,7 @@ private:
 	ImageInfo* target;
 	ImageInfo* background;
 	QString* destination;
+	QString* batchDirectory;
 
 	bool doBatch;
 };

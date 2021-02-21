@@ -12,11 +12,12 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 	destination = new QString; // new path to store
+	batchDirectory = new QString; 
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
 	batchChoice = new BatchChoice();
-	batchOptions = new BatchOptions();
+	batchOptions = new BatchOptions(batchDirectory);
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
@@ -79,6 +80,7 @@ ImageWizard::~ImageWizard() {
 	delete target;
 	delete background;
 	delete destination;
+	delete batchDirectory;
 	delete backgroundRemoval;
 	delete previewImage;
 }

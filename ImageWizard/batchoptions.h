@@ -7,9 +7,14 @@ class BatchOptions : public WizardPage {
 	Q_OBJECT
 
 public:
-	BatchOptions(QWidget* parent = nullptr);
+	BatchOptions(QString* const path, QWidget* parent = nullptr);
 	~BatchOptions();
+
+public slots:
+	void setDirectory();
 
 private:
 	Ui::BatchOptionsClass ui;
+	QLineEdit* chosenDestination;
+	QString* destinationPath;
 };

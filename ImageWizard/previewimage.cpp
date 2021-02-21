@@ -20,7 +20,7 @@ PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidge
 
 void PreviewImage::loadImage() {
 	try {
-		image = QImage((const unsigned char*) (imageMat.data), imageMat.cols, imageMat.rows, QImage::Format_RGB888);
+		image = QImage((const unsigned char*) (imageMat.data), imageMat.cols, imageMat.rows, QImage::Format_BGR888);
 	}
 	catch(...) {
 		QMessageBox messageBox;

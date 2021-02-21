@@ -20,7 +20,6 @@ public slots:
 private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
-	//ImageInfo* processedImage;
 	cv::Mat& imageMat;
 	QImage image;
 	void loadImage();

@@ -13,9 +13,6 @@ PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidge
 	titleLabel->setText(title);
 
 	imgLabel = findChild<QLabel*>("imgLabel");
-
-	//processedImage = new ImageInfo;
-	//imageMat = processedImage;
 }
 
 void PreviewImage::loadImage() {
@@ -51,9 +48,8 @@ void PreviewImage::resizeEvent(QResizeEvent* e) {
 }
 
 void PreviewImage::pageSwitched() {
-	loadImage(); 
+	loadImage();
 }
-
 
 PreviewImage::~PreviewImage() {
 }

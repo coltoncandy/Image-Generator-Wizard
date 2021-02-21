@@ -73,7 +73,6 @@ namespace AlgoManager {
         background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0); 
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
-        //imwrite(destinationPath + "/processed.png", processed);
         return processed;
     }
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {

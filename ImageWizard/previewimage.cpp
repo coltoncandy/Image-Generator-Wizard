@@ -3,10 +3,11 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
 
 
-PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, QWidget* parent)
-	: WizardPage(parent), imageMat(processedImage) {
+PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, const QString* const destinationPath, QWidget* parent)
+	: WizardPage(parent), imageMat(processedImage), destination(destinationPath) {
 	ui.setupUi(this);
 
 	QLabel* titleLabel = findChild<QLabel*>("title");
@@ -24,6 +25,7 @@ void PreviewImage::loadImage() {
 		messageBox.warning(0, "Error", "Failed loading processed image.");
 	}
 
+	imwrite(destination->toStdString() + "/processed.png", imageMat);
 	scaleImage(imgLabel->size());
 }
 

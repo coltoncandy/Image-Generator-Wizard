@@ -21,7 +21,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("It won't be too long ...", processedImg, initial, target, background);
-	previewImage = new PreviewImage("Here is your Processed Image", processedImg);
+	previewImage = new PreviewImage("Here is your Processed Image", processedImg, destination);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);

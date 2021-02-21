@@ -5,7 +5,7 @@
 #include <opencv2/core.hpp>
 
 
-PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidget* parent)
+PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, QWidget* parent)
 	: WizardPage(parent), imageMat(processedImage) {
 	ui.setupUi(this);
 

@@ -10,7 +10,7 @@ class PreviewImage : public WizardPage {
 	Q_OBJECT
 
 public:
-	PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidget* parent = Q_NULLPTR);
+	PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, QWidget* parent = Q_NULLPTR);
 	~PreviewImage();
 	void pageSwitched();
 
@@ -20,7 +20,7 @@ public slots:
 private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
-	cv::Mat& imageMat;
+	const cv::Mat& imageMat;
 	QImage image;
 	void loadImage();
 	void scaleImage(const QSize&);

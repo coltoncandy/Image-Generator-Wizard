@@ -32,6 +32,9 @@ public:
 	void disablePrev();
 	bool isPrevEnabled();
 
+	void singleMode();
+	void batchMode();
+
 public slots:
 	void goNext();
 	void goPrev();
@@ -54,4 +57,6 @@ private:
 	ImageInfo* target;
 	ImageInfo* background;
 	QString* destination;
+
+	bool doBatch;
 };

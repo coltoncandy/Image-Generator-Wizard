@@ -14,9 +14,9 @@ void BatchChoice::pageSwitched() {
 }
 
 void BatchChoice::chooseSingle() {
-
+	getWizard()->singleMode();
 }
 
 void BatchChoice::chooseBatch() {
-
+	getWizard()->batchMode();
 }

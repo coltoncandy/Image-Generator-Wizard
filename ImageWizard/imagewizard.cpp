@@ -60,6 +60,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
+
+	doBatch = false;
 }
 
 ImageWizard::~ImageWizard() {
@@ -118,6 +120,18 @@ bool ImageWizard::isPrevEnabled() {
 	return btnPrev->isEnabled();
 }
 
+void ImageWizard::singleMode() {
+	doBatch = false;
+	showNext();
+	goNext();
+}
+
+void ImageWizard::batchMode() {
+	doBatch = true;
+	showNext();
+	goNext();
+}
+
 //Next page in UI
 void ImageWizard::goNext() {
 	QGuiApplication::restoreOverrideCursor();
@@ -137,7 +151,16 @@ void ImageWizard::goNext() {
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
-		frames->setCurrentIndex(++cur);
+		if(currentPage == batchChoice) {
+			if(doBatch) {
+				frames->setCurrentIndex(frames->indexOf(backgroundRemoval));
+			}
+			else {
+				frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+			}
+		}
+		else
+			frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		if(!currentPage->isReady())
 			disableNext();

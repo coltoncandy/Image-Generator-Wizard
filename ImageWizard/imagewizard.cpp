@@ -53,8 +53,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
 	QString leftHoverStyleSheet = "QPushButton:hover#btnPrev {icon - size: 38px, 30px; image: url("+leftHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon - size: 38px, 30px; image: url("+leftDisabled+"); background - repeat: no - repeat; }";
 	
-	btnNext->setStyleSheet(rightHoverStyleSheet); 
-	btnPrev->setStyleSheet(leftHoverStyleSheet); 
+	//btnNext->setStyleSheet(rightHoverStyleSheet); 
+	//btnPrev->setStyleSheet(leftHoverStyleSheet); 
 
 	//Hides the previous button on the first page
 	btnPrev->hide();

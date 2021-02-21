@@ -2,42 +2,66 @@
 #include "imagewizard.h"
 #include "../AlgoManager/algomanager.h" 
 
-
 BackgroundRemoval::BackgroundRemoval(const QString& title, ImageInfo* target, QWidget* parent)
 	: WizardPage(parent) {
 	ui.setupUi(this);
+	imgLabel = findChild<QLabel*>("label");
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
 	QLabel* instructions = findChild<QLabel*>("instructions");
+	QFont f("Sans-serif", 9);
+	instructions->setFont(f);
 	instructions->setStyleSheet("QLabel { color : white; }");
-	instructions->setText("<ul><b>Instructions: </b><br><li>1. Hold 'ctrl' key and use mouse to draw on areas of background</li><li>3. Hold 'shift' key and use mouse to draw on areas of foreground</li><li>4. Press 'n' to run one iteration of GrabCut</li><li>5. Press 'r' key to start over </li><li>6. Press 'esc' key to continue once satisifed with result</li></ul>");
-	instructions->setText("<b>Instructions: </b><br><ul><li>1. Hold 'ctrl' key and use mouse to draw on areas of background</li><li>3. Hold 'shift' key and use mouse to draw on areas of foreground</li><li>4. Press 'n' to run one iteration of GrabCut</li><li>5. Press 'r' key to start over </li><li>6. Press 'esc' key to continue once satisifed with result</li></ul>");
-	
+	instructions->setText("<div><b>Instructions: </b></div><br><div>1. Hold 'ctrl' key and use mouse to draw on areas of background</div><div>2. Hold 'shift' key and use mouse to draw on areas of foreground</div><div>3. Press 'n' to run one iteration of GrabCut</div><div>4. Press 'r' key to start over </div><div>5. Press 'esc' key to continue once satisifed with result</div>");
+	cropButton = findChild<QPushButton*>("cropButton");
 	targetImage = target;
+	enableDisplay = false;
 }
 
 BackgroundRemoval::~BackgroundRemoval() {
 }
 
 void BackgroundRemoval::pageSwitched() {
+	grabCut();
+	enableDisplay = true;
+}
 
-	//display initial cropped image
+void BackgroundRemoval::resizeEvent(QResizeEvent* e) {
+	QWidget::resizeEvent(e);
+	if(enableDisplay) {
+		scaleImage(imgLabel->size());
+	}
+}
 
-	//call algomanager grabcut wrapper 
+void BackgroundRemoval::grabCut() {
+	cropButton->setEnabled(false);
 	getWizard()->disableNext();
 	getWizard()->disablePrev();
-	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	bool finished = AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());
+	QGuiApplication::restoreOverrideCursor();
 	getWizard()->enablePrev();
-	if (finished) {
-		getWizard()->enableNext();
-	}
-	else {
-		getWizard()->disableNext();
-	}
-	//AlgoManager::AlgoManager::grabCutWrapper(targetImage->path->toStdString());		//NOTE: Needs to be changed to target->path after SC-35 is complete 
+	getWizard()->enableNext();
+	cropButton->setEnabled(true);
 
-	//load image into imageinfo struct
 	targetImage->image->load(*targetImage->path);
 
-	//display imageinfo with new display
+	QSize& size = imgLabel->size();
+	QPixmap p = QPixmap::fromImage(*(targetImage->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void BackgroundRemoval::scaleImage(const QSize& size) {
+
+	QPixmap p = QPixmap::fromImage(*(targetImage->image));
+	imgLabel->setPixmap(p.scaled(size.width(), size.height(), Qt::KeepAspectRatio));
+}
+
+void BackgroundRemoval::editButton() {
+	grabCut();
+}
+
+void BackgroundRemoval::reset() {
+	imgLabel->clear();
+	enableDisplay = false;
 }

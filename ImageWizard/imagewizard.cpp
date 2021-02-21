@@ -103,7 +103,6 @@ bool ImageWizard::isNextEnabled() {
 	return btnNext->isEnabled();
 }
 
-
 void ImageWizard::hidePrev() {
 	btnPrev->hide();
 }

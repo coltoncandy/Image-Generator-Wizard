@@ -59,6 +59,13 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& 
 	QObject::connect(randomButton, &QPushButton::pressed, this, &FileChooser::getRandomFile);
 	defaultDirectory = QFileInfo(directoryPath);
 
+	checkbox = findChild<QCheckBox*>("checkBox");
+	checkbox->setCursor(QCursor(Qt::PointingHandCursor));
+	QString check = QDir::homePath() + "/source/repos/image-generator/icons/check.png";
+	QString styleSheetCheck = "QCheckBox::indicator:checked { image: url(" + check + "); height: 11px; width: 11px;}";
+	checkbox->setStyleSheet(styleSheetCheck);
+	checkbox->hide();
+
 	setupView();
 }
 
@@ -168,9 +175,9 @@ void FileChooser::paintEvent(QPaintEvent* e) {
 	painter.setFont(font);
 
 	painter.setRenderHint(QPainter::Antialiasing);
-	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, height() - 2 * offset), radius, radius);
+	painter.drawRoundedRect(QRect(offset, offset, width() - 2 * offset, imgLabel->height() - offset/2), radius, radius);
 	painter.drawText(
-		QRect((width() - textWidth) / 2, (height() - textHeight) / 2, textWidth, textHeight),
+		QRect((width() - textWidth) / 2, (offset + offset / 2 + imgLabel->height() - textHeight) / 2, textWidth, textHeight),
 		"Drag a .png file",
 		options
 	);

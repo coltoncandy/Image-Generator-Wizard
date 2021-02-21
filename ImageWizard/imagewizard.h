@@ -47,5 +47,7 @@ private:
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
+	std::string* backgroundPaths;
+	std::string backgroundDirectory;
 	QString* destination;
 };

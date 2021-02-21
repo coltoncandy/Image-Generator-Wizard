@@ -12,6 +12,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 	destination = new QString; // new path to store
+	QFileInfo directoryInfo = QFileInfo("..\\ImageGallery\\Backgrounds");
+	backgroundDirectory = directoryInfo.absoluteFilePath().toStdString();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
@@ -128,16 +130,44 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
+		/*
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
 			QCoreApplication::processEvents();
 			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			std::string processedImagePath = AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
 			QGuiApplication::restoreOverrideCursor();
-			previewImage->updateImage(destination);
+			previewImage->updateImage(processedImagePath.c_str());
 			frames->setCurrentIndex(++cur);
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+		}
+		*/
+		else if(currentPage == processingWindow) {
+			btnNext->hide();
+			btnPrev->hide();
+			QCoreApplication::processEvents();
+			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+			std::string* batchImages = nullptr;
+			std::string* backgroundImages = nullptr;
+			try {
+				getRandomImages(50, backgroundDirectory, backgroundImages);
+				if(backgroundImages){
+					AlgoManager::AlgoManager::batchProcess(50, initial->path->toStdString(), target->path->toStdString(), backgroundImages, destination->toStdString(), batchImages);
+					QGuiApplication::restoreOverrideCursor();
+					if(batchImages){
+						previewImage->updateImage(batchImages[0].c_str());
+						frames->setCurrentIndex(++cur);
+						currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
+					}
+				}
+			}
+			catch(std::string ex) {
+				QGuiApplication::restoreOverrideCursor();
+				QMessageBox messageBox;
+				messageBox.warning(0, "Error", ex.c_str());
+				goPrev();
+			}
 		}
 		else if(cur == frames->count()) {
 			btnNext->hide();

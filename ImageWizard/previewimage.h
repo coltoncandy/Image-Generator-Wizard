@@ -13,7 +13,7 @@ class PreviewImage : public WizardPage
 public:
 	PreviewImage::PreviewImage(const QString& title, QWidget* parent = Q_NULLPTR);
 	~PreviewImage();
-	void updateImage(const QString*);
+	void updateImage(const QString&);
 
 public slots:
 	void PreviewImage::resizeEvent(QResizeEvent*);
@@ -22,7 +22,7 @@ private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
 	ImageInfo* processedImage;
-	void loadImage(const QString*);
+	void loadImage(const QString&);
 	void scaleImage(const QSize&);
 	void reset();
 };

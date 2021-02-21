@@ -17,13 +17,13 @@ PreviewImage::PreviewImage(const QString& title, QWidget *parent)
 
 }
 
-void PreviewImage::updateImage(const QString* path) {
+void PreviewImage::updateImage(const QString& path) {
 	loadImage(path);
 }
 
-void PreviewImage::loadImage(const QString* path) {
+void PreviewImage::loadImage(const QString& path) {
 	try {
-		*processedImage->path = *path + "/processed.png";		//fix hard code here
+		*processedImage->path = path;
 		processedImage->image->load(*processedImage->path);
 		processedImage->loaded = true;
 	}

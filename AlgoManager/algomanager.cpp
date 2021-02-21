@@ -15,7 +15,7 @@ namespace AlgoManager {
         return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    void AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
+    std::string AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destinationPath) {
 
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
@@ -71,9 +71,29 @@ namespace AlgoManager {
         background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0); 
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
-        imwrite(destinationPath + "/processed.png", processed);
+        std::string imagePath = createUniqueImageId(destinationPath);
+        imwrite(imagePath, processed);
+        return imagePath;
 
     }
+
+    void AlgoManager::batchProcess(const int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, const std::string& destinationPath, std::string*& imageBatch)
+    {
+        if(imageBatch) {
+            delete[] imageBatch;
+            imageBatch = nullptr;
+        }
+
+        if(imageNum < 1)
+            return;
+
+        // May change to vector if we continue to process after a failed imaged.
+        imageBatch = new std::string[imageNum];
+        for(int i = 0; i < imageNum; ++i) {
+            imageBatch[i] = process(initialPath, targetPath, backgroundPaths[i], destinationPath);
+        }
+    }
+
     void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
         Mat foreground = imread(fg, IMREAD_UNCHANGED);
         Mat background = imread(bg, IMREAD_COLOR);
@@ -84,5 +104,14 @@ namespace AlgoManager {
         return; 
     }
 
+    std::string AlgoManager::createUniqueImageId(const std::string& destinationPath)
+    {
+        LPSYSTEMTIME timeinfo = new SYSTEMTIME();
+        GetLocalTime(timeinfo);
 
+        // Creates timestamp in format mm-dd-yyyy-hr-min-ss-mls
+        std::string timestamp = std::to_string(timeinfo->wMonth) + '-' + std::to_string(timeinfo->wDay) + '-' + std::to_string(timeinfo->wYear) + '-' + std::to_string(timeinfo->wHour) + '-' + std::to_string(timeinfo->wMinute) + '-' + std::to_string(timeinfo->wSecond) + '-' + std::to_string(timeinfo->wMilliseconds);
+        std::string imagePath = destinationPath + "/processed" + '-' + timestamp + ".png";
+        return imagePath;
+    }
 }

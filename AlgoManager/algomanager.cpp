@@ -37,7 +37,7 @@ namespace AlgoManager {
 
         srand(time(NULL));
 
-        int numOfCalls = 0;// rand() % 5;
+        int numOfCalls = rand() % 5;
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -53,7 +53,7 @@ namespace AlgoManager {
                 target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
+                resizeRatio = (float) ((rand() % 6) + 5) / 10;           //Generates random number between 0.1 and 1.
                 resizeImg(target, resizedTarget, resizeRatio); 
                 resizedTarget.copyTo(target); 
                 resizedTarget = Mat(); 

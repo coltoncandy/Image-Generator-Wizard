@@ -107,8 +107,8 @@ Mat GCApplication::makeTransparent(Mat targetBlackBg) const {           //Makes 
 
     cv::cvtColor(targetBlackBg, tmp, cv::COLOR_BGR2GRAY);       //Convert processed target image to grayscale and store in tmp 
     cv::threshold(tmp, alpha, 0, 255, cv::THRESH_BINARY);       //All pixels > 0 are set to 255 (white), else set to 0 (black) 
-    cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
-    //cv::split(copyInitial, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    //cv::split(targetBlackBg, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
+    cv::split(copyInitial, bgr);                              //Splits preprocessed target (arg1) into 3 color channels: blue, green, and red
     rgba = {bgr[0], bgr[1], bgr[2], alpha};                     //Stores each color channel and binary mask in vector 
     cv::merge(rgba, dst);                                       //Merges channels stored in vector
 

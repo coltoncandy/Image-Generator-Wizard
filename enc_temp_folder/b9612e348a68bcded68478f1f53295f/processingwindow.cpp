@@ -11,6 +11,8 @@ ProcessingWindow::ProcessingWindow(const QString& title, cv::Mat& image, const I
 
 	QLabel* titleLabel = findChild<QLabel*>("title"); // show title on Qwidget
 	titleLabel->setText(title);
+
+	//processingImage = image;
 }
 
 ProcessingWindow::~ProcessingWindow() {

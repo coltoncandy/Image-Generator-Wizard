@@ -17,7 +17,7 @@ public:
 
 private:
 	Ui::ProcessingWindow ui;
-	cv::Mat processingImage;
+	cv::Mat& processingImage;
 	const ImageInfo* const initial;
 	const ImageInfo* const target;
 	const ImageInfo* const background;

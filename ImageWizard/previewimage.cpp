@@ -26,7 +26,7 @@ void PreviewImage::loadImage(const QString* path) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Failed loading processed image.");
 	}
-
+	*/
 	scaleImage(imgLabel->size());
 }
 

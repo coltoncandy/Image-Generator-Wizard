@@ -25,4 +25,5 @@ private:
 	void loadImage(const QString*);
 	void scaleImage(const QSize&);
 	void reset();
+	QImage result;
 };

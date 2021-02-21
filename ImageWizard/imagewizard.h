@@ -13,6 +13,7 @@
 #include "previewimage.h"
 #include <opencv2/core.hpp>
 
+
 class ImageWizard : public QWidget {
 	Q_OBJECT
 

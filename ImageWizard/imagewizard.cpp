@@ -14,7 +14,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
+	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
@@ -112,7 +112,14 @@ void ImageWizard::goNext() {
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
-		frames->setCurrentIndex(++cur);
+		if(frames->currentWidget() == targetChooser && targetChooser->skipCrop()) {
+			target->image->load(*(initial->path));
+			*(target->path) = *(initial->path);
+			target->loaded = true;
+			frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+		}
+		else
+			frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		if(!currentPage->isReady())
 			disableNext();
@@ -170,7 +177,13 @@ void ImageWizard::goPrev() {
 	currentPage->reset();
 
 	if(cur > 0) {
-		frames->setCurrentIndex(--cur);
+		if(frames->currentWidget() == backgroundChooser && targetChooser->skipCrop()) {
+			frames->setCurrentIndex(frames->indexOf(targetChooser));
+			target->reset();
+		}
+		else
+			frames->setCurrentIndex(--cur);
+
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
 		if(!currentPage->isReady())

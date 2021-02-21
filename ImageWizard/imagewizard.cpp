@@ -162,6 +162,9 @@ void ImageWizard::goNext() {
 				frames->setCurrentIndex(frames->indexOf(backgroundChooser));
 			}
 		}
+		else if(currentPage == batchOptions || currentPage == backgroundChooser) {
+			frames->setCurrentIndex(frames->indexOf(selectDestination));
+		}
 		else
 			frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
@@ -224,6 +227,17 @@ void ImageWizard::goPrev() {
 		if(currentPage == batchChoice) {
 			showNext();
 			frames->setCurrentIndex(--cur);
+		}
+		else if(currentPage == selectDestination) {
+			if(doBatch) {
+				frames->setCurrentIndex(frames->indexOf(batchOptions));
+			}
+			else {
+				frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+			}
+		}
+		else if(currentPage == backgroundChooser || currentPage == batchOptions) {
+			frames->setCurrentIndex(frames->indexOf(batchChoice));
 		}
 		else {
 			frames->setCurrentIndex(--cur);

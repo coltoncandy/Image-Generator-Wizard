@@ -2,7 +2,6 @@
 #include "imagewizard.h"
 #include "filechooser.h"
 #include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -12,7 +11,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = new QString; // new path to store
+	destination = new QString;
+	processedImg = cv::Mat();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
@@ -52,10 +52,10 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
 	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
-	QString leftHoverStyleSheet = "QPushButton:hover#btnPrev {icon - size: 38px, 30px; image: url("+leftHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon - size: 38px, 30px; image: url("+leftDisabled+"); background - repeat: no - repeat; }";
-	
-	btnNext->setStyleSheet(rightHoverStyleSheet); 
-	btnPrev->setStyleSheet(leftHoverStyleSheet); 
+	QString leftHoverStyleSheet = "QPushButton:hover#btnPrev {icon - size: 38px, 30px; image: url(" + leftHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon - size: 38px, 30px; image: url(" + leftDisabled + "); background - repeat: no - repeat; }";
+
+	btnNext->setStyleSheet(rightHoverStyleSheet);
+	btnPrev->setStyleSheet(leftHoverStyleSheet);
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
@@ -135,9 +135,7 @@ void ImageWizard::goNext() {
 			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 			currentPage->pageSwitched();
 			QGuiApplication::restoreOverrideCursor();
-			//previewImage->updateImage(destination);
 			frames->setCurrentIndex(++cur);
-			//processedImg = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR); // not wor
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
 		else if(cur == frames->count()) {

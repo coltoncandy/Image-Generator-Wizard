@@ -37,7 +37,7 @@ namespace AlgoManager {
 
         srand(time(NULL));
 
-        int numOfCalls = rand() % 5;             
+        int numOfCalls = 0;// rand() % 5;
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -69,7 +69,7 @@ namespace AlgoManager {
         }
 
         //Mat target = blurEdgesGaussian(target, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
-        target = blurEdgesTransparency(target, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
+        target = blurEdgesTransparency(target, 9); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
         
         background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);                   
         background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0); 

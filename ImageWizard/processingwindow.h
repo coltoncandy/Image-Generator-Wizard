@@ -7,9 +7,7 @@
 #include "wizardpage.h"
 #include <opencv2/core.hpp>
 
-
-class ProcessingWindow : public WizardPage
-{
+class ProcessingWindow : public WizardPage {
 	Q_OBJECT
 
 public:

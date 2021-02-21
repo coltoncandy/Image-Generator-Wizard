@@ -5,9 +5,8 @@
 #include <opencv2/core.hpp>
 
 
-PreviewImage::PreviewImage(const QString& title, const cv::Mat processedImage, QWidget *parent)
-	: WizardPage(parent), imageMat(processedImage)
-{
+PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidget* parent)
+	: WizardPage(parent) {
 	ui.setupUi(this);
 
 	QLabel* titleLabel = findChild<QLabel*>("title");
@@ -18,7 +17,7 @@ PreviewImage::PreviewImage(const QString& title, const cv::Mat processedImage, Q
 	//processedImage = new ImageInfo;
 }
 
-void PreviewImage::loadImage(const QString* path) {
+void PreviewImage::loadImage() {
 	try {
 		image = QImage((const unsigned char*) (imageMat.data), imageMat.cols, imageMat.rows, QImage::Format_RGB888);
 	}
@@ -26,7 +25,7 @@ void PreviewImage::loadImage(const QString* path) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Failed loading processed image.");
 	}
-	*/
+
 	scaleImage(imgLabel->size());
 }
 
@@ -50,5 +49,10 @@ void PreviewImage::resizeEvent(QResizeEvent* e) {
 	scaleImage(imgLabel->size());
 }
 
-PreviewImage::~PreviewImage()
-{}
+void PreviewImage::pageSwitched() {
+	loadImage(); 
+}
+
+
+PreviewImage::~PreviewImage() {
+}

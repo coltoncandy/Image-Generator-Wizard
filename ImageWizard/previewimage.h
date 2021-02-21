@@ -10,8 +10,9 @@ class PreviewImage : public WizardPage {
 	Q_OBJECT
 
 public:
-	PreviewImage::PreviewImage(const QString& title, const cv::Mat processedImage, QWidget* parent = Q_NULLPTR);
+	PreviewImage::PreviewImage(const QString& title, cv::Mat& processedImage, QWidget* parent = Q_NULLPTR);
 	~PreviewImage();
+	void pageSwitched();
 
 public slots:
 	void PreviewImage::resizeEvent(QResizeEvent*);
@@ -20,9 +21,9 @@ private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
 	//ImageInfo* processedImage;
-	const cv::Mat imageMat;
+	cv::Mat imageMat;
 	QImage image;
-	void loadImage(const QString*);
+	void loadImage();
 	void scaleImage(const QSize&);
 	void reset();
 	QImage result;

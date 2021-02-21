@@ -2,6 +2,7 @@
 #include "imagewizard.h"
 #include "filechooser.h"
 #include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -12,8 +13,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 	destination = new QString; // new path to store
-	cv::Mat processedImg;
-
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
@@ -138,6 +137,7 @@ void ImageWizard::goNext() {
 			QGuiApplication::restoreOverrideCursor();
 			//previewImage->updateImage(destination);
 			frames->setCurrentIndex(++cur);
+			processedImg = cv::imread("C:\\Users\\colton\\source\\repos\\Image-Generator\\ImageGallery\\Backgrounds\\beach-grass.png", cv::ImreadModes::IMREAD_COLOR);
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
 		else if(cur == frames->count()) {

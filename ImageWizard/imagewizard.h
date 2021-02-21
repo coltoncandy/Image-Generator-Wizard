@@ -12,6 +12,8 @@
 #include "processingwindow.h"
 #include "backgroundremoval.h"
 #include "previewimage.h"
+#include <opencv2/core.hpp>
+
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -50,4 +52,5 @@ private:
 	ImageInfo* target;
 	ImageInfo* background;
 	QString* destination;
+	cv::Mat processedImg;
 };

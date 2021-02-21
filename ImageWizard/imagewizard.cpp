@@ -1,7 +1,7 @@
 #include <QMessageBox>
 #include "imagewizard.h"
 #include "filechooser.h"
-#include "../AlgoManager/algomanager.h" 
+#include <opencv2/core.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -11,16 +11,17 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = new QString; // new path to store
+	destination = new QString;
+	processedImg = cv::Mat();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
-	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("It won't be too long ...");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
-	previewImage = new PreviewImage("Here is your Processed Image");
+	selectDestination = new SelectDestination("Select Your Destination", destination);
+	processingWindow = new ProcessingWindow("It won't be too long ...", processedImg, initial, target, background);
+	previewImage = new PreviewImage("Here is your Processed Image", processedImg, destination);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -132,11 +133,9 @@ void ImageWizard::goNext() {
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
-			QCoreApplication::processEvents();
 			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			currentPage->pageSwitched();
 			QGuiApplication::restoreOverrideCursor();
-			previewImage->updateImage(destination);
 			frames->setCurrentIndex(++cur);
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}

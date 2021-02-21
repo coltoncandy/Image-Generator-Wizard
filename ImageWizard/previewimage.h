@@ -4,16 +4,15 @@
 #include "ui_previewimage.h"
 #include "wizardpage.h"
 #include "imageinfo.h"
+#include <opencv2/core.hpp>
 
-
-class PreviewImage : public WizardPage
-{
+class PreviewImage : public WizardPage {
 	Q_OBJECT
 
 public:
-	PreviewImage::PreviewImage(const QString& title, QWidget* parent = Q_NULLPTR);
+	PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, const QString* const destinationPath, QWidget* parent = Q_NULLPTR);
 	~PreviewImage();
-	void updateImage(const QString*);
+	void pageSwitched();
 
 public slots:
 	void PreviewImage::resizeEvent(QResizeEvent*);
@@ -21,8 +20,10 @@ public slots:
 private:
 	Ui::PreviewImageClass ui;
 	QLabel* imgLabel;
-	ImageInfo* processedImage;
-	void loadImage(const QString*);
+	const cv::Mat& imageMat;
+	const QString* const destination;
+	QImage image;
+	void loadImage();
 	void scaleImage(const QSize&);
 	void reset();
 };

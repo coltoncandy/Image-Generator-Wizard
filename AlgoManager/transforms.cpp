@@ -440,11 +440,19 @@ Mat noiseImg(Mat target, int mean, int sigma) {
 	if(target.empty())
 		return target; 
 
+	Mat grey(target.size(), CV_8U); 
+	cvtColor(target, grey, COLOR_BGRA2GRAY);
+	Mat bin(grey.size(), grey.type()); 
+	threshold(grey, bin, 0, 255, THRESH_BINARY);
+
 	Mat noiseMask(target.size(), target.type()); 
 	randn(noiseMask, mean, sigma); 
 	target += noiseMask; 
 
-	return target; 
+	Mat processedTarget; 
+	bitwise_and(target, target, processedTarget, bin); 
+
+	return processedTarget; 
 }
 
 int resizeImg(Mat target, Mat& resizedTarget, float ratio) {

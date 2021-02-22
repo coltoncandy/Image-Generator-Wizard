@@ -28,6 +28,7 @@ namespace AlgoManager {
         int mean;
         int sigma;
         float resizeRatio;
+        int maxResizeCalls = 3;                                     //Max number of times resize function can be called in generation 
 
         int targetHeight = target.rows; 
         int targetWidth = target.cols; 
@@ -37,7 +38,7 @@ namespace AlgoManager {
 
         srand(time(NULL));
 
-        int numOfCalls = rand() % 5;             
+        int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -49,12 +50,16 @@ namespace AlgoManager {
                 target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
-                flipCode = (rand() % 3) - 1;                                
-                target = flipIt(target, flipCode);
+                flipCode = (rand() % 3) - 1;
+                if(flipCode == 1)
+                    target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
-                resizeImg(target, resizedTarget, resizeRatio); 
+                if(maxResizeCalls == 3)
+                    break; 
+                resizeRatio = (float) ((rand() % 6) + 5) / 10;           //Generates random number between 0.1 and 1.
+                resizeImg(target, resizedTarget, resizeRatio);
+                maxResizeCalls++; 
                 resizedTarget.copyTo(target); 
                 resizedTarget = Mat(); 
                 break;

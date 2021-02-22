@@ -4,6 +4,7 @@
 #include <QImage>
 #include "ui_imagewizard.h"
 #include "filechooser.h"
+#include "foregroundchooser.h"
 #include "targetselector.h"
 #include "imageinfo.h"
 #include "welcomepage.h"
@@ -13,6 +14,8 @@
 #include "previewimage.h"
 #include "batchchoice.h"
 #include "batchoptions.h"
+#include <opencv2/core.hpp>
+
 
 class ImageWizard : public QWidget {
 	Q_OBJECT
@@ -46,9 +49,10 @@ private:
 	QPushButton* btnPrev;
 	QPushButton* btnNext;
 	WelcomePage* welcomePage;
-	FileChooser* targetChooser;
 	BatchChoice* batchChoice;
 	BatchOptions* batchOptions;
+	ForegroundChooser* targetChooser;
+	//FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
 	SelectDestination* selectDestination;
@@ -59,5 +63,6 @@ private:
 	ImageInfo* target;
 	ImageInfo* background;
 	QString* destination;
+	cv::Mat processedImg;
 	BatchInfo batchInfo;
 };

@@ -1,7 +1,7 @@
 #include <QMessageBox>
 #include "imagewizard.h"
 #include "filechooser.h"
-#include "../AlgoManager/algomanager.h" 
+#include <opencv2/core.hpp>
 
 ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	ui.setupUi(this);
@@ -11,18 +11,19 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	initial = new ImageInfo;
 	target = new ImageInfo;
 	background = new ImageInfo;
-	destination = new QString; // new path to store
+	destination = new QString;
+	processedImg = cv::Mat();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
+	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
 	batchChoice = new BatchChoice();
 	batchOptions = new BatchOptions(&batchInfo);
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
-	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("It won't be too long ...");
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
-	previewImage = new PreviewImage("Here is your Processed Image");
+	selectDestination = new SelectDestination("Select Your Destination", destination);
+	processingWindow = new ProcessingWindow("It won't be too long ...", processedImg, initial, target, background);
+	previewImage = new PreviewImage("Here is your Processed Image", processedImg, destination);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -37,28 +38,22 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png"));
-	btnNext->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png"));
-	//btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
-	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
-	btnNext->setIconSize(QSize(85, 32));
-	btnPrev->setIconSize(QSize(85, 32));
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 
-	// Add lighter arrow when hovering and when disabled
+	// Add styling for next and previous buttons
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
 	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
-	//QString right = QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png";
-	QString rightHoverStyleSheet = "QPushButton#btnNext {border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {icon: url(\" \"); icon - size: 38px, 30px; image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {icon - size: 38px, 30px; image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
-	//QString rightHoverStyleSheet = "QPushButton:hover#btnNext {icon - size: 38px, 30px; image: url("+rightHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnNext {icon - size: 38px, 30px; image: url("+rightDisabled+"); background - repeat: no - repeat; }"; 
-
+	QString right = QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png";
+	QString rightHoverStyleSheet = "QPushButton#btnNext {image: url(" + right + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
+	
 	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
 	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
-	QString leftHoverStyleSheet = "QPushButton:hover#btnPrev {icon - size: 38px, 30px; image: url("+leftHover+"); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {icon - size: 38px, 30px; image: url("+leftDisabled+"); background - repeat: no - repeat; }";
+	QString left = QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png";
+	QString leftHoverStyleSheet = "QPushButton#btnPrev {image: url(" + left + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnPrev {image: url(" + leftHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {image: url(" + leftDisabled + "); background - repeat: no - repeat; }";
 	
-	//btnNext->setStyleSheet(rightHoverStyleSheet); 
-	//btnPrev->setStyleSheet(leftHoverStyleSheet); 
+	btnPrev->setStyleSheet(leftHoverStyleSheet);
+	btnNext->setStyleSheet(rightHoverStyleSheet); 
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
@@ -163,6 +158,12 @@ void ImageWizard::goNext() {
 		else if(currentPage == batchOptions || currentPage == backgroundChooser) {
 			frames->setCurrentIndex(frames->indexOf(selectDestination));
 		}
+		else if(currentPage == targetChooser && targetChooser->skipCrop()) {
+			target->image->load(*(initial->path));
+			*(target->path) = *(initial->path);
+			target->loaded = true;
+			frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+		}
 		else
 			frames->setCurrentIndex(++cur);
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
@@ -177,11 +178,9 @@ void ImageWizard::goNext() {
 		else if(currentPage == processingWindow) {
 			btnNext->hide();
 			btnPrev->hide();
-			QCoreApplication::processEvents();
 			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
+			currentPage->pageSwitched();
 			QGuiApplication::restoreOverrideCursor();
-			previewImage->updateImage(destination);
 			frames->setCurrentIndex(++cur);
 			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		}
@@ -237,9 +236,13 @@ void ImageWizard::goPrev() {
 		else if(currentPage == backgroundChooser || currentPage == batchOptions) {
 			frames->setCurrentIndex(frames->indexOf(batchChoice));
 		}
-		else {
-			frames->setCurrentIndex(--cur);
+		else if(frames->currentWidget() == backgroundChooser && targetChooser->skipCrop()) {
+			frames->setCurrentIndex(frames->indexOf(targetChooser));
+			target->reset();
 		}
+		else
+			frames->setCurrentIndex(--cur);
+
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		currentPage->pageSwitched();
 		if(!currentPage->isReady())

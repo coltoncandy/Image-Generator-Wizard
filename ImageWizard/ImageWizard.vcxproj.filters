@@ -62,6 +62,9 @@
     <ClCompile Include="previewimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="foregroundchooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="batchchoice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,6 +121,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="processingwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="foregroundchooser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="backgroundremoval.h">

@@ -55,11 +55,11 @@ namespace AlgoManager {
                     target = flipIt(target, flipCode);
                 break;
             case 2:
-                if(maxResizeCalls == 3)
+                if(maxResizeCalls == 0)
                     break; 
+                maxResizeCalls--;
                 resizeRatio = (float) ((rand() % 6) + 5) / 10;           //Generates random number between 0.1 and 1.
                 resizeImg(target, resizedTarget, resizeRatio);
-                maxResizeCalls++; 
                 resizedTarget.copyTo(target); 
                 resizedTarget = Mat(); 
                 break;

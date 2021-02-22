@@ -74,26 +74,24 @@ namespace AlgoManager {
         Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
 
         return processed;
-        std::string imagePath = createUniqueImageId(destinationPath);
-        imwrite(imagePath, processed);
-        return imagePath;
-
     }
 
-    void AlgoManager::batchProcess(const int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, const std::string& destinationPath, std::string*& imageBatch)
+    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
     {
-        if(imageBatch) {
-            delete[] imageBatch;
-            imageBatch = nullptr;
+        if(imageBatch.size() > 0) {
+            imageBatch.clear();
         }
 
         if(imageNum < 1)
             return;
 
-        // May change to vector if we continue to process after a failed imaged.
-        imageBatch = new std::string[imageNum];
         for(int i = 0; i < imageNum; ++i) {
-            imageBatch[i] = process(initialPath, targetPath, backgroundPaths[i], destinationPath);
+            try {
+                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
+            }
+            catch(int errorCode) { //These are for errors that occur but processing can continue
+                  
+            }
         }
     }
 
@@ -105,16 +103,5 @@ namespace AlgoManager {
         Mat res = overlay(background, blurredAlpha, Point(0, 0));
 
         return; 
-    }
-
-    std::string AlgoManager::createUniqueImageId(const std::string& destinationPath)
-    {
-        LPSYSTEMTIME timeinfo = new SYSTEMTIME();
-        GetLocalTime(timeinfo);
-
-        // Creates timestamp in format mm-dd-yyyy-hr-min-ss-mls
-        std::string timestamp = std::to_string(timeinfo->wMonth) + '-' + std::to_string(timeinfo->wDay) + '-' + std::to_string(timeinfo->wYear) + '-' + std::to_string(timeinfo->wHour) + '-' + std::to_string(timeinfo->wMinute) + '-' + std::to_string(timeinfo->wSecond) + '-' + std::to_string(timeinfo->wMilliseconds);
-        std::string imagePath = destinationPath + "/processed" + '-' + timestamp + ".png";
-        return imagePath;
     }
 }

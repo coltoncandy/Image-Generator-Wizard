@@ -15,7 +15,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	QFileInfo directoryInfo = QFileInfo("..\\ImageGallery\\Backgrounds");
 	backgroundDirectory = directoryInfo.absoluteFilePath().toStdString();
 	destination = new QString;
-	processedImg = cv::Mat();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
@@ -23,8 +22,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	processingWindow = new ProcessingWindow("It won't be too long ...", processedImg, initial, target, background);
-	previewImage = new PreviewImage("Here is your Processed Image", processedImg, destination);
+	previewImage = new PreviewImage("Here is your Processed Image", destination);
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -32,7 +30,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(backgroundRemoval);
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
-	frames->addWidget(processingWindow);
 	frames->addWidget(previewImage);
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
@@ -64,7 +61,6 @@ ImageWizard::~ImageWizard() {
 	delete backgroundChooser;
 	delete targetSelector;
 	delete selectDestination;
-	delete processingWindow;
 	delete initial;
 	delete target;
 	delete background;
@@ -116,7 +112,7 @@ void ImageWizard::goNext() {
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
-		if(frames->currentWidget() == targetChooser && targetChooser->skipCrop()) {
+		if(currentPage == targetChooser && targetChooser->skipCrop()) {
 			target->image->load(*(initial->path));
 			*(target->path) = *(initial->path);
 			target->loaded = true;
@@ -133,51 +129,14 @@ void ImageWizard::goNext() {
 		if(cur == 1) {
 			btnPrev->show();
 		}
-		/*
-		else if(currentPage == processingWindow) {
+		else if(currentPage == previewImage) {
 			btnNext->hide();
 			btnPrev->hide();
-			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			std::string processedImagePath = AlgoManager::AlgoManager::process(initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString());		//Send image containing target to grabCut
-			QGuiApplication::restoreOverrideCursor();
-			previewImage->updateImage(processedImagePath.c_str());
-			frames->setCurrentIndex(++cur);
-			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-		}
-		*/
-		else if(currentPage == processingWindow) {
-			btnNext->hide();
-			btnPrev->hide();
-			QCoreApplication::processEvents();
-			QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-			std::string* batchImages = nullptr;
-			std::string* backgroundImages = nullptr;
-			try {
-				getRandomImages(50, backgroundDirectory, backgroundImages);
-				if(backgroundImages){
-					AlgoManager::AlgoManager::batchProcess(50, initial->path->toStdString(), target->path->toStdString(), backgroundImages, destination->toStdString(), batchImages);
-					QGuiApplication::restoreOverrideCursor();
-					if(batchImages){
-						previewImage->updateImage(batchImages[0].c_str());
-						frames->setCurrentIndex(++cur);
-						currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-					}
-				}
-			}
-			catch(std::string ex) {
-				QGuiApplication::restoreOverrideCursor();
-				QMessageBox messageBox;
-				messageBox.warning(0, "Error", ex.c_str());
-				goPrev();
-			}
-		}
-			currentPage->pageSwitched();
-			QGuiApplication::restoreOverrideCursor();
-			frames->setCurrentIndex(++cur);
-			currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
-		}
-		else if(cur == frames->count()) {
-			btnNext->hide();
+			int imageNum = 25;
+			bool batchFlag = true;
+			//previewImage->pageSwitched(imageNum, initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString(), batchFlag);
+			previewImage->pageSwitched(imageNum, initial->path->toStdString(), target->path->toStdString(), backgroundDirectory, destination->toStdString(), batchFlag);
+			return;
 		}
 	}
 	QCoreApplication::processEvents();
@@ -229,9 +188,6 @@ void ImageWizard::goPrev() {
 		//Hides & shows navigation buttons depending on the current widget
 		if(cur == 0) {
 			btnPrev->hide();
-		}
-		if(cur == frames->count() - 2) {
-			btnNext->show();
 		}
 	}
 }

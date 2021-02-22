@@ -53,3 +53,13 @@ void getRandomImages(int imageNum, std::string absolutePath, std::string *& imag
 		imageList[i] = fileList[randomIndex];
 	}
 }
+
+std::string createUniqueImageId(const std::string& destinationPath) {
+	LPSYSTEMTIME timeinfo = new SYSTEMTIME();
+	GetLocalTime(timeinfo);
+
+	// Creates timestamp in format mm-dd-yyyy-hr-min-ss-mls
+	std::string timestamp = std::to_string(timeinfo->wMonth) + '-' + std::to_string(timeinfo->wDay) + '-' + std::to_string(timeinfo->wYear) + '-' + std::to_string(timeinfo->wHour) + '-' + std::to_string(timeinfo->wMinute) + '-' + std::to_string(timeinfo->wSecond) + '-' + std::to_string(timeinfo->wMilliseconds);
+	std::string imagePath = destinationPath + "/processed" + '-' + timestamp + ".png";
+	return imagePath;
+}

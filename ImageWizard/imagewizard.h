@@ -41,18 +41,14 @@ private:
 	QPushButton* btnNext;
 	WelcomePage* welcomePage;
 	ForegroundChooser* targetChooser;
-	//FileChooser* targetChooser;
 	FileChooser* backgroundChooser;
 	TargetSelector* targetSelector;
 	SelectDestination* selectDestination;
-	ProcessingWindow* processingWindow;
 	BackgroundRemoval* backgroundRemoval;
 	PreviewImage* previewImage;
 	ImageInfo* initial;
 	ImageInfo* target;
 	ImageInfo* background;
-	std::string* backgroundPaths;
 	std::string backgroundDirectory;
 	QString* destination;
-	cv::Mat processedImg;
 };

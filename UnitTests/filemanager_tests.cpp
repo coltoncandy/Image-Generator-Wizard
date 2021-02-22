@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "../AlgoManager/filemanager.h"
 #include "opencv2/imgcodecs.hpp"
+#include <regex>
 
 class FileManagerTests : public ::testing::Test {
 protected:
@@ -108,4 +109,10 @@ TEST_F(FileManagerTests, requestingManyImagesWithManyPngsExistingSetsMultipleDif
 
 	DeleteFileA(filePath1.c_str());
 	DeleteFileA(filePath2.c_str());
+}
+
+TEST(FileManagerTests, TestCreateUniqueImageIdFormatsPathAsExpected) {
+	std::string returnedPath = createUniqueImageId("C:/Base/Path");
+	std::regex pathRegEx("C:/Base/Path/processed-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9][0-9]?.png");
+	EXPECT_TRUE(std::regex_match(returnedPath.c_str(), pathRegEx));
 }

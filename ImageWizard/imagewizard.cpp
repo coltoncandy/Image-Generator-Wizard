@@ -12,12 +12,11 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 	destination = new QString; // new path to store
-	batchDirectory = new QString; 
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
 	batchChoice = new BatchChoice();
-	batchOptions = new BatchOptions(batchDirectory);
+	batchOptions = new BatchOptions(&batchInfo);
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
@@ -63,8 +62,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
-
-	doBatch = false;
 }
 
 ImageWizard::~ImageWizard() {
@@ -80,7 +77,6 @@ ImageWizard::~ImageWizard() {
 	delete target;
 	delete background;
 	delete destination;
-	delete batchDirectory;
 	delete backgroundRemoval;
 	delete previewImage;
 }
@@ -126,13 +122,13 @@ bool ImageWizard::isPrevEnabled() {
 }
 
 void ImageWizard::singleMode() {
-	doBatch = false;
+	batchInfo.doBatch = false;
 	showNext();
 	goNext();
 }
 
 void ImageWizard::batchMode() {
-	doBatch = true;
+	batchInfo.doBatch = true;
 	showNext();
 	goNext();
 }
@@ -157,7 +153,7 @@ void ImageWizard::goNext() {
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
 		if(currentPage == batchChoice) {
-			if(doBatch) {
+			if(batchInfo.doBatch) {
 				frames->setCurrentIndex(frames->indexOf(batchOptions));
 			}
 			else {
@@ -231,7 +227,7 @@ void ImageWizard::goPrev() {
 			frames->setCurrentIndex(--cur);
 		}
 		else if(currentPage == selectDestination) {
-			if(doBatch) {
+			if(batchInfo.doBatch) {
 				frames->setCurrentIndex(frames->indexOf(batchOptions));
 			}
 			else {

@@ -86,6 +86,33 @@ int imageCount(std::string absolutePath, std::vector<std::string>& fileList) {
 	return fileList.size();
 }
 
+// Verifies atleast one png exists in directory specified by the absolute path.
+bool verifyPngsExist(std::string absolutePath) {
+	absolutePath.append("/");
+	std::string searchPath = absolutePath;
+	searchPath.append("*");
+	WIN32_FIND_DATAA data;
+
+	HANDLE hFind = FindFirstFileA(searchPath.c_str(), &data);
+	if(hFind == INVALID_HANDLE_VALUE) {
+		std::string errorMessage = "Could not open selected directory: ";
+		errorMessage.append(absolutePath);
+		throw errorMessage;
+	}
+
+	// Checks every file in the directory until a png is found.
+	do {
+		std::string file = data.cFileName;
+		//Only adds .PNG files to the list of files to select from
+		if(file.length() > 4 && file.compare(file.length() - 4, 4, ".png") == 0) {
+			FindClose(hFind);
+			return true;
+		}
+	} while(FindNextFileA(hFind, &data));
+	FindClose(hFind);
+	return false;
+}
+
 std::string createUniqueImageId(const std::string& destinationPath) {
 	LPSYSTEMTIME timeinfo = new SYSTEMTIME();
 	GetLocalTime(timeinfo);

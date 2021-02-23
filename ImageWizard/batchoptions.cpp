@@ -46,15 +46,20 @@ void BatchOptions::setDirectory() {
 							"",
 							QFileDialog::DontResolveSymlinks)).toStdString();
 		chosenDestination->setText(batchInfo->directory.c_str());
+		if(verifyPngsExist(batchInfo->directory)) {
+			numUnique->setEnabled(true);
+			batchSize->setEnabled(true);
+			batchSize->setText("1");
+		}
+		else {
+			QMessageBox messageBox;
+			messageBox.warning(0, "Error", "No *.png files were found in the selected directory. Please choose a different directory");
+		}
 	}
 	catch(...) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Could not load pathway");
 	}
-
-	numUnique->setEnabled(true);
-	batchSize->setEnabled(true);
-	batchSize->setText("1");
 
 	//std::string directory = QFileInfo(*destinationPath).absoluteFilePath().toStdString();
 	//int numImages = imageCount(directory, batchInfo->files);

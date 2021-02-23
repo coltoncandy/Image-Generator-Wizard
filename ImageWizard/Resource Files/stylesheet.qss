@@ -2,7 +2,7 @@ QWidget#FileChooserClass,QWidget#TargetSelector,QWidget#widget,QWidget#WelcomePa
 	background-color: rgb(44,44,44);
 }
 
-QLabel#title{
+QLabel#title,QLabel#titleLbl{
 	font: 700 18pt "Microsoft Sans Serif";
 	color: rgb(250,250,250);
 }
@@ -13,12 +13,12 @@ QLabel#mainTitle{
 	background-color: rgb(44,44,44);
 }
 
-QLabel#body{
+QLabel#body,QLabel#batchSizeLbl,QLabel#label{
 	font: 14pt "Microsoft Sans Serif";
 	color:rgb(250, 250, 250);
 }
 
-QPushButton#browseButton {
+QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#singleBtn {
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
@@ -36,7 +36,7 @@ QPushButton#browseButton {
 	color:rgb(250, 250, 250);
 }
 
-QPushButton:hover#browseButton{
+QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#batchBtn,QPushButton:hover#singleBtn{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
@@ -50,7 +50,7 @@ QPushButton:hover#browseButton{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(107, 107, 107, 255), stop:1 rgba(157, 157, 157, 255));
 }
 
-QPushButton:pressed#browseButton{
+QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:pressed#batchBtn,QPushButton:pressed#singleBtn{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(62, 62, 62, 255), stop:1 rgba(22, 22, 22, 255));
@@ -64,7 +64,7 @@ QPushButton:pressed#browseButton{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(77, 77, 77, 255), stop:1 rgba(97, 97, 97, 255));
 }
 
-QPushButton:disabled#browseButton{
+QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:disabled#batchBtn,QPushButton:disabled#singleBtn{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));

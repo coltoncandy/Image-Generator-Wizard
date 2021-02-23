@@ -16,7 +16,7 @@ BatchOptions::BatchOptions(BatchInfo* batchInfo, QWidget* parent) : WizardPage(p
 
 	numUnique = findChild<QSpinBox*>("numUnique");
 	batchSize = findChild<QLineEdit*>("batchSize");
-	batchSize->setValidator(new QIntValidator(0, 10000, this));
+	batchSize->setValidator(new QIntValidator(1, 9999, this));
 
 	numUnique->hide();
 }
@@ -64,8 +64,11 @@ void BatchOptions::setDirectory() {
 
 void BatchOptions::batchSizeChanged(QString text) {
 	if(!text.isEmpty()) {
-		getWizard()->enableNext();
 		batchInfo->batchSize = atoi(batchSize->text().toStdString().c_str());
+		if(batchInfo->batchSize > 0)
+			getWizard()->enableNext();
+		else
+			getWizard()->disableNext();
 	}
 	else
 		getWizard()->disableNext();

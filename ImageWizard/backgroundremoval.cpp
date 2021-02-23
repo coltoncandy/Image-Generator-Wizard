@@ -9,9 +9,6 @@ BackgroundRemoval::BackgroundRemoval(const QString& title, ImageInfo* target, QW
 	QLabel* titleLabel = findChild<QLabel*>("title");
 	titleLabel->setText(title);
 	QLabel* instructions = findChild<QLabel*>("instructions");
-	QFont f("Sans-serif", 9);
-	instructions->setFont(f);
-	instructions->setStyleSheet("QLabel { color : white; }");
 	instructions->setText("<div><b>Instructions: </b></div><br><div>1. Hold 'ctrl' key and use mouse to draw on areas of background</div><div>2. Hold 'shift' key and use mouse to draw on areas of foreground</div><div>3. Press 'n' to run one iteration of GrabCut</div><div>4. Press 'r' key to start over </div><div>5. Press 'esc' key to continue once satisifed with result</div>");
 	cropButton = findChild<QPushButton*>("cropButton");
 	targetImage = target;

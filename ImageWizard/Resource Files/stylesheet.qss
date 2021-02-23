@@ -13,7 +13,7 @@ QLabel#mainTitle{
 	background-color: rgb(44,44,44);
 }
 
-QLabel#body{
+QLabel#body,QLabel#instructions{
 	font: 14pt "Microsoft Sans Serif";
 	color:rgb(250, 250, 250);
 }

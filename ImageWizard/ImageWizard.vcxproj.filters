@@ -50,9 +50,6 @@
     <ClCompile Include="selectdestination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="processingwindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="wizardpage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -82,9 +79,6 @@
     <QtUic Include="selectdestination.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="processingwindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="backgroundremoval.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -106,9 +100,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="selectdestination.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="processingwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="foregroundchooser.h">

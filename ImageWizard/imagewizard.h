@@ -9,7 +9,6 @@
 #include "imageinfo.h"
 #include "welcomepage.h"
 #include "selectdestination.h"
-#include "processingwindow.h"
 #include "backgroundremoval.h"
 #include "previewimage.h"
 #include <opencv2/core.hpp>

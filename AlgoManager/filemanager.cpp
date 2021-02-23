@@ -54,6 +54,38 @@ void getRandomImages(int imageNum, std::string absolutePath, std::string *& imag
 	}
 }
 
+int imageCount(std::string absolutePath, std::vector<std::string>& fileList) {
+	absolutePath.append("/");
+	std::string searchPath = absolutePath;
+	searchPath.append("*");
+	WIN32_FIND_DATAA data;
+
+	HANDLE hFind = FindFirstFileA(searchPath.c_str(), &data);
+	if(hFind == INVALID_HANDLE_VALUE) {
+		std::string errorMessage = "Could not find given directory: ";
+		errorMessage.append(absolutePath);
+		throw errorMessage;
+	}
+
+	//Retrieves all files from directory and add thir paths to the fileList
+	do {
+		std::string file = data.cFileName;
+		//Only adds .PNG files to the list of files to select from
+		if(file.length() > 4 && file.compare(file.length() - 4, 4, ".png") == 0) {
+			fileList.push_back(absolutePath + data.cFileName);
+		}
+	} while(FindNextFileA(hFind, &data));
+	FindClose(hFind);
+
+	if(fileList.size() < 1) {
+		std::string errorMessage = "No .png files could be found in the given directory: ";
+		errorMessage.append(absolutePath);
+		throw errorMessage;
+	}
+
+	return fileList.size();
+}
+
 std::string createUniqueImageId(const std::string& destinationPath) {
 	LPSYSTEMTIME timeinfo = new SYSTEMTIME();
 	GetLocalTime(timeinfo);

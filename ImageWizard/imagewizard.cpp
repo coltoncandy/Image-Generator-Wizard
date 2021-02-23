@@ -17,6 +17,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
+	batchChoice = new BatchChoice();
+	batchOptions = new BatchOptions(&batchInfo);
 	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
@@ -27,6 +29,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	frames->addWidget(targetChooser);
 	frames->addWidget(targetSelector);
 	frames->addWidget(backgroundRemoval);
+	frames->addWidget(batchChoice);
+	frames->addWidget(batchOptions);
 	frames->addWidget(backgroundChooser);
 	frames->addWidget(selectDestination);
 	frames->addWidget(previewImage);
@@ -64,12 +68,22 @@ ImageWizard::~ImageWizard() {
 	delete backgroundChooser;
 	delete targetSelector;
 	delete selectDestination;
+	delete batchChoice;
+	delete batchOptions;
 	delete initial;
 	delete target;
 	delete background;
 	delete destination;
 	delete backgroundRemoval;
 	delete previewImage;
+}
+
+void ImageWizard::hideNext() {
+	btnNext->hide();
+}
+
+void ImageWizard::showNext() {
+	btnNext->show();
 }
 
 void ImageWizard::enableNext() {
@@ -84,6 +98,14 @@ bool ImageWizard::isNextEnabled() {
 	return btnNext->isEnabled();
 }
 
+void ImageWizard::hidePrev() {
+	btnPrev->hide();
+}
+
+void ImageWizard::showPrev() {
+	btnPrev->show();
+}
+
 void ImageWizard::enablePrev() {
 	btnPrev->setEnabled(true);
 }
@@ -94,6 +116,18 @@ void ImageWizard::disablePrev() {
 
 bool ImageWizard::isPrevEnabled() {
 	return btnPrev->isEnabled();
+}
+
+void ImageWizard::singleMode() {
+	batchInfo.doBatch = false;
+	showNext();
+	goNext();
+}
+
+void ImageWizard::batchMode() {
+	batchInfo.doBatch = true;
+	showNext();
+	goNext();
 }
 
 /*
@@ -125,11 +159,22 @@ void ImageWizard::goNext() {
 
 	//if we've reached this point, then we've finished uploading/interacting with pictures on our current page and continue to the next page.
 	if(cur < frames->count()) {
-		if(currentPage == targetChooser && targetChooser->skipCrop()) {
+		if(currentPage == batchChoice) {
+			if(batchInfo.doBatch) {
+				frames->setCurrentIndex(frames->indexOf(batchOptions));
+			}
+			else {
+				frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+			}
+		}
+		else if(currentPage == batchOptions || currentPage == backgroundChooser) {
+			frames->setCurrentIndex(frames->indexOf(selectDestination));
+		}
+		else if(currentPage == targetChooser && targetChooser->skipCrop()) {
 			target->image->load(*(initial->path));
 			*(target->path) = *(initial->path);
 			target->loaded = true;
-			frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+			frames->setCurrentIndex(frames->indexOf(batchChoice));
 		}
 		else {
 			++cur;
@@ -148,10 +193,12 @@ void ImageWizard::goNext() {
 			btnNext->hide();
 			btnPrev->hide();
 			restartButton->show();
-			int imageNum = 25;
-			bool batchFlag = true;
-			//previewImage->pageSwitched(imageNum, initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString(), batchFlag);
-			previewImage->pageSwitched(imageNum, initial->path->toStdString(), target->path->toStdString(), backgroundDirectory, destination->toStdString(), batchFlag);
+			if(batchInfo.doBatch) {
+				previewImage->pageSwitched(batchInfo.batchSize, initial->path->toStdString(), target->path->toStdString(), batchInfo.directory, destination->toStdString(), true);
+			}
+			else {
+				previewImage->pageSwitched(1, initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString(), false);
+			}
 			return;
 		}
 	}
@@ -188,7 +235,22 @@ void ImageWizard::goPrev() {
 	currentPage->reset();
 
 	if(cur > 0) {
-		if(frames->currentWidget() == backgroundChooser && targetChooser->skipCrop()) {
+		if(currentPage == batchChoice) {
+			showNext();
+			frames->setCurrentIndex(--cur);
+		}
+		else if(currentPage == selectDestination) {
+			if(batchInfo.doBatch) {
+				frames->setCurrentIndex(frames->indexOf(batchOptions));
+			}
+			else {
+				frames->setCurrentIndex(frames->indexOf(backgroundChooser));
+			}
+		}
+		else if(currentPage == backgroundChooser || currentPage == batchOptions) {
+			frames->setCurrentIndex(frames->indexOf(batchChoice));
+		}
+		else if(frames->currentWidget() == batchChoice && targetChooser->skipCrop()) {
 			frames->setCurrentIndex(frames->indexOf(targetChooser));
 			target->reset();
 		}

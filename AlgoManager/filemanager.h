@@ -7,5 +7,5 @@
 void getRandomImages(int backgroundNum, std::string absolutePath, std::string*& backgroundList);
 std::string createUniqueImageId(const std::string& destinationPath);
 
-	
+int imageCount(std::string absolutePath, std::vector<std::string>& fileList);
 

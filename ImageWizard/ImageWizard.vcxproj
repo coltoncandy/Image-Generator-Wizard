@@ -95,6 +95,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backgroundremoval.cpp" />
+    <ClCompile Include="batchchoice.cpp" />
+    <ClCompile Include="batchoptions.cpp" />
     <ClCompile Include="previewimage.cpp" />
     <ClCompile Include="foregroundchooser.cpp" />
     <ClCompile Include="selectdestination.cpp" />
@@ -103,6 +105,8 @@
     <ClCompile Include="wizardpage.cpp" />
     <QtRcc Include="imagewizard.qrc" />
     <QtUic Include="backgroundremoval.ui" />
+    <QtUic Include="batchchoice.ui" />
+    <QtUic Include="batchoptions.ui" />
     <QtUic Include="filechooser.ui" />
     <QtUic Include="imagewizard.ui" />
     <QtMoc Include="imagewizard.h" />
@@ -128,6 +132,8 @@
   <ItemGroup>
     <QtMoc Include="previewimage.h" />
     <QtMoc Include="backgroundremoval.h" />
+    <QtMoc Include="batchchoice.h" />
+    <QtMoc Include="batchoptions.h" />
     <QtMoc Include="foregroundchooser.h" />
     <ClInclude Include="imageinfo.h" />
     <QtMoc Include="selectdestination.h" />

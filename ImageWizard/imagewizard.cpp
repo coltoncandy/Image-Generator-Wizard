@@ -14,7 +14,6 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	destination = new QString; // new path to store
 	QFileInfo directoryInfo = QFileInfo("..\\ImageGallery\\Backgrounds");
 	backgroundDirectory = directoryInfo.absoluteFilePath().toStdString();
-	destination = new QString;
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
 	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
@@ -22,7 +21,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
-	previewImage = new PreviewImage("Here is your Processed Image", destination);
+	previewImage = new PreviewImage("Here is your Processed Image");
 
 	frames->addWidget(welcomePage);
 	frames->addWidget(targetChooser);
@@ -34,8 +33,11 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
+	restartButton = findChild<QPushButton*>("restartButton");
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
+	restartButton->setCursor(QCursor(Qt::PointingHandCursor));
+	QObject::connect(restartButton, &QPushButton::pressed, this, &ImageWizard::restart);
 
 	// Add styling for next and previous buttons
 	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
@@ -53,6 +55,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	//Hides the previous button on the first page
 	btnPrev->hide();
+	restartButton->hide();
 }
 
 ImageWizard::~ImageWizard() {
@@ -93,6 +96,16 @@ bool ImageWizard::isPrevEnabled() {
 	return btnPrev->isEnabled();
 }
 
+/*
+void ImageWizard::showRestart() {
+	restartButton->show();
+}
+
+void ImageWizard::hideRestart() {
+	restartButton->hide();
+}
+*/
+
 //Next page in UI
 void ImageWizard::goNext() {
 	QGuiApplication::restoreOverrideCursor();
@@ -118,8 +131,10 @@ void ImageWizard::goNext() {
 			target->loaded = true;
 			frames->setCurrentIndex(frames->indexOf(backgroundChooser));
 		}
-		else
-			frames->setCurrentIndex(++cur);
+		else {
+			++cur;
+			frames->setCurrentIndex(cur);
+		}
 		currentPage = dynamic_cast<WizardPage*>(frames->currentWidget());
 		if(!currentPage->isReady())
 			disableNext();
@@ -132,6 +147,7 @@ void ImageWizard::goNext() {
 		else if(currentPage == previewImage) {
 			btnNext->hide();
 			btnPrev->hide();
+			restartButton->show();
 			int imageNum = 25;
 			bool batchFlag = true;
 			//previewImage->pageSwitched(imageNum, initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString(), batchFlag);
@@ -190,4 +206,17 @@ void ImageWizard::goPrev() {
 			btnPrev->hide();
 		}
 	}
+}
+
+void ImageWizard::restart() {
+	int pageCount = frames->count();
+
+	for(int i = 0; i < pageCount; ++i) {
+		WizardPage* currentPage = dynamic_cast<WizardPage*>(frames->widget(i));
+		currentPage->reset();
+	}
+	frames->setCurrentIndex(frames->indexOf(welcomePage));
+	btnNext->show();
+	enableNext();
+	restartButton->hide();
 }

@@ -1,12 +1,13 @@
 #include "previewimage.h"
 #include "wizardpage.h"
+//#include "imagewizard.h"
 #include <QLabel>
 #include <QMessageBox>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
 
-PreviewImage::PreviewImage(const QString& title, const QString* const destinationPath, QWidget* parent)
+PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	: WizardPage(parent){
 	ui.setupUi(this);
 	processingTitle = "Processing";
@@ -62,8 +63,6 @@ void PreviewImage::scaleImage(const QSize& size) {
 }
 
 void PreviewImage::reset() {
-	imgLabel->clear();
-	imageMats.clear();
 	saveButton->hide();
 	nextImageButton->hide();
 	processButton->hide();
@@ -75,6 +74,9 @@ void PreviewImage::resizeEvent(QResizeEvent* e) {
 }
 
 void PreviewImage::pageSwitched(int imageNum, const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destination, bool batchFlag) {
+	if(imageMats.size() > 0)
+		imageMats.clear();
+	imgLabel->clear();
 	this->imageNum = imageNum;
 	this->initialPath = initialPath;
 	this->targetPath = targetPath;
@@ -106,6 +108,7 @@ void PreviewImage::nextImage() {
 	if(imageIndex == imageNum - 1) {
 		nextImageButton->hide();
 		processButton->show();
+	//	getWizard()->showRestart();
 	}
 
 }
@@ -123,6 +126,7 @@ void PreviewImage::batchProcess() {
 	saveButton->hide();
 	nextImageButton->hide();
 	processButton->hide();
+//	getWizard()->hideRestart();
 	titleLabel->setText(processingTitle);
 	std::string* backgroundImages = nullptr;
 	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -168,6 +172,7 @@ void PreviewImage::process() {
 	}
 	saveButton->show();
 	processButton->show();
+//	getWizard()->showRestart();
 	QGuiApplication::restoreOverrideCursor();
 	titleLabel->setText(singleImageTitle);
 }

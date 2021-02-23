@@ -29,15 +29,20 @@ public:
 	void disablePrev();
 	bool isPrevEnabled();
 
+	//void showRestart();
+	//void hideRestart();
+
 public slots:
 	void goNext();
 	void goPrev();
+	void restart();
 
 private:
 	Ui::ImageWizardClass ui;
 	QStackedWidget* frames;                 //Holds pages for the UI 
 	QPushButton* btnPrev;
 	QPushButton* btnNext;
+	QPushButton* restartButton;
 	WelcomePage* welcomePage;
 	ForegroundChooser* targetChooser;
 	FileChooser* backgroundChooser;

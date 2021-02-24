@@ -61,7 +61,7 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& 
 
 	checkbox = findChild<QCheckBox*>("checkBox");
 	checkbox->setCursor(QCursor(Qt::PointingHandCursor));
-	QString check = QDir::homePath() + "/source/repos/image-generator/icons/check.png";
+	QString check = QDir::currentPath()+ "/icons/check.png";
 	QString styleSheetCheck = "QCheckBox::indicator:checked { image: url(" + check + "); height: 13px; width: 13px;}";
 	checkbox->setStyleSheet(styleSheetCheck);
 	checkbox->hide();

@@ -129,23 +129,25 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 	int transparentCount;
 	int height = initialImage.rows;
 	int width = initialImage.cols;
+	int sumx;
+	int sumy;
 
 	for(int y = 0; y < height; ++y) {    //loop through image
 		for(int x = 0; x < width; ++x) {
 
 			transparentCount = 0;
 			for(int dy = (0 - widthToBlur); dy <= widthToBlur; dy++) {  //loop around current pixel, based on how far away we want to blur from transparent pixels
-				int sumy = y + dy;
+				sumy = y + dy;
 				
 				sumy = clamp(sumy, 0, initialImage.rows - 1); //if we're looking at a pixel outside the image boundaries, just use the image boundary
 				
 				for(int dx = (0 - widthToBlur); dx <= widthToBlur; dx++) {
-					int sumx = x + dx;
+					sumx = x + dx;
 
 					sumx = clamp(sumx, 0, initialImage.rows - 1); //if we're looking at a pixel outside the image boundaries, just use the image boundary
 
 					try {
-						// determine the opacity of the foregrond pixel, using its fourth (alpha) channel.
+						// determine the opacity of the foreground pixel, using its fourth (alpha) channel.
 						if(initialImage.data[getIndex(sumx, sumy, initialImage) + 3] == 0) {
 							transparentCount++;
 							if(transparentCount >= threshold) {  //if we've already found our threshold number of transparent pixels, no need to keep looking
@@ -208,13 +210,79 @@ Mat blurEdgesGaussian(Mat initialImage, int gridSize, int widthToBlur, int thres
 	return output;
 }
 
+
+int findWidthToBlur(Mat input) { //find how far away from edges to blur based on the image size
+	//first find the parts of the image that we're actually keeping, by finding the left-most and right-most non-transparent pixels, then repeating with the top- and bottom-most.
+	int minx = input.cols - 1;
+	int maxx = 0;
+	int miny = input.rows - 1;
+	int maxy = 0;
+	
+	for(int y = 0; y < input.rows; ++y) {    //loop through image
+		for(int x = 0; x < input.cols; ++x) {
+			if(input.data[getIndexClamped(x, y, input) + 3] == 255) { //if we found a non-transparent pixel
+				if(x < minx) { //update minimum and maximum values
+					minx = x;
+				}
+				if(x > maxx) {
+					maxx = x;
+				}
+				if(y < miny) {
+					miny = y;
+				}
+				if(y > maxy) {
+					maxy = y;
+				}
+			}
+		}
+	}
+	
+	double minimum = maxx - minx; //calculate the minimum of width and height
+	if(maxy - miny < minimum) {
+		minimum = maxy - miny;
+	}
+	int height = input.rows;
+	int width = input.cols;
+
+	//calculate width to blur based on the minimum of image width and height
+	minimum = sqrt(minimum);
+	if(minimum < 10){
+		return 3;
+	}
+	else if(minimum > 25) {
+		return 9;
+	}
+	else{
+		int temp = (int) ((((minimum - 10) / 15.0) * 6.0) + 3);
+		if(temp % 2 == 0) {
+			temp++;
+		}
+		return temp;
+	}
+}
+
+
+
+bool isItAnEdgePixel(int x, int y, Mat input) { //determine whether a pixel location is along the edge of an image
+	if(x == 0 || x == input.cols - 1) {
+		return true;
+	}
+	if(y == 0 || y == input.rows - 1) {
+		return true;
+	}
+	return false;
+}
+
+
 Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the distance to look at nearby pixels. 3 is a 3x3 grid centered on each pixel, 5 is 5x5, etc.
-	if(gridSize < 3) {
+	if(gridSize == -1) {
+		gridSize = findWidthToBlur(initialImage);
+	}
+	else if(gridSize < 3) {
 		gridSize = 3; 
 	}
 
 	Mat output;
-	std::vector<std::vector<double>> alphaMask(initialImage.rows, std::vector<double> (initialImage.cols, 0.0)); //initialize a 2D array to keep track of final alpha values. Has same number of rows and cols, initialized to 0 in every position.
 	initialImage.copyTo(output);
 
 	int maxPixelDistance = gridSize / 2;
@@ -224,16 +292,67 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	int transparentCount;
 	int height = initialImage.rows;
 	int width = initialImage.cols;
+	int toFind;
+	int sumx, sumy;
+	int pixData;
+
+	std::vector<std::vector<bool>> alphaMaskBool(initialImage.rows, std::vector<bool>(initialImage.cols, false)); //initialize a 2D array to keep track of whether each pixel should be modified. Has same number of rows and cols, initialized to false in every position.
+
+
+	for(int y = 0; y < height; ++y) {    //loop through image
+		for(int x = 0; x < width; ++x) {
+			transparentCount = 0;
+			if(initialImage.data[getIndexClamped(x, y, initialImage) + 3] == 255) {
+				toFind = 0;
+			}
+			else {
+				toFind = 255;
+			}
+			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) {  //loop around current pixel, based on how far away we want to blur from transparent pixels
+				sumy = clamp(y + dy, 0, initialImage.rows - 1);
+				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
+					sumx = clamp(x + dx, 0, initialImage.cols - 1);
+					pixData = initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3];
+					if(isItAnEdgePixel(sumx, sumy, initialImage) && pixData == 1) { //always blur if current pixel is within the blur distance of the edge of the image
+						alphaMaskBool[y][x] = true;
+						break;
+					}
+					try {
+						// determine the opacity of the foreground pixel, using its fourth (alpha) channel.
+						if(pixData == toFind) { //we've found a pixel within the range specified
+							alphaMaskBool[y][x] = true;
+							break;
+						}
+					}
+					catch(...) {
+						//initialImage.data access out of bounds
+						return initialImage;
+					}
+				}
+				if(alphaMaskBool[y][x]) {
+					break;
+				}
+			}
+		}
+	}
 
 	for(int y = 0; y < height; ++y) {  //loop through image
 		for(int x = 0; x < width; ++x) {
+			if(!alphaMaskBool[y][x]) { //if we haven't determined that this pixel should be modified, then skip it to save time on calculations.
+				try {
+					output.data[getIndexClamped(x, y, output) + 3] = initialImage.data[getIndexClamped(x, y, output) + 3];
+				}
+				catch(...) {
+					//data access out of bounds
+					return initialImage;
+				}
+				continue;
+			}
 			transparentCount = 0;
 			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) { //loop to look at nearby pixels within maxPixelDistance
-				int sumy = y + dy;
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
-					int sumx = x + dx;
 					try {
-						opacity_level = ((double) initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3]) / 255.0;
+						opacity_level = ((double) initialImage.data[getIndexClamped(x + dx, y + dy, initialImage) + 3]) / 255.0;
 					}
 					catch(...) {
 						//data access out of bounds
@@ -245,14 +364,8 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				}
 			}
 			ratio = 1.0 - ((1.0 * transparentCount) / (1.0 * (gridSize * gridSize))); //ratio of how many nearby pixels were fully transparent (so, if 12 / 25 pixels in the 5x5 grid were transparent, the new transparency is 0.5).
-			alphaMask[y][x] = ratio; //save ratio to a matrix
-		}
-	}
-	unsigned char initialPx = 0;
-	for(int y = 0; y < initialImage.rows; ++y) {//Step through every pixel and update its transparency to the values stored in alphaMask
-		for(int x = 0; x < initialImage.cols; ++x) { 
 			try {
-				output.data[getIndex(x, y, output) + 3] = alphaMask[y][x] * 255.0;
+				output.data[getIndexClamped(x, y, output) + 3] = ratio * 255.0;
 			}
 			catch(...) {
 				//data access out of bounds
@@ -261,4 +374,95 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 		}
 	}
 	return output;
+}
+
+Mat rotation(Mat target, int angleBounds) {
+
+    if(target.empty() || angleBounds < 1 || angleBounds > 360) 
+        return target; 
+
+    Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
+    Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
+
+    Mat dst;
+    warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
+
+    return dst; 
+
+}
+
+Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
+    if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
+        return background;
+
+    Size backgroundSize = background.size();
+    if(backgroundSize.width <= origin.x || backgroundSize.height <= origin.y || backgroundSize.width <= terminal.x || backgroundSize.height <= terminal.y)
+    {
+        return background;
+    }
+    else if( abs(origin.x - terminal.x) < minWidth || abs(origin.y - terminal.y) < minHeight) 
+    {
+        return background;
+    }
+
+    Rect roi = Rect(origin, terminal);
+    Mat crop = background(roi);
+
+    return crop;
+}
+
+Mat flipIt(Mat target, int flipCode) {
+
+    if(target.empty() || flipCode < -1 || flipCode > 1)
+        return target; 
+
+    Mat dst;
+    flip(target, dst, flipCode); 
+
+    return dst; 
+
+}
+
+Mat padImage(Mat background, int height, int width) {
+
+	if(background.empty())
+		return background; 
+
+	Mat paddedImg = Mat(background.rows + 2 * height, background.cols + 2 * width, CV_8UC3); 
+	paddedImg.setTo(Scalar::all(0)); 
+	background.copyTo(paddedImg(Rect(width, height, background.cols, background.rows)));			//Start at (padding, padding) to center image and account for offset
+
+	return paddedImg; 
+}
+
+Mat noiseImg(Mat target, int mean, int sigma) {
+
+	if(target.empty())
+		return target; 
+
+	Mat grey(target.size(), CV_8U); 
+	cvtColor(target, grey, COLOR_BGRA2GRAY);
+	Mat bin(grey.size(), grey.type()); 
+	threshold(grey, bin, 0, 255, THRESH_BINARY);
+
+	Mat noiseMask(target.size(), target.type()); 
+	randn(noiseMask, mean, sigma); 
+	target += noiseMask; 
+
+	Mat processedTarget; 
+	bitwise_and(target, target, processedTarget, bin); 
+
+	return processedTarget; 
+}
+
+int resizeImg(Mat target, Mat& resizedTarget, float ratio) {
+	if(target.empty() || ratio <= 0)
+		return 0; 
+
+	if(ratio < 1)									//OpenCV docs recommend different interpolation specs for reducing and enlarging images
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_AREA);
+	else
+		resize(target, resizedTarget, Size(), ratio, ratio, INTER_CUBIC);
+
+	return 1; 
 }

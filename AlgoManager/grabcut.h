@@ -28,6 +28,7 @@ class GCApplication {
         int getIterCount() const { return iterCount; }
         Mat getResult() const; 
         Mat makeTransparent(Mat targetBlackBg) const; 
+        void init();
     private:
         void setRectInMask();
         void setLblsInMask(int flags, Point p, bool isPr);
@@ -43,4 +44,4 @@ class GCApplication {
         int iterCount;
 };
 
-Mat grabCut(const std::string& path);
+Mat grabCut(const std::string& path, bool& finished);

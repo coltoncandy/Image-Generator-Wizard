@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SelectDestinationClass</class>
- <widget class="QWidget" name="SelectDestinationClass">
+ <class>PreviewImageClass</class>
+ <widget class="QWidget" name="PreviewImageClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,6 +27,9 @@
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
@@ -62,24 +65,6 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="browseButton">
-       <property name="text">
-        <string>Browse...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="chosenDestination">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -92,46 +77,37 @@
      </property>
     </spacer>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="text">
+        <string>Save Image</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="processButton">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="nextImageButton">
+       <property name="text">
+        <string>Next Image</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>browseButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SelectDestinationClass</receiver>
-   <slot>chooseDirectory()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>138</x>
-     <y>289</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>319</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>browseButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SelectDestinationClass</receiver>
-   <slot>setDirectory()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>109</x>
-     <y>275</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>388</x>
-     <y>294</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
-  <slot>chooseDirectory()</slot>
+  <slot>chooseFile()</slot>
   <slot>reset()</slot>
-  <slot>setDirectory()</slot>
  </slots>
 </ui>

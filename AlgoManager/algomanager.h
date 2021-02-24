@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <opencv2/core.hpp>
-
+#include <vector>
 
 namespace AlgoManager {
 	class AlgoManager {
@@ -10,5 +10,6 @@ namespace AlgoManager {
 		static cv::Mat process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath);
 		static cv::Mat processTarget(cv::Mat target);
 		static cv::Mat processBackground(cv::Mat &background, const cv::Mat target);
+		static void batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath,  std::string* backgroundPaths, std::vector<cv::Mat>& imageBatch);
 	};
 }

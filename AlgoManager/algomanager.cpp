@@ -133,4 +133,22 @@ namespace AlgoManager {
 
         return background; 
     }
+    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
+    {
+        if (imageBatch.size() > 0) {
+            imageBatch.clear();
+        }
+
+        if (imageNum < 1)
+            return;
+
+        for (int i = 0; i < imageNum; ++i) {
+            try {
+                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
+            }
+            catch (int errorCode) { //These are for errors that occur but processing can continue
+
+            }
+        }
+    }
 }

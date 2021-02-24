@@ -22,8 +22,13 @@ namespace AlgoManager {
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
 
+        if(target.empty() || background.empty())
+            return target; 
+        //reminder: check target size against background
+        
+
         target = processTarget(target); 
-        background = processBackground(background); 
+        background = processBackground(background, target); 
 
         int x = rand() % background.cols; 
         int y = rand() % background.rows; 
@@ -40,8 +45,6 @@ namespace AlgoManager {
         int angleBounds;
         int flipCode;
         int choice;
-        int mean;
-        int sigma;
         float resizeRatio;
         int maxResizeCalls = 3;                                     //Max number of times resize function can be called in generation 
 
@@ -77,8 +80,8 @@ namespace AlgoManager {
 
         choice = rand() % 5;                                              //1 in 5 chance of applying noise.
         if(choice == 1) {
-            mean = rand() % 20;
-            sigma = rand() % 20 + mean;
+            int mean = rand() % 20;
+            int sigma = rand() % 20 + mean;
             target = noiseImg(target, mean, sigma);
         }
 
@@ -87,16 +90,27 @@ namespace AlgoManager {
 
         return target;
     }
-    cv::Mat AlgoManager::processBackground(Mat background) {
+    cv::Mat AlgoManager::processBackground(Mat background, const Mat target) {
 
         if(background.empty())
             return background; 
 
         int choice; 
-        int flipCode; 
-        int mean; 
-        int sigma; 
+        int flipCode;
         int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
+        
+
+        choice = 0;
+        if(choice == 0){                                            //1 in 5 chance of 
+            int cropLeft, cropRight, cropTop, cropBottom;
+            cropLeft = rand() % (background.cols / 6);
+            cropRight = rand() % (background.cols / 6) + (5 * (background.cols / 6));
+            cropTop = rand() % (background.rows / 6);
+            cropBottom = rand() % (background.rows / 6) + (5 * (background.rows / 6));
+            Point origin(cropLeft, cropTop);
+            Point terminal(cropRight, cropBottom); 
+            background = cropBackground(background, origin, terminal, target.cols, target.rows); 
+        }
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -112,9 +126,9 @@ namespace AlgoManager {
         }
 
         choice = rand() % 5;                                              //1 in 5 chance of applying noise.
-        if(choice == 1) {
-            mean = rand() % 20;
-            sigma = rand() % 20 + mean;
+        if(choice == 0) {
+            int mean = rand() % 20;
+            int sigma = rand() % 20 + mean;
             background = noiseImg(background, mean, sigma);
         }
 

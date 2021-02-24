@@ -407,7 +407,7 @@ Mat rotation(Mat target, int angleBounds) {
 
 }
 
-Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
+Mat cropBackground(Mat &background, Point origin, Point terminal, int minWidth, int minHeight) {
     if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
         return background;
 
@@ -422,9 +422,10 @@ Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, i
     }
 
     Rect roi = Rect(origin, terminal);
-    Mat crop = background(roi);
+    Mat crop = Mat(background(roi));
+	crop.copyTo(background);
 
-    return crop;
+	return crop; 
 }
 
 Mat flipIt(Mat target, int flipCode) {

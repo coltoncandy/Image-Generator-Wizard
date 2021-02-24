@@ -99,7 +99,7 @@ namespace AlgoManager {
         int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
         
 
-        choice = 0;
+        choice = rand() % 5;
         if(choice == 0){                                            //1 in 5 chance of 
             int cropLeft, cropRight, cropTop, cropBottom;
             cropLeft = rand() % (background.cols / 6);

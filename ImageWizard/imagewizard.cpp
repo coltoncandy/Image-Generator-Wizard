@@ -136,16 +136,6 @@ void ImageWizard::batchMode() {
 	goNext();
 }
 
-/*
-void ImageWizard::showRestart() {
-	restartButton->show();
-}
-
-void ImageWizard::hideRestart() {
-	restartButton->hide();
-}
-*/
-
 //Next page in UI
 void ImageWizard::goNext() {
 	QGuiApplication::restoreOverrideCursor();

@@ -38,9 +38,6 @@ public:
 	void singleMode();
 	void batchMode();
 
-	//void showRestart();
-	//void hideRestart();
-
 public slots:
 	void goNext();
 	void goPrev();

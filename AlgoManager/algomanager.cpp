@@ -25,16 +25,15 @@ namespace AlgoManager {
         if(target.empty() || background.empty())
             return target; 
         //reminder: check target size against background
-        
 
         target = processTarget(target); 
-        background = processBackground(background, target); 
+        processBackground(background, target); 
 
         int x = rand() % background.cols; 
         int y = rand() % background.rows; 
         
         Mat processed = overlay(background, target, Point(x - (target.cols * 0.5), y - (target.rows * 0.5)));                              //Overlay at a random position on background 
-
+ 
         return processed;
     }
     cv::Mat AlgoManager::processTarget(Mat target) {
@@ -90,7 +89,7 @@ namespace AlgoManager {
 
         return target;
     }
-    cv::Mat AlgoManager::processBackground(Mat background, const Mat target) {
+    cv::Mat AlgoManager::processBackground(Mat &background, const Mat target) {
 
         if(background.empty())
             return background; 
@@ -109,7 +108,7 @@ namespace AlgoManager {
             cropBottom = rand() % (background.rows / 6) + (5 * (background.rows / 6));
             Point origin(cropLeft, cropTop);
             Point terminal(cropRight, cropBottom); 
-            background = cropBackground(background, origin, terminal, target.cols, target.rows); 
+            cropBackground(background, origin, terminal, target.cols, target.rows); 
         }
 
         for(int i = 0; i < numOfCalls; i++) {

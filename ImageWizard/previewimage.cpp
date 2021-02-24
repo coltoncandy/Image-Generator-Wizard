@@ -144,6 +144,8 @@ void PreviewImage::batchProcess() {
 				saveButton->show();
 				if(imageNum > 1)
 					nextImageButton->show();
+				else
+					processButton->show();
 				imageIndex = 0;
 				loadImage();
 			}

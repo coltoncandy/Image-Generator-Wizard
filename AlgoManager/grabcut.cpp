@@ -31,6 +31,18 @@ static void getBinMask(const Mat& comMask, Mat& binMask) {
     binMask = comMask & 1;
 }
 
+static Mat trimTransparentPixels(Mat target) {              
+    
+    if(target.empty())
+        return target; 
+
+    vector<Mat> channels; 
+    split(target, channels); 
+    Rect bounds = boundingRect(channels[3]); 
+    return target(bounds); 
+
+}
+
 
 void GCApplication::reset() {
     
@@ -321,6 +333,7 @@ Mat grabCut(const std::string& path, bool& finished) {
     }
 //exit_main:
     Mat res = gcapp.getResult();
+    res = trimTransparentPixels(res); 
     destroyWindow(winName);
     return res;
 }

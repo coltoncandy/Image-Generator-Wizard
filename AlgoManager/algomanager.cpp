@@ -9,7 +9,7 @@ namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
 
         if(path.empty())
-            return false; 
+            return false;
         bool finished;
         Mat res = grabCut(path, finished);
         imwrite(path, res);             //Write processed target back to target's path  
@@ -17,7 +17,7 @@ namespace AlgoManager {
         return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    cv::Mat AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, int randomNumber) {
+    cv::Mat AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath) {
 
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
@@ -29,53 +29,52 @@ namespace AlgoManager {
         int sigma;
         float resizeRatio;
 
-        int targetHeight = target.rows; 
-        int targetWidth = target.cols; 
-        int backgroundHeight = background.rows; 
+        int targetHeight = target.rows;
+        int targetWidth = target.cols;
+        int backgroundHeight = background.rows;
         int backgroundWidth = background.cols;
-        Mat resizedTarget; 
+        Mat resizedTarget;
 
-        int numOfCalls = randomNumber % 5;
+        int numOfCalls = rand() % 5;
 
         for(int i = 0; i < numOfCalls; i++) {
 
-            choice = randomNumber % 3;
+            choice = rand() % 3;
 
             switch(choice) {
             case 0:
-                angleBounds = (randomNumber % 10) + 1;
+                angleBounds = (rand() % 10) + 1;
                 target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
-                flipCode = (randomNumber % 3) - 1;
+                flipCode = (rand() % 3) - 1;
                 target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = (float) ((randomNumber % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
-                resizeImg(target, resizedTarget, resizeRatio); 
-                resizedTarget.copyTo(target); 
-                resizedTarget = Mat(); 
+                resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
+                resizeImg(target, resizedTarget, resizeRatio);
+                resizedTarget.copyTo(target);
+                resizedTarget = Mat();
                 break;
             }
         }
 
-        choice = randomNumber % 4;                                              //1 in 4 chance of applying noise.
+        choice = rand() % 4;                                              //1 in 4 chance of applying noise.
         if(choice == 1) {
-            mean = randomNumber % 20;
-            sigma = randomNumber % 20 + mean;
+            mean = rand() % 20;
+            sigma = rand() % 20 + mean;
             target = noiseImg(target, mean, sigma);
         }
 
-        
-        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);                   
-        background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0); 
-        Mat processed = overlay(background, target, Point((randomNumber %background.cols), (randomNumber %background.rows)));         //Overlay at a random position on background 
+
+        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);
+        background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0);
+        Mat processed = overlay(background, target, Point((rand() % background.cols), (rand() % background.rows)));         //Overlay at a random position on background 
 
         return processed;
     }
 
-    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
-    {
+    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch) {
         if(imageBatch.size() > 0) {
             imageBatch.clear();
         }
@@ -83,15 +82,12 @@ namespace AlgoManager {
         if(imageNum < 1)
             return;
 
-
-        srand(time(NULL));
         for(int i = 0; i < imageNum; ++i) {
             try {
-                int randomNumber = rand();
-                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i], randomNumber));
+                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
             }
             catch(int errorCode) { //These are for errors that occur but processing can continue
-                  
+
             }
         }
     }
@@ -103,6 +99,7 @@ namespace AlgoManager {
         Mat blurredAlpha = blurEdgesTransparency(foreground, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
         Mat res = overlay(background, blurredAlpha, Point(0, 0));
 
-        return; 
+        return;
     }
 }
+

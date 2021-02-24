@@ -11,8 +11,6 @@ PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	: WizardPage(parent){
 	ui.setupUi(this);
 
-	srand(time(NULL));
-
 	processingTitle = "Processing";
 	batchTitle = "Here are your generated images";
 	singleImageTitle = "Here is your generated image";
@@ -167,8 +165,7 @@ void PreviewImage::process() {
 	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 	QCoreApplication::processEvents();
 	try {
-		int randomNumber = rand();
-		imageMats.push_back(AlgoManager::AlgoManager::process(initialPath, targetPath, backgroundPath, randomNumber));
+		imageMats.push_back(AlgoManager::AlgoManager::process(initialPath, targetPath, backgroundPath));
 		loadImage();
 	}
 	catch(std::string ex) {

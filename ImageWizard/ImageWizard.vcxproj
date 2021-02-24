@@ -78,7 +78,8 @@
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
       <QtMocDir>$(Configuration)</QtMocDir>
-      <Include>./$(Configuration)/moc_predefs.h</Include>
+      <Include>
+      </Include>
     </QtMoc>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
@@ -161,7 +162,9 @@
     <QtMoc Include="welcomepage.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource Files\stylesheet.qss" />
+    <None Include="Resource Files\stylesheet.qss">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

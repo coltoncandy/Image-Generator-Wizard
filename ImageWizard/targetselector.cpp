@@ -17,9 +17,9 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
 	// Set reset button icon and hover icon
-	QString reset = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
+	QString reset = QDir::currentPath()+ "/icons/reset.png";
 	QString styleSheet = "QPushButton#reset{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#reset{ image: url(%2); background-repeat: no-repeat; }";
-	QString resetHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
+	QString resetHover = QDir::currentPath()+ "/icons/resetHover.png";
 	setStyleSheet(styleSheet.arg(reset).arg(resetHover));
 
 	QLabel* titleLabel = findChild<QLabel*>("title");

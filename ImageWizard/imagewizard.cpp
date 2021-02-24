@@ -14,8 +14,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	destination = new QString; // new path to store
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones");
-	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
+	targetChooser = new FileChooser("Select or drag an image containing the target", initial, "\\ImageGallery\\Targets\\Drones");
+	backgroundChooser = new FileChooser("Select or drag a background image", background, "\\ImageGallery\\Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
 	processingWindow = new ProcessingWindow("It won't be too long ...");
@@ -29,8 +29,8 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 
 	btnPrev = findChild<QPushButton*>("btnPrev");
 	btnNext = findChild<QPushButton*>("btnNext");
-	btnPrev->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png"));
-	btnNext->setIcon(QIcon(QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png"));
+	btnPrev->setIcon(QIcon(QDir::currentPath()+ "/icons/leftArrow.png"));
+	btnNext->setIcon(QIcon(QDir::currentPath()+ "/icons/rightArrow.png"));
 	btnNext->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnPrev->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	btnNext->setIconSize(QSize(85, 32));
@@ -39,11 +39,11 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 
 	// Add lighter arrow when hovering and when disabled
-	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
+	QString rightHover = QDir::currentPath()+ "/icons/rightHover.png";
 	QString styleSheet = "QPushButton:hover#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%1); background - repeat: no - repeat;} QPushButton:hover#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%2); background - repeat: no - repeat;} QPushButton:disabled#btnNext { icon: url(\" \"); icon - size: 38px, 30px; image: url(%3); background - repeat: no - repeat; } QPushButton:disabled#btnPrev { icon: url(\" \"); icon - size: 38px, 30px; image: url(%4); background - repeat: no - repeat; }";
-	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
-	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
-	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
+	QString leftHover = QDir::currentPath()+ "/icons/leftHover.png";
+	QString rightDisabled = QDir::currentPath()+ "/icons/rightDisabled.png";
+	QString leftDisabled = QDir::currentPath()+ "/icons/leftDisabled.png";
 	//setStyleSheet(styleSheet.arg(rightHover).arg(leftHover).arg(rightDisabled).arg(leftDisabled));
 
 	//Hides the previous button on the first page

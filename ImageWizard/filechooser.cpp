@@ -48,9 +48,9 @@ FileChooser::FileChooser(const QString& title, ImageInfo* image, const QString& 
 	resetButton->setStyleSheet("border-left: 10px transparent; border-right: 10px transparent;""border-top: 3px transparent; border-bottom: 3px transparent;"); // remove edges of button
 	resetButton->setIconSize(QSize(100, 50));
 	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
-	QString reset = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
+	QString reset = QDir::currentPath()+ "/icons/reset.png";
 	QString styleSheet = "QPushButton#resetButton{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#resetButton{ image: url(%2); background-repeat: no-repeat; }";
-	QString resetHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
+	QString resetHover = QDir::currentPath()+ "/icons/resetHover.png";
 	setStyleSheet(styleSheet.arg(reset).arg(resetHover));
 
 	selectedImage = image;

@@ -1,7 +1,9 @@
 #include "fileManager.h"
 
 //Randomly fills the array of strings, imageList, with paths of images found in the directory
-//specified by the absolutePath. The number of images added to imageList is set by the imageNum parameter.
+//specified by the absolutePath. Unique images will always be added first. If there are more 
+//images requested than existing in the directory provided, repeat images will be added.
+//The number of images added to imageList is set by the imageNum parameter.
 void getRandomImages(int imageNum, std::string absolutePath, std::string *& imageList) {
 	if(imageNum < 1) {
 		std::string errorMessage = "The number of background selected to return must be greater than 0.";
@@ -43,14 +45,24 @@ void getRandomImages(int imageNum, std::string absolutePath, std::string *& imag
 		throw errorMessage;
 	}
 
+	std::vector<std::string> uniqueList = fileList;
 	imageList = new std::string[imageNum];
 	int totalBackgrounds = fileList.size();
 	srand(time(NULL));
 
-	//Fills the imageList array with random file paths from fileList. Duplicate files may be included in final list of images. 
+	//Fills the imageList array with random file paths from fileList. 
+	//Duplicate files may be included in final list of images, but only after every image has gotten added once. 
 	for(int i = 0; i < imageNum; ++i) {
-		int randomIndex = rand() % totalBackgrounds;
-		imageList[i] = fileList[randomIndex];
+		int uniqueRemaining = uniqueList.size();
+		if(uniqueRemaining > 0) {
+			int randomIndex = rand() % uniqueRemaining;
+			imageList[i] = uniqueList[randomIndex];
+			uniqueList.erase(uniqueList.begin() + randomIndex);
+		}
+		else {
+			int randomIndex = rand() % totalBackgrounds;
+			imageList[i] = fileList[randomIndex];
+		}
 	}
 }
 

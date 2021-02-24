@@ -18,7 +18,8 @@ PreviewImage::PreviewImage(const QString& title, const cv::Mat& processedImage, 
 
 void PreviewImage::loadImage() {
 	try {
-		image = QImage((const unsigned char*) (imageMat.data), imageMat.cols, imageMat.rows, QImage::Format_BGR888);
+		image = QImage((const unsigned char*) (imageMat.data), imageMat.cols, imageMat.rows, imageMat.step, QImage::Format_BGR888);
+		image.bits();
 	}
 	catch(...) {
 		QMessageBox messageBox;

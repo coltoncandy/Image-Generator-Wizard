@@ -1,7 +1,9 @@
 #include "fileManager.h"
 
 //Randomly fills the array of strings, imageList, with paths of images found in the directory
-//specified by the absolutePath. The number of images added to imageList is set by the imageNum parameter.
+//specified by the absolutePath. Unique images will always be added first. If there are more 
+//images requested than existing in the directory provided, repeat images will be added.
+//The number of images added to imageList is set by the imageNum parameter.
 void getRandomImages(int imageNum, std::string absolutePath, std::string *& imageList) {
 	if(imageNum < 1) {
 		std::string errorMessage = "The number of background selected to return must be greater than 0.";
@@ -43,14 +45,24 @@ void getRandomImages(int imageNum, std::string absolutePath, std::string *& imag
 		throw errorMessage;
 	}
 
+	std::vector<std::string> uniqueList = fileList;
 	imageList = new std::string[imageNum];
 	int totalBackgrounds = fileList.size();
 	srand(time(NULL));
 
-	//Fills the imageList array with random file paths from fileList. Duplicate files may be included in final list of images. 
+	//Fills the imageList array with random file paths from fileList. 
+	//Duplicate files may be included in final list of images, but only after every image has gotten added once. 
 	for(int i = 0; i < imageNum; ++i) {
-		int randomIndex = rand() % totalBackgrounds;
-		imageList[i] = fileList[randomIndex];
+		int uniqueRemaining = uniqueList.size();
+		if(uniqueRemaining > 0) {
+			int randomIndex = rand() % uniqueRemaining;
+			imageList[i] = uniqueList[randomIndex];
+			uniqueList.erase(uniqueList.begin() + randomIndex);
+		}
+		else {
+			int randomIndex = rand() % totalBackgrounds;
+			imageList[i] = fileList[randomIndex];
+		}
 	}
 }
 
@@ -84,6 +96,33 @@ int imageCount(std::string absolutePath, std::vector<std::string>& fileList) {
 	}
 
 	return fileList.size();
+}
+
+// Verifies atleast one png exists in directory specified by the absolute path.
+bool verifyPngsExist(std::string absolutePath) {
+	absolutePath.append("/");
+	std::string searchPath = absolutePath;
+	searchPath.append("*");
+	WIN32_FIND_DATAA data;
+
+	HANDLE hFind = FindFirstFileA(searchPath.c_str(), &data);
+	if(hFind == INVALID_HANDLE_VALUE) {
+		std::string errorMessage = "Could not open selected directory: ";
+		errorMessage.append(absolutePath);
+		throw errorMessage;
+	}
+
+	// Checks every file in the directory until a png is found.
+	do {
+		std::string file = data.cFileName;
+		//Only adds .PNG files to the list of files to select from
+		if(file.length() > 4 && file.compare(file.length() - 4, 4, ".png") == 0) {
+			FindClose(hFind);
+			return true;
+		}
+	} while(FindNextFileA(hFind, &data));
+	FindClose(hFind);
+	return false;
 }
 
 std::string createUniqueImageId(const std::string& destinationPath) {

@@ -8,6 +8,7 @@
 
 #include "ui_batchoptions.h"
 #include "wizardpage.h"
+#include "../AlgoManager/filemanager.h"
 
 struct BatchInfo {
 	std::vector<std::string> files;

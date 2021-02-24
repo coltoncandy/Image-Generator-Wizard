@@ -16,7 +16,7 @@ BatchOptions::BatchOptions(BatchInfo* batchInfo, QWidget* parent) : WizardPage(p
 
 	numUnique = findChild<QSpinBox*>("numUnique");
 	batchSize = findChild<QLineEdit*>("batchSize");
-	batchSize->setValidator(new QIntValidator(0, 10000, this));
+	batchSize->setValidator(new QIntValidator(1, 9999, this));
 
 	numUnique->hide();
 }
@@ -46,15 +46,20 @@ void BatchOptions::setDirectory() {
 							"",
 							QFileDialog::DontResolveSymlinks)).toStdString();
 		chosenDestination->setText(batchInfo->directory.c_str());
+		if(verifyPngsExist(batchInfo->directory)) {
+			numUnique->setEnabled(true);
+			batchSize->setEnabled(true);
+			batchSize->setText("1");
+		}
+		else {
+			QMessageBox messageBox;
+			messageBox.warning(0, "Error", "No *.png files were found in the selected directory. Please choose a different directory");
+		}
 	}
 	catch(...) {
 		QMessageBox messageBox;
 		messageBox.warning(0, "Error", "Could not load pathway");
 	}
-
-	numUnique->setEnabled(true);
-	batchSize->setEnabled(true);
-	batchSize->setText("1");
 
 	//std::string directory = QFileInfo(*destinationPath).absoluteFilePath().toStdString();
 	//int numImages = imageCount(directory, batchInfo->files);
@@ -64,8 +69,11 @@ void BatchOptions::setDirectory() {
 
 void BatchOptions::batchSizeChanged(QString text) {
 	if(!text.isEmpty()) {
-		getWizard()->enableNext();
 		batchInfo->batchSize = atoi(batchSize->text().toStdString().c_str());
+		if(batchInfo->batchSize > 0)
+			getWizard()->enableNext();
+		else
+			getWizard()->disableNext();
 	}
 	else
 		getWizard()->disableNext();

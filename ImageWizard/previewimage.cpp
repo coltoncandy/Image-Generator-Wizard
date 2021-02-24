@@ -10,6 +10,7 @@
 PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	: WizardPage(parent){
 	ui.setupUi(this);
+
 	processingTitle = "Processing";
 	batchTitle = "Here are your generated images";
 	singleImageTitle = "Here is your generated image";
@@ -141,6 +142,8 @@ void PreviewImage::batchProcess() {
 				saveButton->show();
 				if(imageNum > 1)
 					nextImageButton->show();
+				else
+					processButton->show();
 				imageIndex = 0;
 				loadImage();
 			}

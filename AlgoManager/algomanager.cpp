@@ -9,7 +9,7 @@ namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
 
         if(path.empty())
-            return false; 
+            return false;
         bool finished;
         Mat res = grabCut(path, finished);
         imwrite(path, res);             //Write processed target back to target's path  
@@ -29,15 +29,13 @@ namespace AlgoManager {
         int sigma;
         float resizeRatio;
 
-        int targetHeight = target.rows; 
-        int targetWidth = target.cols; 
-        int backgroundHeight = background.rows; 
+        int targetHeight = target.rows;
+        int targetWidth = target.cols;
+        int backgroundHeight = background.rows;
         int backgroundWidth = background.cols;
-        Mat resizedTarget; 
+        Mat resizedTarget;
 
-        srand(time(NULL));
-
-        int numOfCalls = rand() % 5;             
+        int numOfCalls = rand() % 5;
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -45,18 +43,18 @@ namespace AlgoManager {
 
             switch(choice) {
             case 0:
-                angleBounds = (rand() % 10) + 1;                          
+                angleBounds = (rand() % 10) + 1;
                 target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
-                flipCode = (rand() % 3) - 1;                                
+                flipCode = (rand() % 3) - 1;
                 target = flipIt(target, flipCode);
                 break;
             case 2:
                 resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
-                resizeImg(target, resizedTarget, resizeRatio); 
-                resizedTarget.copyTo(target); 
-                resizedTarget = Mat(); 
+                resizeImg(target, resizedTarget, resizeRatio);
+                resizedTarget.copyTo(target);
+                resizedTarget = Mat();
                 break;
             }
         }
@@ -68,16 +66,15 @@ namespace AlgoManager {
             target = noiseImg(target, mean, sigma);
         }
 
-        
-        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);                   
-        background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0); 
-        Mat processed = overlay(background, target, Point((rand()%background.cols), (rand()%background.rows)));         //Overlay at a random position on background 
+
+        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);
+        background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0);
+        Mat processed = overlay(background, target, Point((rand() % background.cols), (rand() % background.rows)));         //Overlay at a random position on background 
 
         return processed;
     }
 
-    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
-    {
+    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch) {
         if(imageBatch.size() > 0) {
             imageBatch.clear();
         }
@@ -90,7 +87,7 @@ namespace AlgoManager {
                 imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
             }
             catch(int errorCode) { //These are for errors that occur but processing can continue
-                  
+
             }
         }
     }
@@ -102,6 +99,7 @@ namespace AlgoManager {
         Mat blurredAlpha = blurEdgesTransparency(foreground, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
         Mat res = overlay(background, blurredAlpha, Point(0, 0));
 
-        return; 
+        return;
     }
 }
+

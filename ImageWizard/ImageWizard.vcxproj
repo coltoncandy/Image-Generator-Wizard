@@ -85,6 +85,15 @@
       <Include>
       </Include>
     </QtMoc>
+    <PostBuildEvent>
+      <Command>xcopy $(SolutionDir)icons $(SolutionDir)$(Platform)\$(Configuration)\ /e /y
+xcopy "$(SolutionDir)ImageWizard\Resource Files" $(SolutionDir)$(Platform)\$(Configuration)\ /e /y
+xcopy $(SolutionDir)ImageGallery $(SolutionDir)$(Platform)\$(Configuration)\ /e /y
+xcopy $(SolutionDir)opencv\build\x64\vc15\bin\opencv_world450.dll  $(SolutionDir)$(Platform)\$(Configuration)\ /e /y
+
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>

@@ -12,14 +12,14 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	target = new ImageInfo;
 	background = new ImageInfo;
 	destination = new QString; // new path to store
-	QFileInfo directoryInfo = QFileInfo("..\\ImageGallery\\Backgrounds");
+	QFileInfo directoryInfo = QFileInfo(QDir::currentPath() + "/ImageGallery/Backgrounds");
 	backgroundDirectory = directoryInfo.absoluteFilePath().toStdString();
 
 	welcomePage = new WelcomePage("Welcome to Image Generator");
-	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, "..\\ImageGallery\\Targets\\Drones", "..\\ImageGallery\\Targets\\Cropped_Drones");
+	targetChooser = new ForegroundChooser("Select or drag an image containing the target", initial, QDir::currentPath() + "/ImageGallery/Targets/Drones", QDir::currentPath() + "/ImageGallery/Targets/Cropped_Drones");
 	batchChoice = new BatchChoice();
 	batchOptions = new BatchOptions(&batchInfo);
-	backgroundChooser = new FileChooser("Select or drag a background image", background, "..\\ImageGallery\\Backgrounds");
+	backgroundChooser = new FileChooser("Select or drag a background image", background, QDir::currentPath() + "/ImageGallery/Backgrounds");
 	targetSelector = new TargetSelector("Select Target", initial, target);
 	backgroundRemoval = new BackgroundRemoval("Background Removal Instructions", target);
 	selectDestination = new SelectDestination("Select Your Destination", destination);
@@ -44,24 +44,24 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	QObject::connect(restartButton, &QPushButton::pressed, this, &ImageWizard::restart);
 
 	// Add styling to restart button
-	QString restartHover = QDir::homePath() + "/source/repos/image-generator/icons/resetHover.png";
-	QString restart = QDir::homePath() + "/source/repos/image-generator/icons/reset.png";
+	QString restartHover = QDir::currentPath() + "/icons/resetHover.png";
+	QString restart = QDir::currentPath() + "/icons/reset.png";
 	QString restartStyleSheet = "QPushButton#restartButton{ image: url(" + restart + "); width: 85px; height: 32px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#restartButton{ image: url(" + restartHover + "); background-repeat: no-repeat; }";
 
 	// Add styling for next and previous buttons
-	QString rightHover = QDir::homePath() + "/source/repos/image-generator/icons/rightHover.png";
-	QString rightDisabled = QDir::homePath() + "/source/repos/image-generator/icons/rightDisabled.png";
-	QString right = QDir::homePath() + "/source/repos/image-generator/icons/rightArrow.png";
+	QString rightHover = QDir::currentPath() + "/icons/rightHover.png";
+	QString rightDisabled = QDir::currentPath() + "/icons/rightDisabled.png";
+	QString right = QDir::currentPath() + "/icons/rightArrow.png";
 	QString rightHoverStyleSheet = "QPushButton#btnNext {image: url(" + right + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnNext {image: url(" + rightHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnNext {image: url(" + rightDisabled + "); background - repeat: no - repeat; }";
-	
-	QString leftHover = QDir::homePath() + "/source/repos/image-generator/icons/leftHover.png";
-	QString leftDisabled = QDir::homePath() + "/source/repos/image-generator/icons/leftDisabled.png";
-	QString left = QDir::homePath() + "/source/repos/image-generator/icons/leftArrow.png";
+
+	QString leftHover = QDir::currentPath() + "/icons/leftHover.png";
+	QString leftDisabled = QDir::currentPath() + "/icons/leftDisabled.png";
+	QString left = QDir::currentPath() + "/icons/leftArrow.png";
 	QString leftHoverStyleSheet = "QPushButton#btnPrev {image: url(" + left + "); width: 85px; height: 32px; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent;} QPushButton:hover#btnPrev {image: url(" + leftHover + "); background - repeat: no - repeat;} QPushButton:disabled#btnPrev {image: url(" + leftDisabled + "); background - repeat: no - repeat; }";
-	
+
 	restartButton->setStyleSheet(restartStyleSheet);
 	btnPrev->setStyleSheet(leftHoverStyleSheet);
-	btnNext->setStyleSheet(rightHoverStyleSheet); 
+	btnNext->setStyleSheet(rightHoverStyleSheet);
 
 	//Hides the previous button on the first page
 	btnPrev->hide();

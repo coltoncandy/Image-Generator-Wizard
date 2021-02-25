@@ -57,7 +57,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)icons $(SolutionDir)$(Platform)\$(Configuration)\icons /e /y /i

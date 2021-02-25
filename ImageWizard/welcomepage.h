@@ -4,9 +4,9 @@
 #include <QLabel>
 #include <QTextEdit>
 #include "ui_welcomepage.h"
+#include "wizardpage.h"
 
-class WelcomePage : public QWidget
-{
+class WelcomePage : public WizardPage {
 	Q_OBJECT
 
 public:

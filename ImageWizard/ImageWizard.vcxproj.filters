@@ -47,6 +47,27 @@
     <ClCompile Include="welcomepage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="selectdestination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wizardpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="backgroundremoval.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="previewimage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="foregroundchooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="batchchoice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="batchoptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="imagewizard.ui">
@@ -61,6 +82,21 @@
     <QtUic Include="welcomepage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="selectdestination.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="backgroundremoval.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="previewimage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="batchchoice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="batchoptions.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="filechooser.h">
@@ -72,6 +108,27 @@
     <QtMoc Include="welcomepage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="wizardpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="selectdestination.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="foregroundchooser.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="backgroundremoval.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="previewimage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="batchchoice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="batchoptions.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageinfo.h">
@@ -82,5 +139,10 @@
     <ClInclude Include="imageinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource Files\stylesheet.qss">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

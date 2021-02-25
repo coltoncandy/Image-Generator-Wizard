@@ -17,4 +17,12 @@ struct ImageInfo {
 		delete image;
 		delete path;
 	}
+
+	void reset() {
+		delete image;
+		delete path;
+		image = new QImage;
+		path = new QString;
+		loaded = false;
+	}
 };

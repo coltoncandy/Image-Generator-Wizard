@@ -21,18 +21,20 @@ class GCApplication {
         static const int radius = 2;
         static const int thickness = -1;
         void reset();
-        void setImageAndWinName(const Mat& _image, const string& _winName);
+        void setImageAndWinName(const Mat& _image, const Mat& _initialImage, const string& _winName);
         void showImage() const;
         void mouseClick(int event, int x, int y, int flags, void* param);
         int nextIter();
         int getIterCount() const { return iterCount; }
         Mat getResult() const; 
         Mat makeTransparent(Mat targetBlackBg) const; 
+        void init();
     private:
         void setRectInMask();
         void setLblsInMask(int flags, Point p, bool isPr);
         const string* winName;
         const Mat* image;
+        const Mat* initialImage;
         Mat mask;
         Mat bgdModel, fgdModel;
         uchar rectState, lblsState, prLblsState;
@@ -42,4 +44,4 @@ class GCApplication {
         int iterCount;
 };
 
-Mat grabCut(const std::string& path);
+Mat grabCut(const std::string& path, bool& finished);

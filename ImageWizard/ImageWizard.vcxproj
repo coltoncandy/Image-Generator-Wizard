@@ -58,6 +58,15 @@
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>xcopy $(SolutionDir)icons $(SolutionDir)$(Platform)\$(Configuration)\icons /e /y /i
+xcopy "$(SolutionDir)ImageWizard\Resource Files" "$(SolutionDir)$(Platform)\$(Configuration)\Resource Files" /e /y /i
+xcopy $(SolutionDir)ImageGallery $(SolutionDir)$(Platform)\$(Configuration)\ImageGallery /e /y /i
+xcopy $(SolutionDir)opencv\build\x64\vc15\bin\opencv_world450d.dll  $(SolutionDir)$(Platform)\$(Configuration)\ /e /y /i
+
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -86,10 +95,10 @@
       </Include>
     </QtMoc>
     <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)icons $(SolutionDir)$(Platform)\$(Configuration)icons /e /y
-xcopy "$(SolutionDir)ImageWizard\Resource Files" "$(SolutionDir)$(Platform)\$(Configuration)\Resource Files" /e /y
-xcopy $(SolutionDir)ImageGallery $(SolutionDir)$(Platform)\$(Configuration)ImageGallery /e /y
-xcopy $(SolutionDir)opencv\build\x64\vc15\bin\opencv_world450.dll  $(SolutionDir)$(Platform)\$(Configuration)\ /e /y
+      <Command>xcopy $(SolutionDir)icons $(SolutionDir)$(Platform)\$(Configuration)\icons /e /y /i
+xcopy "$(SolutionDir)ImageWizard\Resource Files" "$(SolutionDir)$(Platform)\$(Configuration)\Resource Files" /e /y /i
+xcopy $(SolutionDir)ImageGallery $(SolutionDir)$(Platform)\$(Configuration)\ImageGallery /e /y /i
+xcopy $(SolutionDir)opencv\build\x64\vc15\bin\opencv_world450.dll  $(SolutionDir)$(Platform)\$(Configuration)\ /e /y /i
 
 
 </Command>

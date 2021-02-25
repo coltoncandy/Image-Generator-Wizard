@@ -14,7 +14,14 @@ Git LFS can be installed [here](https://git-lfs.github.com/).
 
 ## QT
 
+1. Download QT 6.0.0
+2. Install VS2019 Extension QT VS Tools 
+3. Under QT VS Tools options, add the PATH to Qt\6.0.0\msvc2019_64
+
 ## OpenCV
+
+1. Download opencv 4.5.0 and add to SolutionDirectory
+2. Add \source\repos\Image-Generator\opencv\build\x64\vc15\bin to Windows environment variables PATH
 
 ## GoogleTest
 

@@ -12,6 +12,10 @@ Git LFS can be installed [here](https://git-lfs.github.com/).
 
 # Project Setup for Visual Studios
 
+## DEBUG
+
+1. Change ImageWizard settings > Debugging > Working Directory to $(SolutionDir)$(Platform)\$(Configuration)\
+
 ## QT
 
 1. Download QT 6.0.0

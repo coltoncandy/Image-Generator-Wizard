@@ -13,12 +13,12 @@ QLabel#mainTitle{
 	background-color: rgb(44,44,44);
 }
 
-QLabel#body,QLabel#batchSizeLbl,QLabel#label{
+QLabel#body,QLabel#batchSizeLbl,QLabel#label,QLabel#instructions{
 	font: 14pt "Microsoft Sans Serif";
 	color:rgb(250, 250, 250);
 }
 
-QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#singleBtn,QPushButton#nextImageButton,QPushButton#processButton,QPushButton#saveButton {
+QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#singleBtn,QPushButton#nextImageButton,QPushButton#processButton,QPushButton#saveButton,QPushButton#cropButton,QPushButton#randomButton {
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
@@ -36,7 +36,7 @@ QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#
 	color:rgb(250, 250, 250);
 }
 
-QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#batchBtn,QPushButton:hover#singleBtn,QPushButton:hover#nextImageButton,QPushButton:hover#processButton,QPushButton:hover#saveButton{
+QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#batchBtn,QPushButton:hover#singleBtn,QPushButton:hover#nextImageButton,QPushButton:hover#processButton,QPushButton:hover#saveButton,QPushButton:hover#cropButton,QPushButton:hover#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
@@ -50,7 +50,7 @@ QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#bat
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(107, 107, 107, 255), stop:1 rgba(157, 157, 157, 255));
 }
 
-QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:pressed#batchBtn,QPushButton:pressed#singleBtn,QPushButton:pressed#nextImageButton,QPushButton:pressed#processButton,QPushButton:pressed#saveButton{
+QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:pressed#batchBtn,QPushButton:pressed#singleBtn,QPushButton:pressed#nextImageButton,QPushButton:pressed#processButton,QPushButton:pressed#saveButton,QPushButton:pressed#cropButton,QPushButton:pressed#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(62, 62, 62, 255), stop:1 rgba(22, 22, 22, 255));
@@ -64,7 +64,7 @@ QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:press
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(77, 77, 77, 255), stop:1 rgba(97, 97, 97, 255));
 }
 
-QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:disabled#batchBtn,QPushButton:disabled#singleBtn,QPushButton:disabled#nextImageButton,QPushButton:disabled#processButton,QPushButton:disabled#saveButton{
+QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:disabled#batchBtn,QPushButton:disabled#singleBtn,QPushButton:disabled#nextImageButton,QPushButton:disabled#processButton,QPushButton:disabled#saveButton,QPushButton:disabled#cropButton,QPushButton:disabled#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
@@ -73,67 +73,7 @@ QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:dis
 	border-bottom-color: rgb(58, 58, 58);
 	border-bottom-width: 1px;
 	border-style: solid;
-	color: rgb(0, 0, 0);
-	padding: 2px;
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(57, 57, 57, 255), stop:1 rgba(77, 77, 77, 255));
-}
-
-QPushButton#randomButton{
-	border-style: outset;
-	border-width: 2px;
-	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-right-color: qlineargradient(spread:pad, x1:0.4, y1:0.5, x2:0.6, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-left-color: qlineargradient(spread:pad, x1:0.6, y1:0.5, x2:0.4, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-bottom-color: rgb(58, 58, 58);
-	border-bottom-width: 1px;
-	border-style: solid;
-	color: rgb(255, 255, 255);
-	padding: 2px;
-	padding-left: 7px;
-	padding-right: 7px;
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(77, 77, 77, 255), stop:1 rgba(97, 97, 97, 255));
-	font: 11pt "Microsoft Sans Serif";
-	color:rgb(250, 250, 250);
-}
-
-QPushButton:hover#randomButton{
-	border-style: outset;
-	border-width: 2px;
-	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
-	border-right-color: qlineargradient(spread:pad, x1:0.4, y1:0.5, x2:0.6, y2:0.5, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
-	border-left-color: qlineargradient(spread:pad, x1:0.6, y1:0.5, x2:0.4, y2:0.5, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
-	border-bottom-color: rgb(115, 115, 115);
-	border-bottom-width: 1px;
-	border-style: solid;
-	color: rgb(255, 255, 255);
-	padding: 2px;
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(107, 107, 107, 255), stop:1 rgba(157, 157, 157, 255));
-}
-
-QPushButton:pressed#randomButton{
-	border-style: outset;
-	border-width: 2px;
-	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(62, 62, 62, 255), stop:1 rgba(22, 22, 22, 255));
-	border-right-color: qlineargradient(spread:pad, x1:0.4, y1:0.5, x2:0.6, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-left-color: qlineargradient(spread:pad, x1:0.6, y1:0.5, x2:0.4, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-bottom-color: rgb(58, 58, 58);
-	border-bottom-width: 1px;
-	border-style: solid;
-	color: rgb(255, 255, 255);
-	padding: 2px;
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(77, 77, 77, 255), stop:1 rgba(97, 97, 97, 255));
-}
-
-QPushButton:disabled#randomButton{
-	border-style: outset;
-	border-width: 2px;
-	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-right-color: qlineargradient(spread:pad, x1:0.4, y1:0.5, x2:0.6, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-left-color: qlineargradient(spread:pad, x1:0.6, y1:0.5, x2:0.4, y2:0.5, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
-	border-bottom-color: rgb(58, 58, 58);
-	border-bottom-width: 1px;
-	border-style: solid;
-	color: rgb(0, 0, 0);
+	color: rgb(40, 40, 40);
 	padding: 2px;
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(57, 57, 57, 255), stop:1 rgba(77, 77, 77, 255));
 }

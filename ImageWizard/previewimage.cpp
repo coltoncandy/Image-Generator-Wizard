@@ -1,6 +1,5 @@
 #include "previewimage.h"
 #include "wizardpage.h"
-//#include "imagewizard.h"
 #include <QLabel>
 #include <QMessageBox>
 #include <opencv2/core.hpp>
@@ -110,7 +109,6 @@ void PreviewImage::nextImage() {
 	if(imageIndex == imageNum - 1) {
 		nextImageButton->hide();
 		processButton->show();
-	//	getWizard()->showRestart();
 	}
 
 }
@@ -128,7 +126,6 @@ void PreviewImage::batchProcess() {
 	saveButton->hide();
 	nextImageButton->hide();
 	processButton->hide();
-//	getWizard()->hideRestart();
 	titleLabel->setText(processingTitle);
 	std::string* backgroundImages = nullptr;
 	QGuiApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -143,6 +140,8 @@ void PreviewImage::batchProcess() {
 				saveButton->show();
 				if(imageNum > 1)
 					nextImageButton->show();
+				else
+					processButton->show();
 				imageIndex = 0;
 				loadImage();
 			}
@@ -174,7 +173,6 @@ void PreviewImage::process() {
 	}
 	saveButton->show();
 	processButton->show();
-//	getWizard()->showRestart();
 	QGuiApplication::restoreOverrideCursor();
 	titleLabel->setText(singleImageTitle);
 }

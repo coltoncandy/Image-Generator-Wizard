@@ -9,7 +9,7 @@ namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
 
         if(path.empty())
-            return false; 
+            return false;
         bool finished;
         Mat res = grabCut(path, finished);
         imwrite(path, res);             //Write processed target back to target's path  
@@ -152,3 +152,4 @@ namespace AlgoManager {
         }
     }
 }
+

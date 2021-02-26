@@ -40,7 +40,8 @@ void PreviewImage::loadImage() {
 	}
 
 	try {
-		image = QImage((const unsigned char*) (imageMats[imageIndex].data), imageMats[imageIndex].cols, imageMats[imageIndex].rows, QImage::Format_BGR888);
+		image = QImage((const unsigned char*) (imageMats[imageIndex].data), imageMats[imageIndex].cols, imageMats[imageIndex].rows, imageMats[imageIndex].step, QImage::Format_BGR888);
+		image.bits();
 		saveButton->setEnabled(true);
 	}
 	catch(...) {

@@ -274,6 +274,17 @@ bool isItAnEdgePixel(int x, int y, Mat input) { //determine whether a pixel loca
 }
 
 
+bool isItOutOfBounds(int x, int y, Mat input) { //returns true if x or y is outside of the bounds of input
+	if(x < 0 || x > input.cols - 1) {
+		return true;
+	}
+	if(y < 0 || y > input.rows - 1) {
+		return true;
+	}
+	return false;
+}
+
+
 Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the distance to look at nearby pixels. 3 is a 3x3 grid centered on each pixel, 5 is 5x5, etc.
 	if(gridSize == -1) {
 		gridSize = findWidthToBlur(initialImage);
@@ -313,7 +324,7 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
 					sumx = clamp(x + dx, 0, initialImage.cols - 1);
 					pixData = initialImage.data[getIndexClamped(sumx, sumy, initialImage) + 3];
-					if(isItAnEdgePixel(sumx, sumy, initialImage) && pixData == 1) { //always blur if current pixel is within the blur distance of the edge of the image
+					if(isItAnEdgePixel(sumx, sumy, initialImage) && pixData == 255) { //always blur if current pixel is within the blur distance of the edge of the image
 						alphaMaskBool[y][x] = true;
 						break;
 					}
@@ -352,7 +363,12 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 			for(int dy = (0 - maxPixelDistance); dy <= maxPixelDistance; dy++) { //loop to look at nearby pixels within maxPixelDistance
 				for(int dx = (0 - maxPixelDistance); dx <= maxPixelDistance; dx++) {
 					try {
-						opacity_level = ((double) initialImage.data[getIndexClamped(x + dx, y + dy, initialImage) + 3]) / 255.0;
+						if(isItOutOfBounds(x + dx, y + dy, initialImage)) {
+							opacity_level = 0.0;
+						}
+						else {
+							opacity_level = ((double) initialImage.data[getIndexClamped(x + dx, y + dy, initialImage) + 3]) / 255.0;
+						}
 					}
 					catch(...) {
 						//data access out of bounds
@@ -391,7 +407,7 @@ Mat rotation(Mat target, int angleBounds) {
 
 }
 
-Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, int minHeight) {
+Mat cropBackground(Mat &background, Point origin, Point terminal, int minWidth, int minHeight) {
     if(background.empty() || origin.x < 0 || origin.y < 0 || terminal.x < 0 || terminal.y < 0)
         return background;
 
@@ -406,9 +422,10 @@ Mat cropBackground(Mat background, Point origin, Point terminal, int minWidth, i
     }
 
     Rect roi = Rect(origin, terminal);
-    Mat crop = background(roi);
+    Mat crop = Mat(background(roi));
+	crop.copyTo(background);
 
-    return crop;
+	return crop; 
 }
 
 Mat flipIt(Mat target, int flipCode) {

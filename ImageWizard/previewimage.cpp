@@ -66,6 +66,9 @@ void PreviewImage::reset() {
 	saveButton->hide();
 	nextImageButton->hide();
 	processButton->hide();
+	batchFlag = false;
+	imageIndex = 0;
+	imageNum = 0;
 }
 
 void PreviewImage::resizeEvent(QResizeEvent* e) {

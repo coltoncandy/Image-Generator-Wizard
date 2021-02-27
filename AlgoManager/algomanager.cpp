@@ -100,7 +100,7 @@ namespace AlgoManager {
         
 
         choice = rand() % 5;
-        if(choice == 0){                                            //1 in 5 chance of 
+        if(choice == 0){                                            //1 in 5 chance of cropping the background when called
             int cropLeft, cropRight, cropTop, cropBottom;
             cropLeft = rand() % (background.cols / 6);
             cropRight = rand() % (background.cols / 6) + (5 * (background.cols / 6));

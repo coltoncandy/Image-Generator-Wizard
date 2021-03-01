@@ -267,6 +267,24 @@ void ImageWizard::goPrev() {
 }
 
 void ImageWizard::restart() {
+
+	QMessageBox msg;
+	msg.setText("Starting over will cause you to start from the beginning of the application.");
+	msg.setInformativeText("Are you sure you want to start over?");
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+	msg.setDefaultButton(QMessageBox::Cancel);
+	msg.setIcon(QMessageBox::Warning);
+	int ret = msg.exec();
+
+	switch(ret) {
+	case QMessageBox::Yes:
+		// do nothing
+		break;
+	case QMessageBox::Cancel:
+		return;
+		break;
+	}
+
 	int pageCount = frames->count();
 
 	for(int i = 0; i < pageCount; ++i) {

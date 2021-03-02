@@ -27,13 +27,16 @@ PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	processButton->setCursor(QCursor(Qt::PointingHandCursor));
 	QString saveHover = QDir::homePath() + "/source/repos/image-generator/icons/saveHover.png";
 	QString save = QDir::homePath() + "/source/repos/image-generator/icons/save.png";
-	QString saveStyleSheet = "QPushButton#saveButton{ image: url(" + save + "); width: 85px; height: 32px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#saveButton{ image: url(" + saveHover + "); background-repeat: no-repeat; }";
+	QString saveDisabled = QDir::homePath() + "/source/repos/image-generator/icons/saveDisabled.png";
+	QString saveStyleSheet = "QPushButton#saveButton{ image: url(" + save + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#saveButton{ image: url(" + saveHover + "); background-repeat: no-repeat; } QPushButton:disabled#saveButton{ image: url(" + saveDisabled + "); background-repeat: no-repeat; }";
 	QString nextImageHover = QDir::homePath() + "/source/repos/image-generator/icons/nextImageHover.png";
 	QString nextImage = QDir::homePath() + "/source/repos/image-generator/icons/nextImage.png";
-	QString nextImageStyleSheet = "QPushButton#nextImageButton{ image: url(" + nextImage + "); width: 85px; height: 32px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#nextImageButton{ image: url(" + nextImageHover + "); background-repeat: no-repeat; }";
+	QString nextImageDisabled = QDir::homePath() + "/source/repos/image-generator/icons/nextImageDisabled.png";
+	QString nextImageStyleSheet = "QPushButton#nextImageButton{ image: url(" + nextImage + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#nextImageButton{ image: url(" + nextImageHover + "); background-repeat: no-repeat; } QPushButton:disabled#nextImageButton{ image: url(" + nextImageDisabled + "); background-repeat: no-repeat; }";
 	QString processHover = QDir::homePath() + "/source/repos/image-generator/icons/generateMoreHover.png";
 	QString process = QDir::homePath() + "/source/repos/image-generator/icons/generateMore.png";
-	QString processStyleSheet = "QPushButton#processButton{ image: url(" + process + "); width: 85px; height: 32px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#processButton{ image: url(" + processHover + "); background-repeat: no-repeat; }";
+	QString processDisabled = QDir::homePath() + "/source/repos/image-generator/icons/generateMoreDisabled.png";
+	QString processStyleSheet = "QPushButton#processButton{ image: url(" + process + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#processButton{ image: url(" + processHover + "); background-repeat: no-repeat; } QPushButton:disabled#processButton{ image: url(" + processDisabled + "); background-repeat: no-repeat; }";
 
 	nextImageButton->setStyleSheet(nextImageStyleSheet);
 	saveButton->setStyleSheet(saveStyleSheet);

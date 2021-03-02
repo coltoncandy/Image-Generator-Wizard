@@ -41,6 +41,7 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 	restartButton->setCursor(QCursor(Qt::PointingHandCursor));
+	restartButton->setToolTip("Start over");
 	QObject::connect(restartButton, &QPushButton::pressed, this, &ImageWizard::restart);
 
 	// Add styling to start over button

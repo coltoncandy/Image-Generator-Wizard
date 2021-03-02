@@ -39,6 +39,8 @@ PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	QString processStyleSheet = "QPushButton#processButton{ image: url(" + process + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#processButton{ image: url(" + processHover + "); background-repeat: no-repeat; } QPushButton:disabled#processButton{ image: url(" + processDisabled + "); background-repeat: no-repeat; }";
 
 	processButton->setToolTip("Generate More"); //Add prompt to process button to inform user
+	saveButton->setToolTip("Save");
+	nextImageButton->setToolTip("Next Image");
 	nextImageButton->setStyleSheet(nextImageStyleSheet);
 	saveButton->setStyleSheet(saveStyleSheet);
 	processButton->setStyleSheet(processStyleSheet);

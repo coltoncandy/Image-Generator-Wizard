@@ -4,7 +4,7 @@
 
 WelcomePage::WelcomePage(const QString& title, QWidget* parent) : WizardPage(parent) {
 	ui.setupUi(this);
-	QPixmap pix(QDir::homePath() + "/source/repos/image-generator/icons/drone.png");
+	QPixmap pix(QDir::currentPath()+ "/icons/drone.png");
 	ui.Drone_logo->setPixmap(pix);
 	QLabel* titleLabel = findChild<QLabel*>("mainTitle");
 	titleLabel->setText(title);

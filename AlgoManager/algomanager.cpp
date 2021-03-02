@@ -22,20 +22,34 @@ namespace AlgoManager {
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
 
+        if(target.empty() || background.empty())
+            return target; 
+        //reminder: check target size against background
+
+        target = processTarget(target); 
+        processBackground(background, target); 
+
+        int x = rand() % background.cols; 
+        int y = rand() % background.rows; 
+        
+        Mat processed = overlay(background, target, Point(x - (target.cols * 0.5), y - (target.rows * 0.5)));                              //Overlay at a random position on background 
+ 
+        return processed;
+    }
+    cv::Mat AlgoManager::processTarget(Mat target) {
+
+        if(target.empty())
+            return target; 
+
         int angleBounds;
         int flipCode;
         int choice;
-        int mean;
-        int sigma;
         float resizeRatio;
+        int maxResizeCalls = 3;                                     //Max number of times resize function can be called in generation 
 
-        int targetHeight = target.rows;
-        int targetWidth = target.cols;
-        int backgroundHeight = background.rows;
-        int backgroundWidth = background.cols;
         Mat resizedTarget;
 
-        int numOfCalls = rand() % 5;
+        int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
 
         for(int i = 0; i < numOfCalls; i++) {
 
@@ -48,10 +62,14 @@ namespace AlgoManager {
                 break;
             case 1:
                 flipCode = (rand() % 3) - 1;
-                target = flipIt(target, flipCode);
+                if(flipCode == 1)
+                    target = flipIt(target, flipCode);
                 break;
             case 2:
-                resizeRatio = (float) ((rand() % 10) + 1) / 10;           //Generates random number between 0.1 and 1.
+                if(maxResizeCalls == 0)
+                    break;
+                maxResizeCalls--;
+                resizeRatio = (float) ((rand() % 6) + 5) / 10;           //Generates random number between 0.5 and 1.
                 resizeImg(target, resizedTarget, resizeRatio);
                 resizedTarget.copyTo(target);
                 resizedTarget = Mat();
@@ -59,47 +77,79 @@ namespace AlgoManager {
             }
         }
 
-        choice = rand() % 4;                                              //1 in 4 chance of applying noise.
+        choice = rand() % 5;                                              //1 in 5 chance of applying noise.
         if(choice == 1) {
-            mean = rand() % 20;
-            sigma = rand() % 20 + mean;
+            int mean = rand() % 20;
+            int sigma = rand() % 20 + mean;
             target = noiseImg(target, mean, sigma);
         }
 
+        //Mat target = blurEdgesGaussian(target, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
+        target = blurEdgesTransparency(target, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
 
-        background = padImage(background, targetHeight * 0.5, targetWidth * 0.5);
-        background = cropBackground(background, Point(targetWidth * 0.5, targetHeight * 0.5), Point(targetWidth * 0.5 + backgroundWidth, targetHeight * 0.5 + backgroundHeight), 0, 0);
-        Mat processed = overlay(background, target, Point((rand() % background.cols), (rand() % background.rows)));         //Overlay at a random position on background 
-
-        return processed;
+        return target;
     }
+    cv::Mat AlgoManager::processBackground(Mat &background, const Mat target) {
 
-    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch) {
-        if(imageBatch.size() > 0) {
+        if(background.empty())
+            return background; 
+
+        int choice; 
+        int flipCode;
+        int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
+        
+
+        choice = rand() % 5;
+        if(choice == 0){                                            //1 in 5 chance of cropping the background when called
+            int cropLeft, cropRight, cropTop, cropBottom;
+            cropLeft = rand() % (background.cols / 6);
+            cropRight = rand() % (background.cols / 6) + (5 * (background.cols / 6));
+            cropTop = rand() % (background.rows / 6);
+            cropBottom = rand() % (background.rows / 6) + (5 * (background.rows / 6));
+            Point origin(cropLeft, cropTop);
+            Point terminal(cropRight, cropBottom); 
+            cropBackground(background, origin, terminal, target.cols, target.rows); 
+        }
+
+        for(int i = 0; i < numOfCalls; i++) {
+
+            choice = rand() % 3;
+
+            switch(choice) {
+            case 0:
+                flipCode = (rand() % 3) - 1;
+                if(flipCode == 1)
+                    background = flipIt(background, flipCode);
+                break;
+            }
+        }
+
+        choice = rand() % 5;                                              //1 in 5 chance of applying noise.
+        if(choice == 0) {
+            int mean = rand() % 20;
+            int sigma = rand() % 20 + mean;
+            background = noiseImg(background, mean, sigma);
+        }
+
+        return background; 
+    }
+    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
+    {
+        if (imageBatch.size() > 0) {
             imageBatch.clear();
         }
 
-        if(imageNum < 1)
+        if (imageNum < 1)
             return;
 
-        for(int i = 0; i < imageNum; ++i) {
+        for (int i = 0; i < imageNum; ++i) {
             try {
                 imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
             }
-            catch(int errorCode) { //These are for errors that occur but processing can continue
+            catch (int errorCode) { //These are for errors that occur but processing can continue
 
             }
         }
-    }
-
-    void AlgoManager::overlayWrapper(const std::string& bg, const std::string& fg) {
-        Mat foreground = imread(fg, IMREAD_UNCHANGED);
-        Mat background = imread(bg, IMREAD_COLOR);
-        //Mat blurredGauss = blurEdgesGaussian(foreground, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
-        Mat blurredAlpha = blurEdgesTransparency(foreground, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
-        Mat res = overlay(background, blurredAlpha, Point(0, 0));
-
-        return;
     }
 }
 

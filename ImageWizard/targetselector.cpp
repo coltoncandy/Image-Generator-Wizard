@@ -16,6 +16,7 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 	resetButton->setIconSize(QSize(100, 50));
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+	resetButton->setToolTip("Reset");
 	// Set reset button icon and hover icon
 	QString reset = QDir::currentPath()+ "/icons/reset.png";
 	QString styleSheet = "QPushButton#reset{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#reset{ image: url(%2); background-repeat: no-repeat; }";

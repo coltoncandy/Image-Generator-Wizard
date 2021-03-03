@@ -45,9 +45,9 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	QObject::connect(restartButton, &QPushButton::pressed, this, &ImageWizard::restart);
 
 	// Add styling to start over button
-	QString restartHover = QDir::homePath() + "/source/repos/image-generator/icons/startOverHover.png";
-	QString restart = QDir::homePath() + "/source/repos/image-generator/icons/startOver.png";
-	QString restartDisabled = QDir::homePath() + "/source/repos/image-generator/icons/startOverDisabled.png";
+	QString restartHover = QDir::currentPath() + "/icons/startOverHover.png";
+	QString restart = QDir::currentPath() + "/icons/startOver.png";
+	QString restartDisabled = QDir::currentPath() + "/icons/startOverDisabled.png";
 	QString restartStyleSheet = "QPushButton#restartButton{ image: url(" + restart + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#restartButton{ image: url(" + restartHover + "); background-repeat: no-repeat; } QPushButton:disabled#restartButton{ image: url(" + restartDisabled + "); background-repeat: no-repeat; }";
 
 	// Add styling for next and previous buttons

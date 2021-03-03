@@ -233,7 +233,13 @@ void ImageWizard::goPrev() {
 	if(cur > 0) {
 		if(currentPage == batchChoice) {
 			showNext();
-			frames->setCurrentIndex(--cur);
+			if(targetChooser->skipCrop()) {
+				frames->setCurrentIndex(frames->indexOf(targetChooser));
+				target->reset();
+			}
+			else {
+				frames->setCurrentIndex(--cur);
+			}
 		}
 		else if(currentPage == selectDestination) {
 			if(batchInfo.doBatch) {
@@ -245,10 +251,6 @@ void ImageWizard::goPrev() {
 		}
 		else if(currentPage == backgroundChooser || currentPage == batchOptions) {
 			frames->setCurrentIndex(frames->indexOf(batchChoice));
-		}
-		else if(frames->currentWidget() == batchChoice && targetChooser->skipCrop()) {
-			frames->setCurrentIndex(frames->indexOf(targetChooser));
-			target->reset();
 		}
 		else
 			frames->setCurrentIndex(--cur);

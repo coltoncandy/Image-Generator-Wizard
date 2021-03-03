@@ -50,6 +50,19 @@
     </widget>
    </item>
    <item>
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <spacer name="horizontalSpacer">
@@ -126,17 +139,17 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="4">
+     <item row="3" column="1">
       <widget class="QLabel" name="batchSizeLbl">
        <property name="text">
-        <string>Images in batch</string>
+        <string>                  Batch Size</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="3" column="3">
+     <item row="3" column="2">
       <widget class="QLineEdit" name="batchSize">
        <property name="enabled">
         <bool>false</bool>

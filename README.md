@@ -39,9 +39,9 @@ For both Debug and Release, add $(SolutionDir)opencv\build\x64\vc15\bin to Image
 
 ## GoogleTest
 
+[Googletest Nuget](https://www.nuget.org/packages/googletest)  
 The UnitTest project uses a NuGet package.config file to set up the GoogleTest framework. When the UnitTest project is ran for the first time, the package.config file will download
 and configure any files necessary to run the tests. To verify the GoogleTest framework is set up properly on your computer, follow the instructions below:
-[Googletest Nuget](https://www.nuget.org/packages/googletest)
 
 1. Open the **Test Explorer** under the tab **Test>Test Explorer**.
 2. In the test explorer, click **"Run All Tests In View"**.

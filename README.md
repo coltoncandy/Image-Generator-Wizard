@@ -28,8 +28,8 @@ Note: If you are installing git for the first time, Git LFS will likely be insta
 
 ## OpenCV
 
-1  [Download opencv 4.5.0](https://opencv.org/opencv-4-5-0/) and add to the Solution Directory where your .sln file is (your pathway)...\source\repos\Image-Generator
-2  Add (your pathway)...\source\repos\Image-Generator\opencv\build\x64\vc15\bin to Windows environment variables PATH
+1  [Download opencv 4.5.0](https://opencv.org/opencv-4-5-0/) and add to the Solution Directory where your .sln file is, Note: By default, your directory is in (User Pathway)\source\repos\Image-Generator
+2  For both Debug and Release, add $(SolutionDir)opencv\build\x64\vc15\bin to ImageWizard project properties > Configuratino Properties > Debuging > Environment
 
 ## GoogleTest
 

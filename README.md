@@ -11,7 +11,7 @@ Git LFS can be installed [here](https://git-lfs.github.com/).
 
 If you do not have git downloaded previously, you will need to download it [here](https://git-scm.com/downloads)
 
-Note: If you are installing git for the first time, Git LFS will likely be installed with your installation of Git.
+(Note: If you are installing git for the first time, Git LFS will likely be installed with your installation of Git.)
 
 
 # Project Setup for Visual Studio 2019
@@ -29,6 +29,7 @@ Post build events copy all dependencies to the aforementioned directory.)
 1  [Download Latest Verison of QT](https://www.qt.io/download-qt-installer) Note: Project was tested on QT 6.0.0  
 2  [Install VS2019 Extension QT VS Tools](https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools2019)  
 3  Under QT VS Tools options, add the PATH to (User Pathway)\Qt\6.0.0\msvc2019_64  
+
 (Note: QT Build events from the QT VS Tools copy all necessary binaries to the output directory)  
 
 ## OpenCV

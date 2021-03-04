@@ -9,8 +9,10 @@ This project uses a git extension called Git LFS to store a gallery of default i
 
 Git LFS can be installed [here](https://git-lfs.github.com/).
 
+Note: If you are installing git for the first time, Git LFS will likely be installed with your installation of Git.
 
-# Project Setup for Visual Studios
+
+# Project Setup for Visual Studio 2019
 
 ## DEBUG
 

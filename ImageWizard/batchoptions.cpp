@@ -52,6 +52,9 @@ void BatchOptions::setDirectory() {
 			batchSize->setText("1");
 		}
 		else {
+			batchSize->clear();
+			batchSize->setEnabled(false);
+			getWizard()->disableNext();
 			QMessageBox messageBox;
 			messageBox.warning(0, "Error", "No *.png files were found in the selected directory. Please choose a different directory");
 		}

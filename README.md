@@ -9,12 +9,12 @@ This project uses a git extension called Git LFS to store a gallery of default i
 
 Git LFS can be installed [here](https://git-lfs.github.com/).
 
-[Git Download](https://git-scm.com/downloads)
+If you do not have git downloaded previously, you will need to download it [here](https://git-scm.com/downloads)
 Note: If you are installing git for the first time, Git LFS will likely be installed with your installation of Git.
 
 
 # Project Setup for Visual Studio 2019
-[Visual Studio](https://visualstudio.microsoft.com/downloads/)
+[Visual Studio](https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes)
 
 ## DEBUG
 
@@ -22,8 +22,8 @@ Note: If you are installing git for the first time, Git LFS will likely be insta
 
 ## QT
 
-1  [Download QT 6.0.0](https://www.qt.io/download-qt-installer)
-2  [Install VS2019 Extension QT VS Tools](https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools-19123) 
+1  [Download Latest Verison of QT](https://www.qt.io/download-qt-installer) Note: Project was tested on QT 6.0.0
+2  [Install VS2019 Extension QT VS Tools](https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools2019) 
 3  Under QT VS Tools options, add the PATH to (your pathway)...Qt\6.0.0\msvc2019_64
 
 ## OpenCV

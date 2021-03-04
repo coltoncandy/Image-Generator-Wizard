@@ -67,6 +67,7 @@ void PreviewImage::reset() {
 	saveButton->hide();
 	nextImageButton->hide();
 	processButton->hide();
+	imageIndex = 0;
 }
 
 void PreviewImage::resizeEvent(QResizeEvent* e) {

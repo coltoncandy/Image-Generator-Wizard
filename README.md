@@ -10,6 +10,7 @@ This project uses a git extension called Git LFS to store a gallery of default i
 Git LFS can be installed [here](https://git-lfs.github.com/).
 
 If you do not have git downloaded previously, you will need to download it [here](https://git-scm.com/downloads)
+
 Note: If you are installing git for the first time, Git LFS will likely be installed with your installation of Git.
 
 
@@ -18,7 +19,8 @@ Note: If you are installing git for the first time, Git LFS will likely be insta
 
 ## DEBUG
 
-1  For both Debugging and Release Configuration Change ImageWizard Project Properties > Configuration Properities > Debugging > Working Directory to $(SolutionDir)$(Platform)\$(Configuration)\    
+1  For both Debugging and Release Configuration Change ImageWizard Project Properties > Configuration Properities > Debugging > Working Directory to $(SolutionDir)$(Platform)\$(Configuration)\   
+
 (Note: If you run the default configuration, the current QT paths will not link to to where the directories. Be careful of changing the paths such that the standalone application will still run. 
 Post build events copy all dependencies to the aforementioned directory.) 
 

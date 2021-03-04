@@ -24,14 +24,14 @@ Post build events copy all dependencies to the aforementioned directory.)
 
 ## QT
 
-1  [Download Latest Verison of QT](https://www.qt.io/download-qt-installer) Note: Project was tested on QT 6.0.0
-2  [Install VS2019 Extension QT VS Tools](https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools2019) 
-3  Under QT VS Tools options, add the PATH to (User Pathway)\Qt\6.0.0\msvc2019_64
-(Note: QT Build events from the QT VS Tools copy all necessary binaries to the output directory)
+1  [Download Latest Verison of QT](https://www.qt.io/download-qt-installer) Note: Project was tested on QT 6.0.0  
+2  [Install VS2019 Extension QT VS Tools](https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools2019)  
+3  Under QT VS Tools options, add the PATH to (User Pathway)\Qt\6.0.0\msvc2019_64  
+(Note: QT Build events from the QT VS Tools copy all necessary binaries to the output directory)  
 
 ## OpenCV
 
-1  [Download opencv 4.5.0](https://opencv.org/opencv-4-5-0/) and add to the Solution Directory where your .sln file is, Note: By default, your directory is in (User Pathway)\source\repos\Image-Generator
+1  [Download opencv 4.5.0](https://opencv.org/opencv-4-5-0/) and add to the Solution Directory where your .sln file is, Note: By default, your directory is in (User Pathway)\source\repos\Image-Generator  
 
 (Note: Post build events copy the binaries from opencv over to the output directory. If opencv is in a different directory, you must either copy the .dll necessary from their in post build events or 
 change the environment PATH variable for either user or system. If just being used for the purpose of running inside VS debugger, we can add it to the environment for VS here: 

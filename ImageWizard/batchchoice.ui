@@ -16,6 +16,11 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item alignment="Qt::AlignHCenter|Qt::AlignTop">
     <widget class="QLabel" name="title">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>Choose if you want to generate a single image or batch of images</string>
      </property>
@@ -38,6 +43,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
       <widget class="QPushButton" name="singleBtn">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string>Single
 

@@ -2,6 +2,7 @@
 #include "wizardpage.h"
 #include <QLabel>
 #include <QMessageBox>
+#include <QDir>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
@@ -19,6 +20,30 @@ PreviewImage::PreviewImage(const QString& title, QWidget* parent)
 	nextImageButton = findChild<QPushButton*>("nextImageButton");
 	saveButton = findChild<QPushButton*>("saveButton");
 	processButton = findChild<QPushButton*>("processButton");
+
+	//Add styling to buttons
+	nextImageButton->setCursor(QCursor(Qt::PointingHandCursor));
+	saveButton->setCursor(QCursor(Qt::PointingHandCursor));
+	processButton->setCursor(QCursor(Qt::PointingHandCursor));
+	QString saveHover = QDir::currentPath() + "/icons/saveHover.png";
+	QString save = QDir::currentPath() + "/icons/save.png";
+	QString saveDisabled = QDir::currentPath() + "/icons/saveDisabled.png";
+	QString saveStyleSheet = "QPushButton#saveButton{ image: url(" + save + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#saveButton{ image: url(" + saveHover + "); background-repeat: no-repeat; } QPushButton:disabled#saveButton{ image: url(" + saveDisabled + "); background-repeat: no-repeat; }";
+	QString nextImageHover = QDir::currentPath() + "/icons/nextImageHover.png";
+	QString nextImage = QDir::currentPath() + "/icons/nextImage.png";
+	QString nextImageDisabled = QDir::currentPath() + "/icons/nextImageDisabled.png";
+	QString nextImageStyleSheet = "QPushButton#nextImageButton{ image: url(" + nextImage + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#nextImageButton{ image: url(" + nextImageHover + "); background-repeat: no-repeat; } QPushButton:disabled#nextImageButton{ image: url(" + nextImageDisabled + "); background-repeat: no-repeat; }";
+	QString processHover = QDir::currentPath() + "/icons/generateMoreHover.png";
+	QString process = QDir::currentPath() + "/icons/generateMore.png";
+	QString processDisabled = QDir::currentPath() + "/icons/generateMoreDisabled.png";
+	QString processStyleSheet = "QPushButton#processButton{ image: url(" + process + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#processButton{ image: url(" + processHover + "); background-repeat: no-repeat; } QPushButton:disabled#processButton{ image: url(" + processDisabled + "); background-repeat: no-repeat; }";
+
+	processButton->setToolTip("Generate More"); //Add prompt to process button to inform user
+	saveButton->setToolTip("Save");
+	nextImageButton->setToolTip("Next Image");
+	nextImageButton->setStyleSheet(nextImageStyleSheet);
+	saveButton->setStyleSheet(saveStyleSheet);
+	processButton->setStyleSheet(processStyleSheet);
 
 	QObject::connect(saveButton, &QPushButton::pressed, this, &PreviewImage::saveImage);
 	QObject::connect(nextImageButton, &QPushButton::pressed, this, &PreviewImage::nextImage);
@@ -87,11 +112,11 @@ void PreviewImage::pageSwitched(int imageNum, const std::string& initialPath, co
 	this->batchFlag = batchFlag;
 
 	if(batchFlag) {
-		processButton->setText("Generate New Batch");
+		//processButton->setText("Generate New Batch");
 		batchProcess();
 	}
 	else {
-		processButton->setText("Generate New Image");
+		//processButton->setText("Generate New Image");
 		process();
 	}
 

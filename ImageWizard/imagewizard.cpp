@@ -41,12 +41,14 @@ ImageWizard::ImageWizard(QWidget* parent) : QWidget(parent) {
 	btnPrev->setCursor(QCursor(Qt::PointingHandCursor));
 	btnNext->setCursor(QCursor(Qt::PointingHandCursor));
 	restartButton->setCursor(QCursor(Qt::PointingHandCursor));
+	restartButton->setToolTip("Start over");
 	QObject::connect(restartButton, &QPushButton::pressed, this, &ImageWizard::restart);
 
-	// Add styling to restart button
-	QString restartHover = QDir::currentPath() + "/icons/resetHover.png";
-	QString restart = QDir::currentPath() + "/icons/reset.png";
-	QString restartStyleSheet = "QPushButton#restartButton{ image: url(" + restart + "); width: 85px; height: 32px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#restartButton{ image: url(" + restartHover + "); background-repeat: no-repeat; }";
+	// Add styling to start over button
+	QString restartHover = QDir::currentPath() + "/icons/startOverHover.png";
+	QString restart = QDir::currentPath() + "/icons/startOver.png";
+	QString restartDisabled = QDir::currentPath() + "/icons/startOverDisabled.png";
+	QString restartStyleSheet = "QPushButton#restartButton{ image: url(" + restart + "); width: 100px; height: 50px; background-repeat: no-repeat; border-left: 10px transparent; border-right: 10px transparent; border-top: 3px transparent; border-bottom: 3px transparent; } QPushButton:hover#restartButton{ image: url(" + restartHover + "); background-repeat: no-repeat; } QPushButton:disabled#restartButton{ image: url(" + restartDisabled + "); background-repeat: no-repeat; }";
 
 	// Add styling for next and previous buttons
 	QString rightHover = QDir::currentPath() + "/icons/rightHover.png";
@@ -269,6 +271,24 @@ void ImageWizard::goPrev() {
 }
 
 void ImageWizard::restart() {
+
+	QMessageBox msg;
+	msg.setText("Starting over will cause you to start from the beginning of the application.");
+	msg.setInformativeText("Are you sure you want to start over?");
+	msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+	msg.setDefaultButton(QMessageBox::Cancel);
+	msg.setIcon(QMessageBox::Warning);
+	int ret = msg.exec();
+
+	switch(ret) {
+	case QMessageBox::Yes:
+		// do nothing
+		break;
+	case QMessageBox::Cancel:
+		return;
+		break;
+	}
+
 	int pageCount = frames->count();
 
 	for(int i = 0; i < pageCount; ++i) {

@@ -50,11 +50,11 @@ namespace AlgoManager {
 
         Mat resizedTarget;
 
-        int numOfCalls = 1;                                //Increase numOfCalls for more variability 
+        int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
 
         for(int i = 0; i < numOfCalls; i++) {
 
-            choice = 0;
+            choice = rand() % 3;
 
             switch(choice) {
             case 0:

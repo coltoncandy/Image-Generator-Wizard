@@ -59,7 +59,7 @@ namespace AlgoManager {
             switch(choice) {
             case 0:
                 angleBounds = (rand() % 10) + 1;
-                target = rotation(target, 90);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
+                target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
                 flipCode = (rand() % 3) - 1;

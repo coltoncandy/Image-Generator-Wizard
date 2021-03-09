@@ -50,16 +50,16 @@ namespace AlgoManager {
 
         Mat resizedTarget;
 
-        int numOfCalls = 1;                                //Increase numOfCalls for more variability 
+        int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
 
         for(int i = 0; i < numOfCalls; i++) {
 
-            choice = 0;
+            choice = rand() % 3;
 
             switch(choice) {
             case 0:
                 angleBounds = (rand() % 10) + 1;
-                target = rotation(target, 90);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
+                target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
                 flipCode = (rand() % 3) - 1;

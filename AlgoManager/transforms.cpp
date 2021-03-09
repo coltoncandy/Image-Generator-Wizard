@@ -410,6 +410,7 @@ Mat rotation(Mat target, int angleBounds) {
         return target; 
 
 	int pad; 
+	Mat dst;
 
 	if(target.cols > target.rows)
 		pad = target.cols;
@@ -421,10 +422,9 @@ Mat rotation(Mat target, int angleBounds) {
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
     Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
 
-    Mat dst;
     warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
 
-	//dst = trimTransparentPixels(dst); 
+	dst = trimTransparentPixels(dst); 
 
     return dst; 
 

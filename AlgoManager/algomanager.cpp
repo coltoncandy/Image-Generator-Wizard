@@ -86,7 +86,7 @@ namespace AlgoManager {
         }
         
         //Mat target = blurEdgesGaussian(target, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
-        target = padImage(target, target.cols, target.cols);            //Temporary fix to a small problem in the blurEdges function 
+        target = padImage(target, 10, 10);          //Pad to avoid trying to blur outside edge of image 
         target = blurEdgesTransparency(target, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
 
         return target;

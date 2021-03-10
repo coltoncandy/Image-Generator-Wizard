@@ -412,12 +412,16 @@ Mat rotation(Mat target, int angleBounds) {
 	int pad; 
 	Mat dst;
 
-	if(target.cols > target.rows)
-		pad = target.cols;
-	else
-		pad = target.rows; 
+	if(target.cols > target.rows) {
+		pad = target.cols - target.rows;
+		target = padImage(target, pad, 0);
+	}
+	else {
+		pad = target.rows - target.cols;
+		target = padImage(target, 0, pad);
+	}
 
-	target = padImage(target, pad, pad); 
+	//target = padImage(target, pad, pad); 
 
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
     Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
@@ -469,6 +473,7 @@ Mat padImage(Mat target, int height, int width) {
 		return target;
 
 	Mat paddedImg = Mat(target.rows + 2 * height, target.cols + 2 * width, target.type());
+
 	paddedImg.setTo(Scalar::all(1)); 
 	target.copyTo(paddedImg(Rect(width, height, target.cols, target.rows)));			//Start at (padding, padding) to center image and account for offset
 

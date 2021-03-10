@@ -400,7 +400,7 @@ Mat trimTransparentPixels(Mat target) {
 	std::vector<Mat> channels;
 	split(target, channels);
 	Rect bounds = boundingRect(channels[3]);
-	return Mat(target(bounds));
+	return target(bounds);
 
 }
 
@@ -420,8 +420,6 @@ Mat rotation(Mat target, int angleBounds) {
 		pad = target.rows - target.cols;
 		target = padImage(target, 0, pad);
 	}
-
-	//target = padImage(target, pad, pad); 
 
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
     Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
@@ -474,7 +472,7 @@ Mat padImage(Mat target, int height, int width) {
 
 	Mat paddedImg = Mat(target.rows + 2 * height, target.cols + 2 * width, target.type());
 
-	paddedImg.setTo(Scalar::all(1)); 
+	paddedImg.setTo(Scalar::all(0)); 
 	target.copyTo(paddedImg(Rect(width, height, target.cols, target.rows)));			//Start at (padding, padding) to center image and account for offset
 
 	return paddedImg; 

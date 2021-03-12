@@ -35,6 +35,7 @@ private:
 	QString processingTitle;
 	QString batchTitle;
 	QString singleImageTitle;
+	QString failedProcessingTitle;
 	std::string initialPath;
 	std::string targetPath;
 	std::string backgroundPath;
@@ -43,6 +44,7 @@ private:
 	bool batchFlag;
 	int imageIndex;
 	int imageNum;
+	int batchSize;
 
 	void batchProcess();
 	void process();

@@ -16,51 +16,79 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item alignment="Qt::AlignHCenter|Qt::AlignTop">
     <widget class="QLabel" name="title">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>Choose if you want to generate a single image or batch of images</string>
      </property>
     </widget>
    </item>
    <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+     <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
       <widget class="QPushButton" name="singleBtn">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
-        <string/>
+        <string>Single
+
+
+
+
+
+
+
+
+</string>
        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignHCenter|Qt::AlignTop">
       <widget class="QPushButton" name="batchBtn">
-       <property name="text">
+       <property name="whatsThis">
         <string/>
+       </property>
+       <property name="text">
+        <string>Batch
+
+
+
+
+
+</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer_2">
+    <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
     </spacer>

@@ -12,6 +12,7 @@ namespace AlgoManager {
             return false;
         bool finished;
         Mat res = grabCut(path, finished);
+        res = trimTransparentPixels(res); 
         imwrite(path, res);             //Write processed target back to target's path  
 
         return finished;
@@ -31,7 +32,7 @@ namespace AlgoManager {
 
         int x = rand() % background.cols; 
         int y = rand() % background.rows; 
-        
+ 
         Mat processed = overlay(background, target, Point(x - (target.cols * 0.5), y - (target.rows * 0.5)));                              //Overlay at a random position on background 
  
         return processed;
@@ -57,7 +58,7 @@ namespace AlgoManager {
 
             switch(choice) {
             case 0:
-                angleBounds = (rand() % 10) + 1;
+                angleBounds = (rand() % 15) + 1;
                 target = rotation(target, angleBounds);                   //Rotation will occur within the bounds of -angleBounds to +angleBounds degrees
                 break;
             case 1:
@@ -80,11 +81,12 @@ namespace AlgoManager {
         choice = rand() % 5;                                              //1 in 5 chance of applying noise.
         if(choice == 1) {
             int mean = rand() % 20;
-            int sigma = rand() % 20 + mean;
+            int sigma = rand() % 10 + mean;
             target = noiseImg(target, mean, sigma);
         }
-
+        
         //Mat target = blurEdgesGaussian(target, 7, 6, 4);//first integer argument is for side length of grid (so 5 is 5x5 grid centered on pixels). please only use 3, 5, or 7. widthToBlur = how far away from transparent pixels will be blurred. threshold = how many pixels nearby have to be alpha = 0 in order to trigger a blur.
+        target = padImage(target, 10, 10);          //Pad to avoid trying to blur outside edge of image 
         target = blurEdgesTransparency(target, -1); //integer argument is for side length of grid (so 3 is 3x3 grid centered on pixels). please only use odd numbers. -1 allows function to determine width of blur based on size of image.
 
         return target;
@@ -127,7 +129,7 @@ namespace AlgoManager {
         choice = rand() % 5;                                              //1 in 5 chance of applying noise.
         if(choice == 0) {
             int mean = rand() % 20;
-            int sigma = rand() % 20 + mean;
+            int sigma = rand() % 10 + mean;
             background = noiseImg(background, mean, sigma);
         }
 

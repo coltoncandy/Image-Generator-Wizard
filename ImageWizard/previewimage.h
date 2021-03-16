@@ -16,7 +16,7 @@ class PreviewImage : public WizardPage {
 
 public:
 	PreviewImage(const QString& title, QWidget* parent = Q_NULLPTR);
-	void pageSwitched(int imageNum, const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destination, bool batchFlag);
+	void pageSwitched(int imageNum, const std::string& targetPath, const std::string& backgroundPath, const std::string& destination, bool batchFlag);
 
 public slots:
 	void resizeEvent(QResizeEvent*);
@@ -36,7 +36,6 @@ private:
 	QString batchTitle;
 	QString singleImageTitle;
 	QString failedProcessingTitle;
-	std::string initialPath;
 	std::string targetPath;
 	std::string backgroundPath;
 	std::string destination;

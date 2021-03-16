@@ -76,13 +76,12 @@ void PreviewImage::resizeEvent(QResizeEvent* e) {
 	scaleImage(imgLabel->size());
 }
 
-void PreviewImage::pageSwitched(int imageNum, const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath, const std::string& destination, bool batchFlag) {
+void PreviewImage::pageSwitched(int imageNum, const std::string& targetPath, const std::string& backgroundPath, const std::string& destination, bool batchFlag) {
 	if(imageMats.size() > 0)
 		imageMats.clear();
 	imgLabel->clear();
 	this->imageNum = imageNum;
 	batchSize = imageNum;
-	this->initialPath = initialPath;
 	this->targetPath = targetPath;
 	this->destination = destination;
 	this->backgroundPath = backgroundPath;
@@ -140,7 +139,7 @@ void PreviewImage::batchProcess() {
 			throw errorMessage;
 		}
 
-		AlgoManager::AlgoManager::batchProcess(batchSize, initialPath, targetPath, backgroundImages, imageMats);
+		AlgoManager::AlgoManager::batchProcess(batchSize, targetPath, backgroundImages, imageMats);
 	}
 	catch(std::string ex) {
 		QMessageBox messageBox;
@@ -178,7 +177,7 @@ void PreviewImage::process() {
 	QCoreApplication::processEvents();
 	try {
 		try {
-			imageMats.push_back(AlgoManager::AlgoManager::process(initialPath, targetPath, backgroundPath));
+			imageMats.push_back(AlgoManager::AlgoManager::process(targetPath, backgroundPath));
 		}
 		//If failed to load image, create error message with file name
 		catch(int errorCode) {

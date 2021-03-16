@@ -50,7 +50,7 @@ TEST_F(AlgoManagerTests, TestIfInvalidTargetPathIsGivenProcessThrowsError) {
 	cv::imwrite(backgroundPath, blackTestImage);
 	AlgoManager::AlgoManager testManager;
 	try {
-		testManager.process("", "", backgroundPath);
+		testManager.process("", backgroundPath);
 		DeleteFileA(backgroundPath.c_str());
 		FAIL();
 	}
@@ -69,7 +69,7 @@ TEST_F(AlgoManagerTests, TestIfInvalidBackgroundPathIsGivenProcessThrowsError) {
 	cv::imwrite(targetPath, blackTestImage);
 	AlgoManager::AlgoManager testManager;
 	try {
-		testManager.process("", targetPath, "");
+		testManager.process(targetPath, "");
 		DeleteFileA(targetPath.c_str());
 		FAIL();
 	}
@@ -90,8 +90,68 @@ TEST_F(AlgoManagerTests, TestIfValidPathsAreGivenProcessReturnsNewImage) {
 	cv::imwrite(backgroundPath, blackTestImage);
 	AlgoManager::AlgoManager testManager;
 
-	cv::Mat returnedImage = testManager.process("", targetPath, backgroundPath);
+	cv::Mat returnedImage = testManager.process(targetPath, backgroundPath);
 	EXPECT_FALSE(returnedImage.empty());
 	DeleteFileA(targetPath.c_str());
 	DeleteFileA(backgroundPath.c_str());
 }
+
+TEST_F(AlgoManagerTests, TestIfEmptyMatrixIsGivenProcessTargetThrowsError) {
+	AlgoManager::AlgoManager testManager;
+	try {
+		cv::Mat emptyMatrix;
+		testManager.processTarget(emptyMatrix);
+		FAIL();
+	}
+	catch(int ex) {
+		EXPECT_EQ(ex, -1);
+	}
+	catch(...) {
+		FAIL();
+	}
+}
+
+
+TEST_F(AlgoManagerTests, TestIfValidMatrixIsGivenProcessTargetReturnsNewMatix) {
+	AlgoManager::AlgoManager testManager;
+	cv::Mat returnedImage = testManager.processTarget(blackTestImage);
+	EXPECT_FALSE(returnedImage.empty());
+}
+
+TEST_F(AlgoManagerTests, TestIfEmptyBackgroundIsGivenProcessBackgroundThrowsError) {
+	AlgoManager::AlgoManager testManager;
+	try {
+		cv::Mat emptyMatrix;
+		testManager.processBackground(emptyMatrix, whiteTestImage);
+		FAIL();
+	}
+	catch(int ex) {
+		EXPECT_EQ(ex, 1);
+	}
+	catch(...) {
+		FAIL();
+	}
+}
+
+TEST_F(AlgoManagerTests, TestIfEmptyTargetIsGivenProcessBackgroundThrowsError) {
+	AlgoManager::AlgoManager testManager;
+	try {
+		cv::Mat emptyMatrix;
+		testManager.processBackground(whiteTestImage, emptyMatrix);
+		FAIL();
+	}
+	catch(int ex) {
+		EXPECT_EQ(ex, -1);
+	}
+	catch(...) {
+		FAIL();
+	}
+}
+
+TEST_F(AlgoManagerTests, TestIfValidMatricesAreGivenProcessBackgroundReturnsNewMatix) {
+	AlgoManager::AlgoManager testManager;
+	cv::Mat returnedImage = testManager.processBackground(blackTestImage, whiteTestImage);
+	EXPECT_FALSE(returnedImage.empty());
+}
+
+

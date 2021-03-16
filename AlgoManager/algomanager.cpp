@@ -19,7 +19,7 @@ namespace AlgoManager {
         return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    cv::Mat AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath) {
+    cv::Mat AlgoManager::process(const std::string& targetPath, const std::string& backgroundPath) {
 
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
@@ -101,6 +101,9 @@ namespace AlgoManager {
         if(background.empty())
             throw 1;
 
+        if(target.empty())
+            throw - 1;
+
         int choice; 
         int flipCode;
         int numOfCalls = rand() % 5;                                //Increase numOfCalls for more variability 
@@ -140,7 +143,7 @@ namespace AlgoManager {
 
         return background; 
     }
-    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
+    void AlgoManager::batchProcess(int imageNum, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
     {
         std::string errorMessage;
         std::vector<std::string> failedBackgrounds;
@@ -157,7 +160,7 @@ namespace AlgoManager {
 
         for (int i = 0; i < imageNum; ++i) {
             try {
-                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
+                imageBatch.push_back(process(targetPath, backgroundPaths[i]));
             }
             // Errors opening images
             catch (int errorCode) {

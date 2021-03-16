@@ -258,7 +258,7 @@ TEST_F(AlgoManagerTests, TestIfInvalidBackgroundPathsGivenBatchProcessThrowsErro
 	std::string backgroundPaths[2];
 	backgroundPaths[0] = "C:/Invalid/Path/1";
 	backgroundPaths[1] = "C:/Invalid/Path/2";
-	std::string expectedError = "Errors occured while accessing the following background images:\n\t" + backgroundPaths[0] + "\n\t" + backgroundPaths[1] + "\n\n0/2 images were generated.";
+	std::string expectedError = "Errors occured while accessing the following background images:\n" + backgroundPaths[0] + "\n" + backgroundPaths[1] + "\n\n0/2 images were generated.";
 	cv::imwrite(targetPath, whiteTestImage);
 	AlgoManager::AlgoManager testManager;
 	try {
@@ -283,7 +283,7 @@ TEST_F(AlgoManagerTests, TestIfOneInvalidBackgroundPathIsGivenBatchProcessGenera
 	backgroundPaths[0] = testImageDirectory + "/blackTestImage.png";
 	backgroundPaths[1] = "C:/Invalid/Path";
 	backgroundPaths[2] = testImageDirectory + "/blackTestImage.png";
-	std::string expectedError = "Errors occured while accessing the following background images:\n\t" + backgroundPaths[1] + "\n\n2/3 images were generated.";
+	std::string expectedError = "Errors occured while accessing the following background images:\n" + backgroundPaths[1] + "\n\n2/3 images were generated.";
 	cv::imwrite(targetPath, whiteTestImage);
 	cv::imwrite(backgroundPaths[0], blackTestImage);
 	AlgoManager::AlgoManager testManager;

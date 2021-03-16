@@ -203,7 +203,7 @@ namespace AlgoManager {
         if(failedNum > 0) {
             errorMessage = "Errors occured while accessing the following background images:\n";
             for(int i = 0; i < failedNum; ++i)
-                errorMessage.append('\t' + failedBackgrounds[i] + '\n');
+                errorMessage.append(failedBackgrounds[i] + '\n');
 
             errorMessage.append( '\n' + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.");
 			throw errorMessage;

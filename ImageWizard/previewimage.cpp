@@ -182,17 +182,17 @@ void PreviewImage::process() {
 		//If failed to load image, create error message with file name
 		catch(int errorCode) {
 			if(errorCode == 1) {
-				errorMessage = "An error occured while accessing the background image (" + backgroundPath + "): No images were processed.";
+				errorMessage = "An error occured while accessing the background image (" + backgroundPath + "): No images were generated.";
 				throw errorMessage;
 			}
 			else if(errorCode == -1) {
-				errorMessage = "An error occured while accessing the target image (" + targetPath + "): No images were processed." ;
+				errorMessage = "An error occured while accessing the target image (" + targetPath + "): No images were generated." ;
 				throw errorMessage;
 			}
 		}
 		//Create a general error message
 		catch(...) {
-			errorMessage = "An unexpected error occured while generating your images: No images were processed.";
+			errorMessage = "An unexpected error occured while generating your images: No images were generated.";
 			throw errorMessage;
 		}
 

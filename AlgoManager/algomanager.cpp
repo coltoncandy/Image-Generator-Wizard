@@ -158,6 +158,12 @@ namespace AlgoManager {
             throw errorMessage;
         }
 
+        if(!backgroundPaths) {
+            errorMessage = "No background paths were provided to batchProcessing().";
+            throw errorMessage;
+        }
+
+
         for (int i = 0; i < imageNum; ++i) {
             try {
                 imageBatch.push_back(process(targetPath, backgroundPaths[i]));
@@ -182,24 +188,24 @@ namespace AlgoManager {
                 }
                 //If failed to load target image, stop processing
                 else if(errorCode == -1) {
-					errorMessage = "An error occured while accessing the target image (" + targetPath + "): " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " were processed.";
+					errorMessage = "An error occured while accessing the target image (" + targetPath + "): " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.";
 					throw errorMessage;
                 }
             }
             //If an unexpected error is thrown, stop processing
             catch(...) {
-				errorMessage = "An unexpected error occured while generating your images: " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " were processed.";
+				errorMessage = "An unexpected error occured while generating your images: " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.";
 				throw errorMessage;
             }
         }
 
         //Create an error message after batch processing to display any backgrounds file names that failed to load
         if(failedNum > 0) {
-            errorMessage = "Errors occured while accessing the following background images: ";
+            errorMessage = "Errors occured while accessing the following background images:\n";
             for(int i = 0; i < failedNum; ++i)
                 errorMessage.append('\t' + failedBackgrounds[i] + '\n');
 
-            errorMessage.append( '\n' + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " were processed.");
+            errorMessage.append( '\n' + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.");
 			throw errorMessage;
         }
     }

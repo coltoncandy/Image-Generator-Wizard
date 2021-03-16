@@ -154,4 +154,156 @@ TEST_F(AlgoManagerTests, TestIfValidMatricesAreGivenProcessBackgroundReturnsNewM
 	EXPECT_FALSE(returnedImage.empty());
 }
 
+TEST_F(AlgoManagerTests, TestInvalidImageNumThrowsError) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string backgroundPath = testImageDirectory + "/blackTestImage.png";
+	cv::imwrite(targetPath, whiteTestImage);
+	cv::imwrite(backgroundPath, blackTestImage);
+	AlgoManager::AlgoManager testManager;
+	try {
+		testManager.batchProcess(0, targetPath, &backgroundPath, imageBatch);
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPath.c_str());
+		FAIL() << "Did not throw an error";
+	}
+	catch(std::string ex) {
+		EXPECT_EQ(ex, "The number of images to generate must be greater than 0.");
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPath.c_str());
+	}
+	catch(...) {
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPath.c_str());
+		FAIL() << "Threw Unexpected error";
+	}
+}
+
+TEST_F(AlgoManagerTests, TestNullBackgroundPathsPointerThrowsError) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string* backgroundPaths = nullptr;
+	cv::imwrite(targetPath, whiteTestImage);
+	AlgoManager::AlgoManager testManager;
+	try {
+		testManager.batchProcess(1, targetPath, backgroundPaths, imageBatch);
+		DeleteFileA(targetPath.c_str());
+		FAIL() << "Did not throw an error";
+	}
+	catch(std::string ex) {
+		EXPECT_EQ(ex, "No background paths were provided to batchProcessing().");
+		DeleteFileA(targetPath.c_str());
+	}
+	catch(...) {
+		DeleteFileA(targetPath.c_str());
+		FAIL() << "Threw Unexpected error";
+	}
+}
+
+TEST_F(AlgoManagerTests, TestInvalidTargetPathThrowsError) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = "C:/Invalid/Path";
+	std::string backgroundPath = testImageDirectory + "/blackTestImage.png";
+	std::string expectedError = "An error occured while accessing the target image (" + targetPath + "): 0/1 images were generated.";
+	cv::imwrite(backgroundPath, blackTestImage);
+	AlgoManager::AlgoManager testManager;
+	try {
+		testManager.batchProcess(1, targetPath, &backgroundPath, imageBatch);
+		DeleteFileA(backgroundPath.c_str());
+		FAIL() << "Did not throw an error";
+	}
+	catch(std::string ex) {
+		EXPECT_EQ(ex, expectedError);
+		DeleteFileA(backgroundPath.c_str());
+	}
+	catch(...) {
+		DeleteFileA(backgroundPath.c_str());
+		FAIL() << "Threw Unexpected error";
+	}
+}
+
+TEST_F(AlgoManagerTests, TestIfValidArgumentsGivenBatchProcessGeneratesImages) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string backgroundPaths[2];
+	backgroundPaths[0] = testImageDirectory + "/blackTestImage.png";
+	backgroundPaths[1] = testImageDirectory + "/blackTestImage.png";
+	cv::imwrite(targetPath, whiteTestImage);
+	cv::imwrite(backgroundPaths[0], blackTestImage);
+	AlgoManager::AlgoManager testManager;
+	testManager.batchProcess(2, targetPath, backgroundPaths, imageBatch);
+	EXPECT_EQ(imageBatch.size(), 2);
+	DeleteFileA(targetPath.c_str());
+	DeleteFileA(backgroundPaths[0].c_str());
+}
+
+TEST_F(AlgoManagerTests, TestIfImageBatchIsNotEmptyBatchProcessClearsIt) {
+	std::vector <cv::Mat> imageBatch;
+	imageBatch.push_back(blackTestImage);
+	imageBatch.push_back(blackTestImage);
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string backgroundPath = testImageDirectory + "/blackTestImage.png";
+	cv::imwrite(targetPath, whiteTestImage);
+	cv::imwrite(backgroundPath, blackTestImage);
+	AlgoManager::AlgoManager testManager;
+	testManager.batchProcess(1, targetPath, &backgroundPath, imageBatch);
+	EXPECT_EQ(imageBatch.size(), 1);
+	DeleteFileA(targetPath.c_str());
+	DeleteFileA(backgroundPath.c_str());
+}
+
+TEST_F(AlgoManagerTests, TestIfInvalidBackgroundPathsGivenBatchProcessThrowsErrorMessageWithInvalidPaths) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string backgroundPaths[2];
+	backgroundPaths[0] = "C:/Invalid/Path/1";
+	backgroundPaths[1] = "C:/Invalid/Path/2";
+	std::string expectedError = "Errors occured while accessing the following background images:\n\t" + backgroundPaths[0] + "\n\t" + backgroundPaths[1] + "\n\n0/2 images were generated.";
+	cv::imwrite(targetPath, whiteTestImage);
+	AlgoManager::AlgoManager testManager;
+	try {
+		testManager.batchProcess(2, targetPath, backgroundPaths, imageBatch);
+		DeleteFileA(targetPath.c_str());
+		FAIL() << "Did not throw an error";
+	}
+	catch(std::string ex) {
+		EXPECT_EQ(ex, expectedError);
+		DeleteFileA(targetPath.c_str());
+	}
+	catch(...) {
+		DeleteFileA(targetPath.c_str());
+		FAIL() << "Threw Unexpected error";
+	}
+}
+
+TEST_F(AlgoManagerTests, TestIfOneInvalidBackgroundPathIsGivenBatchProcessGeneratesImagesWithValidPathsThenThrowsErrorMessageWithInvalidPaths) {
+	std::vector <cv::Mat> imageBatch;
+	std::string targetPath = testImageDirectory + "/whiteTestImage.png";
+	std::string backgroundPaths[3];
+	backgroundPaths[0] = testImageDirectory + "/blackTestImage.png";
+	backgroundPaths[1] = "C:/Invalid/Path";
+	backgroundPaths[2] = testImageDirectory + "/blackTestImage.png";
+	std::string expectedError = "Errors occured while accessing the following background images:\n\t" + backgroundPaths[1] + "\n\n2/3 images were generated.";
+	cv::imwrite(targetPath, whiteTestImage);
+	cv::imwrite(backgroundPaths[0], blackTestImage);
+	AlgoManager::AlgoManager testManager;
+	try {
+		testManager.batchProcess(3, targetPath, backgroundPaths, imageBatch);
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPaths[0].c_str());
+		FAIL() << "Did not throw an error";
+	}
+	catch(std::string ex) {
+		EXPECT_EQ(ex, expectedError);
+		EXPECT_EQ(imageBatch.size(), 2);
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPaths[0].c_str());
+	}
+	catch(...) {
+		DeleteFileA(targetPath.c_str());
+		DeleteFileA(backgroundPaths[0].c_str());
+		FAIL() << "Threw Unexpected error";
+	}
+}
+
 

@@ -8,8 +8,10 @@
 namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
 
-        if(path.empty())
-            return false;
+        if(path.empty()) {
+            std::string errorMessage = "Failed to load image into grabCut: No image path was provided.";
+            throw errorMessage;
+        }
         bool finished;
         Mat res = grabCut(path, finished);
         imwrite(path, res);             //Write processed target back to target's path  

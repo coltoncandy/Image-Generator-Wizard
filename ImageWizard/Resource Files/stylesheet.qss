@@ -18,7 +18,7 @@ QLabel#body,QLabel#batchSizeLbl,QLabel#label,QLabel#instructions{
 	color:rgb(250, 250, 250);
 }
 
-QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#singleBtn,QPushButton#nextImageButton,QPushButton#processButton,QPushButton#saveButton,QPushButton#cropButton,QPushButton#randomButton {
+QPushButton#browseButton,QPushButton#browseBtn,QPushButton#cropButton,QPushButton#randomButton {
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));
@@ -36,7 +36,7 @@ QPushButton#browseButton,QPushButton#browseBtn,QPushButton#batchBtn,QPushButton#
 	color:rgb(250, 250, 250);
 }
 
-QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#batchBtn,QPushButton:hover#singleBtn,QPushButton:hover#nextImageButton,QPushButton:hover#processButton,QPushButton:hover#saveButton,QPushButton:hover#cropButton,QPushButton:hover#randomButton{
+QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#cropButton,QPushButton:hover#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(110, 110, 110, 255));
@@ -50,7 +50,7 @@ QPushButton:hover#browseButton,QPushButton:hover#browseBtn,QPushButton:hover#bat
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(107, 107, 107, 255), stop:1 rgba(157, 157, 157, 255));
 }
 
-QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:pressed#batchBtn,QPushButton:pressed#singleBtn,QPushButton:pressed#nextImageButton,QPushButton:pressed#processButton,QPushButton:pressed#saveButton,QPushButton:pressed#cropButton,QPushButton:pressed#randomButton{
+QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:pressed#cropButton,QPushButton:pressed#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(62, 62, 62, 255), stop:1 rgba(22, 22, 22, 255));
@@ -64,7 +64,7 @@ QPushButton:pressed#browseButton,QPushButton:pressed#browseBtn,QPushButton:press
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(77, 77, 77, 255), stop:1 rgba(97, 97, 97, 255));
 }
 
-QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:disabled#batchBtn,QPushButton:disabled#singleBtn,QPushButton:disabled#nextImageButton,QPushButton:disabled#processButton,QPushButton:disabled#saveButton,QPushButton:disabled#cropButton,QPushButton:disabled#randomButton{
+QPushButton:disabled#browseButton,QPushButton:disabled#browseBtn,QPushButton:disabled#cropButton,QPushButton:disabled#randomButton{
 	border-style: outset;
 	border-width: 2px;
 	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:0.6, x2:0.5, y2:0.4, stop:0 rgba(115, 115, 115, 255), stop:1 rgba(62, 62, 62, 255));

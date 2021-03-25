@@ -16,6 +16,7 @@ TargetSelector::TargetSelector(const QString& title, ImageInfo* initial, ImageIn
 	resetButton->setIconSize(QSize(100, 50));
 	QObject::connect(resetButton, &QPushButton::released, this, &TargetSelector::reset);
 	resetButton->setCursor(QCursor(Qt::PointingHandCursor));
+	resetButton->setToolTip("Reset");
 	// Set reset button icon and hover icon
 	QString reset = QDir::currentPath()+ "/icons/reset.png";
 	QString styleSheet = "QPushButton#reset{ image: url(%1); background-repeat: no-repeat; } QPushButton:hover#reset{ image: url(%2); background-repeat: no-repeat; }";
@@ -169,7 +170,7 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 	try {
 		// user just clicks the image
 		if(terminal.rx() == -1 || terminal.ry() == -1) {
-			throw 0;
+			throw "Please click and drag to create a rectangle" ;
 		}
 		// handles user selecting a rectangle not on the image
 		if((abs(origin.rx() - terminal.rx()) == 0) || (abs(origin.ry() - terminal.ry()) == 0)) {
@@ -180,10 +181,6 @@ void TargetSelector::mouseReleaseEvent(QMouseEvent* event) {
 			throw "Select a larger area on the image ";
 		}
 
-	}
-	catch(int n) {
-		reset();
-		return;
 	}
 	catch(const char* warn) {
 		QMessageBox messageBox;

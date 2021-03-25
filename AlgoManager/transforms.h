@@ -16,9 +16,10 @@ int findWidthToBlur(Mat input); //find how far away from edges to blur based on 
 bool isItAnEdgePixel(int x, int y, Mat input); //determine whether a pixel location is along the edge of an image
 bool isItOutOfBounds(int x, int y, Mat input); //returns true if x or y is outside of the bounds of input
 
+Mat trimTransparentPixels(Mat target);
 Mat rotation(Mat target, int angleBounds);
 Mat cropBackground(Mat &background, Point origin, Point terminal, int minWidth, int minHeight);
 Mat flipIt(Mat target, int flipCode); 
-Mat padImage(Mat background, int height, int width);				//Adds rows and cols of zeros around the border of the supplied target, number specified by padding parameter
+Mat padImage(Mat target, int height, int width);				//Adds rows and cols of zeros around the border of the supplied target, number specified by padding parameter
 Mat noiseImg(Mat target, int mean, int sigma);		//Creates a noise mask the size of target, random values with a mean and standard variance specified by parameters, and blends to target to create noise effect 
 int resizeImg(Mat target, Mat& resizedTarget, float ratio);

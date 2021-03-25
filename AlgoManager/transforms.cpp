@@ -392,16 +392,41 @@ Mat blurEdgesTransparency(Mat initialImage, int gridSize) { //gridSize = the dis
 	return output;
 }
 
+Mat trimTransparentPixels(Mat target) {
+
+	if(target.empty())
+		return target;
+
+	std::vector<Mat> channels;
+	split(target, channels);
+	Rect bounds = boundingRect(channels[3]);
+	return target(bounds);
+
+}
+
 Mat rotation(Mat target, int angleBounds) {
 
     if(target.empty() || angleBounds < 1 || angleBounds > 360) 
         return target; 
 
+	int pad; 
+	Mat dst;
+
+	if(target.cols > target.rows) {
+		pad = target.cols - target.rows;
+		target = padImage(target, pad, 0);
+	}
+	else {
+		pad = target.rows - target.cols;
+		target = padImage(target, 0, pad);
+	}
+
     Point2f center((target.cols - 1) / 2, (target.rows - 1) / 2);
     Mat rot = getRotationMatrix2D(center, angleBounds, 1.0); 
 
-    Mat dst;
     warpAffine(target, dst, rot, target.size(), INTER_CUBIC); 
+
+	dst = trimTransparentPixels(dst); 
 
     return dst; 
 
@@ -440,14 +465,15 @@ Mat flipIt(Mat target, int flipCode) {
 
 }
 
-Mat padImage(Mat background, int height, int width) {
+Mat padImage(Mat target, int height, int width) {
 
-	if(background.empty())
-		return background; 
+	if(target.empty())
+		return target;
 
-	Mat paddedImg = Mat(background.rows + 2 * height, background.cols + 2 * width, CV_8UC3); 
+	Mat paddedImg = Mat(target.rows + 2 * height, target.cols + 2 * width, target.type());
+
 	paddedImg.setTo(Scalar::all(0)); 
-	background.copyTo(paddedImg(Rect(width, height, background.cols, background.rows)));			//Start at (padding, padding) to center image and account for offset
+	target.copyTo(paddedImg(Rect(width, height, target.cols, target.rows)));			//Start at (padding, padding) to center image and account for offset
 
 	return paddedImg; 
 }

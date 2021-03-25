@@ -8,8 +8,10 @@
 namespace AlgoManager {
     bool AlgoManager::grabCutWrapper(const std::string& path) {
 
-        if(path.empty())
-            return false;
+        if(path.empty()) {
+            std::string errorMessage = "Failed to load image into grabCut: No image path was provided.";
+            throw errorMessage;
+        }
         bool finished;
         Mat res = grabCut(path, finished);
         res = trimTransparentPixels(res); 
@@ -18,13 +20,18 @@ namespace AlgoManager {
         return finished;
     }
     //Parameters: Path to target, number of processed images specified by user (?)
-    cv::Mat AlgoManager::process(const std::string& initialPath, const std::string& targetPath, const std::string& backgroundPath) {
+    cv::Mat AlgoManager::process(const std::string& targetPath, const std::string& backgroundPath) {
 
         Mat target = imread(targetPath, IMREAD_UNCHANGED);
         Mat background = imread(backgroundPath);
 
-        if(target.empty() || background.empty())
-            return target; 
+        if(target.empty()) {
+            throw - 1;
+        }
+        if(background.empty()) {
+            throw 1;
+        }
+
         //reminder: check target size against background
 
         target = processTarget(target); 
@@ -40,7 +47,7 @@ namespace AlgoManager {
     cv::Mat AlgoManager::processTarget(Mat target) {
 
         if(target.empty())
-            return target; 
+            throw - 1;
 
         int angleBounds;
         int flipCode;
@@ -94,7 +101,10 @@ namespace AlgoManager {
     cv::Mat AlgoManager::processBackground(Mat &background, const Mat target) {
 
         if(background.empty())
-            return background; 
+            throw 1;
+
+        if(target.empty())
+            throw - 1;
 
         int choice; 
         int flipCode;
@@ -135,22 +145,70 @@ namespace AlgoManager {
 
         return background; 
     }
-    void AlgoManager::batchProcess(int imageNum, const std::string& initialPath, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
+    void AlgoManager::batchProcess(int imageNum, const std::string& targetPath, std::string* backgroundPaths, std::vector<Mat>& imageBatch)
     {
+        std::string errorMessage;
+        std::vector<std::string> failedBackgrounds;
+        int failedNum = 0;
+
         if (imageBatch.size() > 0) {
             imageBatch.clear();
         }
 
-        if (imageNum < 1)
-            return;
+        if(imageNum < 1) {
+            errorMessage = "The number of images to generate must be greater than 0.";
+            throw errorMessage;
+        }
+
+        if(!backgroundPaths) {
+            errorMessage = "No background paths were provided to batchProcessing().";
+            throw errorMessage;
+        }
+
 
         for (int i = 0; i < imageNum; ++i) {
             try {
-                imageBatch.push_back(process(initialPath, targetPath, backgroundPaths[i]));
+                imageBatch.push_back(process(targetPath, backgroundPaths[i]));
             }
-            catch (int errorCode) { //These are for errors that occur but processing can continue
+            // Errors opening images
+            catch (int errorCode) {
+                //If failed to load background, mark the file & continue processing
+                if(errorCode == 1) {
+                    bool alreadyFailedBackground = false;
 
+                    for(int j = 0; j < failedNum; ++j){
+                        if(backgroundPaths[i].compare(failedBackgrounds[j]) == 0) {
+                            alreadyFailedBackground = true;
+                            break;
+                        }
+                    }
+
+                    if(!alreadyFailedBackground){
+                        failedBackgrounds.push_back(backgroundPaths[i]);
+                        ++failedNum;
+                    }
+                }
+                //If failed to load target image, stop processing
+                else if(errorCode == -1) {
+					errorMessage = "An error occured while accessing the target image (" + targetPath + "): " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.";
+					throw errorMessage;
+                }
             }
+            //If an unexpected error is thrown, stop processing
+            catch(...) {
+				errorMessage = "An unexpected error occured while generating your images: " + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.";
+				throw errorMessage;
+            }
+        }
+
+        //Create an error message after batch processing to display any backgrounds file names that failed to load
+        if(failedNum > 0) {
+            errorMessage = "Errors occured while accessing the following background images:\n";
+            for(int i = 0; i < failedNum; ++i)
+                errorMessage.append(failedBackgrounds[i] + '\n');
+
+            errorMessage.append( '\n' + std::to_string(imageBatch.size()) + '/' + std::to_string(imageNum) + " images were generated.");
+			throw errorMessage;
         }
     }
 }

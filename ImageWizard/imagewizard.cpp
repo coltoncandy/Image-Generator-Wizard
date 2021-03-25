@@ -192,10 +192,10 @@ void ImageWizard::goNext() {
 			btnPrev->hide();
 			restartButton->show();
 			if(batchInfo.doBatch) {
-				previewImage->pageSwitched(batchInfo.batchSize, initial->path->toStdString(), target->path->toStdString(), batchInfo.directory, destination->toStdString(), true);
+				previewImage->pageSwitched(batchInfo.batchSize, target->path->toStdString(), batchInfo.directory, destination->toStdString(), true);
 			}
 			else {
-				previewImage->pageSwitched(1, initial->path->toStdString(), target->path->toStdString(), background->path->toStdString(), destination->toStdString(), false);
+				previewImage->pageSwitched(1, target->path->toStdString(), background->path->toStdString(), destination->toStdString(), false);
 			}
 			return;
 		}

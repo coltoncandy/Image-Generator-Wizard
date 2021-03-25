@@ -111,7 +111,7 @@ TEST_F(FileManagerTests, requestingManyImagesWithManyPngsExistingSetsMultipleDif
 	DeleteFileA(filePath2.c_str());
 }
 
-TEST(FileManagerTests, TestCreateUniqueImageIdFormatsPathAsExpected) {
+TEST(CreateUniqueIdTests, TestCreateUniqueImageIdFormatsPathAsExpected) {
 	std::string returnedPath = createUniqueImageId("C:/Base/Path");
 	std::regex pathRegEx("C:/Base/Path/processed-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9]?-[0-9][0-9][0-9]?.png");
 	EXPECT_TRUE(std::regex_match(returnedPath.c_str(), pathRegEx));

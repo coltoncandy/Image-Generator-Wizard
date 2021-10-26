@@ -19,7 +19,7 @@ If you do not have git downloaded previously, you will need to download it [here
 
 ## DEBUG
 
-1  For both Debugging and Release Configuration Change ImageWizard Project Properties > Configuration Properities > Debugging > Working Directory to $(SolutionDir)$(Platform)\$(Configuration)\   
+1  For both Debugging and Release Configuration Change ImageWizard Project Properties > Configuration Properities > Debugging > Working Directory to $(SolutionDir)$(Platform)\\$(Configuration)\   
 
 (Note: If you run the default configuration, the current QT paths will not link to the directories. Be careful of changing the paths such that the standalone application will still run. 
 Post build events copy all dependencies to the aforementioned directory.) 
